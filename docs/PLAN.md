@@ -7,8 +7,8 @@ Status (update as phases finish):
 
 | Phase | Status |
 | --- | --- |
-| 0. Context and tools | In progress (2026-10-01) |
-| 1. Scaffold | Not started |
+| 0. Context and tools | Done (2026-10-01) |
+| 1. Scaffold | Done (2026-10-01): Next.js 16.3, React 19.2, Tailwind 4.3, Vitest 5, Playwright 1.63 (installed Chrome) |
 | 2. Content model and migration | Not started |
 | 3. Foundation | Not started |
 | 4. Pages | Not started |

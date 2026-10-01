@@ -2,8 +2,6 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "explicit"
-  },
-  "css.customData": [".vscode/tailwindcss.css-data.json"]
+    "source.fixAll.eslint": "explicit"
+  }
 }
