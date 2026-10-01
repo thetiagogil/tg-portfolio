@@ -1,0 +1,1549 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Direction Study</title>
+<script src="data/content.js"></script>
+<style>
+/*__FONTS__*/
+/* ───────────────────────── Study chrome (neutral, so it never competes) ───────────────────────── */
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: #E6E4DF; font: 14px/1.45 system-ui, -apple-system, sans-serif; color: #1d1c1a; -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; }
+img { max-width: 100%; }
+
+.study-bar { position: sticky; top: 0; z-index: 50; background: #1F1E1C; color: #EDEBE6; padding: 10px 20px; display: flex; flex-direction: column; gap: 8px; }
+.sb-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.sb-adj { padding-top: 8px; border-top: 1px solid #34322E; }
+.study-bar h1 { margin: 0 8px 0 0; font-size: 14px; font-weight: 650; letter-spacing: .01em; white-space: nowrap; cursor: help; }
+.study-bar h1 span { color: #9C978D; font-weight: 500; }
+.sb-grp { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 10px; background: #2B2926; }
+.sb-grp[hidden] { display: none; }
+.sb-lab { font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: #A09B91; padding: 0 7px 0 8px; white-space: nowrap; cursor: help; }
+.sb-grp button { border: 0; background: transparent; color: #CFCBC3; padding: 5px 10px; border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 550; white-space: nowrap; }
+.sb-grp button:hover { color: #fff; background: #3A3834; }
+.sb-grp button[aria-pressed="true"] { background: #F4F2ED; color: #1F1E1C; }
+.sb-ctx { margin-left: auto; }
+.sb-note { font-size: 12.5px; color: #A09B91; margin-left: 4px; }
+.study-bar button:focus-visible { outline: 2px solid #F4F2ED; outline-offset: 2px; }
+.study-toast { position: fixed; left: 50%; bottom: 24px; translate: -50% 0; z-index: 60; max-width: calc(100vw - 32px); padding: 10px 14px; border-radius: 10px; background: #1F1E1C; color: #EDEBE6; font: 13px/1.4 system-ui, -apple-system, sans-serif; box-shadow: 0 12px 30px -12px rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: opacity .2s; }
+.study-toast.on { opacity: 1; }
+
+.stage { padding: 28px 16px 60px; display: flex; justify-content: center; }
+.frame { width: min(1280px, 100%); border-radius: 14px; overflow: clip; box-shadow: 0 30px 70px -40px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.06); position: relative; }
+.frame.is-mobile { width: 390px; max-width: 100%; border-radius: 40px; box-shadow: 0 0 0 10px #1F1E1C, 0 30px 70px -30px rgba(0,0,0,.5); }
+
+/* ───────────────────────── App tokens ───────────────────────── */
+.app {
+  --paper: oklch(0.974 0.004 85); --paper-2: oklch(0.952 0.005 85); --paper-3: oklch(0.925 0.006 85);
+  --ink: oklch(0.2 0.012 262); --ink-2: oklch(0.41 0.012 262); --ink-3: oklch(0.52 0.01 262);
+  --line: oklch(0.2 0.012 262 / 0.13); --line-2: oklch(0.2 0.012 262 / 0.26); --axis: oklch(0.2 0.012 262 / 0.075);
+  --accent: oklch(0.56 0.19 33); --accent-ink: oklch(0.52 0.18 33); --on-accent: oklch(0.985 0.003 85);
+  --band: oklch(0.945 0.006 85); --bg: var(--paper); --hover: color-mix(in oklab, var(--ink) 4%, transparent);
+  --grid-gap: 1.5rem; --header-h: 4rem; --gutter: clamp(1.25rem, 4cqi, 3rem);
+  --settle: cubic-bezier(0.22, 1, 0.36, 1); --drawing: cubic-bezier(0.65, 0, 0.35, 1);
+  --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  container: app / inline-size; position: relative; min-height: 900px; overflow: clip;
+  background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6;
+  font-optical-sizing: auto; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+.app[data-theme="dark"] {
+  --paper: oklch(0.175 0.008 262); --paper-2: oklch(0.205 0.009 262); --paper-3: oklch(0.24 0.01 262);
+  --ink: oklch(0.95 0.005 85); --ink-2: oklch(0.78 0.008 85); --ink-3: oklch(0.64 0.008 85);
+  --line: oklch(0.95 0.005 85 / 0.12); --line-2: oklch(0.95 0.005 85 / 0.24); --axis: oklch(0.95 0.005 85 / 0.06);
+  --accent: oklch(0.7 0.17 40); --accent-ink: oklch(0.74 0.15 42); --on-accent: oklch(0.175 0.008 262);
+  --band: oklch(0.21 0.009 262);
+  color-scheme: dark;
+}
+/* Base resets at zero specificity, so component classes always win */
+:where(.app) *, :where(.app) *::before, :where(.app) *::after { border-color: var(--line); }
+:where(.app) a { color: inherit; text-decoration: none; cursor: pointer; }
+:where(.app) button { background: none; border: 0; padding: 0; cursor: pointer; }
+:where(.app) :where(h1, h2, h3, h4, p, figure, dl, dd, ol, ul) { margin: 0; }
+:where(.app) :where(ol, ul) { list-style: none; padding: 0; }
+:where(.app) :where(h1, h2, h3) { font-weight: 500; text-wrap: balance; }
+:where(.app) p { text-wrap: pretty; }
+:where(.app) img { display: block; }
+:where(.app) :where(input, select) { font: inherit; color: inherit; }
+.app ::selection { background: var(--accent); color: var(--on-accent); }
+.app :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Fluid type ramp, measured against the frame (container units) */
+.display { font-size: clamp(2.75rem, 0.9rem + 6.4cqi, 6.5rem); line-height: .94; letter-spacing: -.048em; }
+.title { font-size: clamp(2.5rem, 1.2rem + 4.4cqi, 5.25rem); line-height: .96; letter-spacing: -.045em; }
+.heading { font-size: clamp(1.875rem, 1.25rem + 2.1cqi, 3.25rem); line-height: 1.02; letter-spacing: -.04em; }
+.subheading { font-size: clamp(1.25rem, 1.05rem + .65cqi, 1.75rem); line-height: 1.15; letter-spacing: -.025em; }
+.lead { font-size: clamp(1.125rem, 1rem + .42cqi, 1.375rem); line-height: 1.5; letter-spacing: -.012em; }
+/* Long reading paragraphs (role and degree overviews, the About bio): body size, a step up, about 70 characters
+   a line (34em; ch is the wide "0", so 58ch came out at ~80). The large .lead size is
+   kept for short intros of 2–3 lines. */
+.read { font-size: 1.0625rem; line-height: 1.65; letter-spacing: -.005em; max-width: 34em; }
+@container app (width >= 48rem) { .read { font-size: 1.125rem; } }
+.read + .read { margin-top: 20px; }
+.an { font-family: var(--mono); font-size: 11px; line-height: 1.35; letter-spacing: .08em; text-transform: uppercase; }
+.small { font-size: .9375rem; }
+.muted { color: var(--ink-2); }
+.faint { color: var(--ink-3); }
+.ink { color: var(--ink); }
+.acc { color: var(--accent-ink); }
+.num { font-variant-numeric: tabular-nums; }
+.ico { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; }
+
+/* ───────────────────────── Layout: 4 / 8 / 12 column page grid ───────────────────────── */
+.wrap { margin-inline: auto; width: 100%; max-width: 90rem; padding-inline: var(--gutter); }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--grid-gap); }
+.col { grid-column: 1 / -1; min-width: 0; }
+.b-2 { grid-column: span 2 / span 2; } .b-3 { grid-column: span 3 / span 3; }
+@container app (width >= 40rem) { .s-2 { grid-column: span 2 / span 2; } .s-3 { grid-column: span 3 / span 3; } }
+@container app (width >= 48rem) {
+  .grid { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .m-2 { grid-column: span 2 / span 2; } .m-3 { grid-column: span 3 / span 3; } .m-4 { grid-column: span 4 / span 4; }
+  .m-5 { grid-column: span 5 / span 5; } .m-6 { grid-column: span 6 / span 6; }
+  .ms-6 { grid-column-start: 6; }
+}
+@container app (width >= 64rem) {
+  .grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .l-3 { grid-column: span 3 / span 3; } .l-4 { grid-column: span 4 / span 4; } .l-5 { grid-column: span 5 / span 5; }
+  .l-6 { grid-column: span 6 / span 6; } .l-7 { grid-column: span 7 / span 7; } .l-8 { grid-column: span 8 / span 8; } .l-9 { grid-column: span 9 / span 9; }
+  .ls-1 { grid-column-start: 1; } .ls-4 { grid-column-start: 4; } .ls-5 { grid-column-start: 5; } .ls-6 { grid-column-start: 6; } .ls-8 { grid-column-start: 8; }
+  .ls-9 { grid-column-start: 9; } .ls-10 { grid-column-start: 10; }
+  .lr-1 { grid-row-start: 1; }
+}
+
+/* ───────────────────────── Drawing conventions (the ones that stay) ───────────────────────── */
+
+/* Framed images; things you can open show printer's crop marks on hover */
+.sheet { position: relative; }
+.sheet-frame { position: relative; overflow: hidden; background: var(--paper-2); box-shadow: 0 0 0 1px var(--line); aspect-ratio: 16 / 9; }
+.sheet-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: scale 1s var(--settle); }
+.crop { position: absolute; width: 18px; height: 18px; pointer-events: none; color: var(--accent); opacity: 0; transition: opacity .35s ease, translate .6s var(--settle); }
+.crop::before, .crop::after { content: ""; position: absolute; background: currentColor; }
+.crop::before { width: 10px; height: 1px; } .crop::after { width: 1px; height: 10px; }
+.crop.tl { top: -18px; left: -18px; } .crop.tl::before { bottom: 0; left: 0; } .crop.tl::after { top: 0; right: 0; }
+.crop.tr { top: -18px; right: -18px; } .crop.tr::before { bottom: 0; right: 0; } .crop.tr::after { top: 0; left: 0; }
+.crop.bl { bottom: -18px; left: -18px; } .crop.bl::before { top: 0; left: 0; } .crop.bl::after { bottom: 0; right: 0; }
+.crop.br { bottom: -18px; right: -18px; } .crop.br::before { top: 0; right: 0; } .crop.br::after { bottom: 0; left: 0; }
+.group:hover .crop, .group:focus-within .crop { opacity: 1; }
+.group:hover .crop.tl { translate: 4px 4px; } .group:hover .crop.tr { translate: -4px 4px; } .group:hover .crop.bl { translate: 4px -4px; } .group:hover .crop.br { translate: -4px -4px; }
+.group:hover .sheet-frame img { scale: 1.015; }
+
+/* Dimension strings measure spans of time: hairline, oblique ticks, an arrow while still running */
+.dim { position: relative; height: 20px; }
+.dim-line { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: currentColor; }
+.dim-tick { position: absolute; top: 50%; width: 1px; height: 11px; background: currentColor; translate: -50% -50%; rotate: 45deg; }
+.dim-ext { position: absolute; top: 50%; width: 1px; height: 17px; background: currentColor; opacity: .45; translate: -50% -50%; }
+.dim-arrow { position: absolute; top: 50%; left: 100%; width: 8px; height: 8px; translate: -100% -50%; overflow: visible; }
+.dim-label { position: absolute; bottom: calc(50% + 5px); left: 50%; translate: -50% 0; white-space: nowrap; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+
+/* Hatching marks what isn't built yet */
+.hatch { background-image: repeating-linear-gradient(-45deg, var(--line-2) 0 1px, transparent 1px 7px); }
+
+/* Links */
+.lk { background-image: linear-gradient(currentColor, currentColor), linear-gradient(var(--line-2), var(--line-2)); background-position: 0 100%, 0 100%; background-repeat: no-repeat; background-size: 0% 1px, 100% 1px; padding-bottom: .125em; transition: background-size .5s var(--settle), color .3s; }
+.lk:hover { background-size: 100% 1px, 100% 1px; color: var(--accent-ink); }
+.ld { background-image: linear-gradient(currentColor, currentColor); background-position: 0 100%; background-repeat: no-repeat; background-size: 0% 1px; transition: background-size .5s var(--settle), color .3s; }
+.ld:hover { background-size: 100% 1px; }
+.tl-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+.tl-link .ico { width: 14px; height: 14px; }
+/* Arrow hover: each arrow nudges the way it points (units are the icon's 24-unit box: 3 = 2px at 16px) */
+.ico .mv { transition: translate .35s var(--settle); }
+:is(a, button, .entry):hover .ico.i-right .mv { translate: 3px 0; }
+:is(a, button, .entry):hover .ico.i-left .mv { translate: -3px 0; }
+:is(a, button, .entry):hover .ico.i-down .mv { translate: 0 3px; }
+:is(a, button, .entry):hover .ico.i-up .mv { translate: 0 -3px; }
+:is(a, button, .entry):hover .ico.i-out .mv { translate: 2.5px -2.5px; }
+:is(a, button, .entry):hover .ico.i-dl .mv { translate: 0 2.5px; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; max-width: 100%; padding: 12px 20px; font-size: 15px; font-weight: 500; line-height: 1.3; letter-spacing: -.01em; text-align: left; background: var(--ink); color: var(--paper); transition: background-color .3s, color .3s, box-shadow .3s; }
+.btn:hover { background: var(--accent); color: var(--on-accent); }
+.btn.outline { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); }
+.btn.outline:hover { box-shadow: inset 0 0 0 1px var(--ink); background: transparent; color: var(--ink); }
+.btn.sm { min-height: 36px; padding: 8px 14px; font-size: 14px; gap: 8px; }
+.btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.chip { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; font-size: .8125rem; box-shadow: inset 0 0 0 1px var(--line-2); color: var(--ink-2); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ───────────────────────── Header ───────────────────────── */
+.hdr { position: sticky; top: var(--sb-h, 0px); z-index: 20; border-bottom: 1px solid var(--line); background: color-mix(in oklab, var(--paper) 82%, transparent); backdrop-filter: blur(12px) saturate(1.5); }
+.hdr-in { display: flex; align-items: center; gap: 24px; height: var(--header-h); }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-name { font-size: 15px; font-weight: 500; letter-spacing: -.01em; }
+.mono-mark { width: 32px; height: 32px; flex: none; overflow: visible; }
+.mono-mark circle { fill: transparent; stroke: currentColor; transition: fill .5s, stroke .5s; }
+.mono-mark g { stroke: currentColor; transition: stroke .5s; }
+.brand:hover .mono-mark circle { fill: var(--accent); stroke: var(--accent); }
+.brand:hover .mono-mark g { stroke: var(--on-accent); }
+.nav { margin-left: auto; display: none; gap: 32px; }
+@container app (width >= 48rem) { .nav { display: flex; } }
+.nav a { position: relative; display: flex; align-items: center; height: var(--header-h); font-size: 15px; color: var(--ink-2); transition: color .3s; }
+.nav a:hover, .nav a.on { color: var(--ink); }
+.nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform .5s var(--settle); }
+.nav a:hover::after, .nav a.on::after { transform: scaleX(1); }
+.hdr-tools { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+@container app (width >= 48rem) { .hdr-tools { margin-left: 8px; } }
+.lang { display: none; align-items: center; }
+@container app (width >= 40rem) { .lang { display: flex; } }
+.lang button { height: 36px; min-width: 32px; padding: 0 4px; color: var(--ink-3); }
+.lang button.on, .lang button:hover { color: var(--ink); }
+.lang .sl { color: color-mix(in oklab, var(--ink-3) 50%, transparent); }
+.icon-btn { width: 36px; height: 36px; display: grid; place-items: center; color: var(--ink-2); }
+.icon-btn:hover { color: var(--ink); }
+.icon-btn .ico { width: 18px; height: 18px; }
+.hdr-contact { display: none !important; margin-left: 12px; }
+@container app (width >= 64rem) { .hdr-contact { display: inline-flex !important; } }
+.menu-btn { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 8px; margin-left: 4px; }
+@container app (width >= 48rem) { .menu-btn { display: none; } }
+
+/* Phone menu (drawn inside the frame) */
+.menu { position: absolute; inset: 0; z-index: 40; background: var(--paper); overflow: auto; }
+.menu-top { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); border-bottom: 1px solid var(--line); }
+.menu-list { border-top: 1px solid var(--line); margin-top: 32px; }
+.menu-list li { border-bottom: 1px solid var(--line); }
+.menu-list a { display: block; padding: 20px 0; }
+.menu-list a.on { color: var(--accent-ink); }
+
+/* ───────────────────────── Sections ───────────────────────── */
+main.page { position: relative; z-index: 1; }
+/* Bands: every top-level section is a full-width band and the tone alternates (paper, then a deeper paper),
+   so each section reads as its own area. The footer closes the page in graphite. */
+.band { position: relative; background: var(--bg); padding-block: 72px; scroll-margin-top: calc(var(--sb-h, 0px) + var(--header-h)); }
+@container app (width >= 48rem) { .band { padding-block: 96px; } }
+@container app (width >= 64rem) { .band { padding-block: 112px; } }
+.band:nth-child(even) { --bg: var(--band); }
+.band:first-child { padding-top: 0; }
+.band > .wrap:first-child > :first-child { margin-top: 0; }
+/* Inside a band, a section opens with its heading (an optional eyebrow and intro) and an optional action on the right */
+.sec-head { display: grid; row-gap: 16px; }
+.sec-title h2 { max-width: 22ch; }
+.sec-eyebrow { margin-bottom: 16px; color: var(--ink-3); }
+.sec-intro { margin-top: 20px; max-width: 50ch; color: var(--ink-2); }
+.sec-action { justify-self: start; }
+@container app (width >= 48rem) {
+  .sec-head { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--grid-gap); align-items: end; }
+  .sec-action { justify-self: end; padding-bottom: 8px; }
+}
+.sec-body { margin-top: 48px; }
+@container app (width >= 48rem) { .sec-body { margin-top: 64px; } }
+
+/* The parts of a project or record page share one band: an ink rule between parts, the part's name on the rail,
+   content from column 4 */
+.part { margin-top: 80px; row-gap: 24px; border-top: 1px solid var(--ink); padding-top: 20px; }
+@container app (width >= 48rem) { .part { margin-top: 96px; } }
+.band > .wrap:first-child > .part { border-top: 0; padding-top: 0; }
+.rail-label { padding-top: 6px; color: var(--ink); font-weight: 400; }
+.part .cards { margin-top: 0; }
+
+.page-head { padding-top: 56px; }
+@container app (width >= 48rem) { .page-head { padding-top: 72px; } }
+@container app (width >= 64rem) { .page-head { padding-top: 80px; } }
+.page-head .eyebrow { color: var(--ink-3); }
+.page-head h1 { margin-top: 24px; max-width: 18ch; }
+.page-head .intro { margin-top: 28px; max-width: 52ch; color: var(--ink-2); }
+
+.crumb { display: flex; align-items: center; gap: 8px; color: var(--ink-3); padding-top: 56px; }
+@container app (width >= 48rem) { .crumb { padding-top: 72px; } }
+@container app (width >= 64rem) { .crumb { padding-top: 80px; } }
+.crumb a:hover { color: var(--ink); }
+.crumb .here { color: var(--ink); }
+
+/* Spec lists: labelled facts under one rule, like a title block */
+.specs { display: grid; column-gap: 24px; border-top: 1px solid var(--line); padding-top: 8px; }
+.specs > div { padding: 6px 0 14px; }
+.specs dt { color: var(--ink-3); }
+.specs dd { margin-top: 6px; font-size: .9375rem; line-height: 1.35; }
+
+.stack { display: flex; flex-wrap: wrap; gap: 2px 8px; font-size: .8125rem; line-height: 1.5; color: var(--ink-3); }
+.stack li { display: flex; align-items: center; gap: 8px; }
+.stack li + li::before { content: ""; width: 3px; height: 3px; background: var(--line-2); }
+
+.status { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); }
+.status.running { color: var(--accent-ink); }
+.status svg, .glyph { width: 10px; height: 10px; flex: none; overflow: visible; }
+
+/* ───────────────────────── Home ───────────────────────── */
+.band.hero { padding-top: 56px; }
+@container app (width >= 48rem) { .band.hero { padding-top: 72px; } }
+@container app (width >= 64rem) { .band.hero { padding-top: 80px; } }
+.hero-grid { row-gap: 48px; position: relative; z-index: 1; }
+/* Headline, intro and buttons stay together as one group, centred against the portrait */
+.hero-text { display: flex; flex-direction: column; justify-content: center; gap: 32px; }
+.hero-title { font-size: clamp(2.5rem, 1.1rem + 4.6cqi, 5.25rem); line-height: 1; letter-spacing: -.045em; }
+.hero-lead .lead { max-width: 46ch; }
+.hero-portrait .portrait { aspect-ratio: 4 / 5; }
+.rise-mask { display: block; overflow: clip; padding-bottom: .12em; margin-bottom: -.12em; }
+.rise { display: block; }
+.hero-lead .btns { margin-top: 32px; }
+.portrait { position: relative; overflow: hidden; background: var(--paper-2); box-shadow: 0 0 0 1px var(--line); aspect-ratio: 4 / 3; }
+@container app (width >= 40rem) { .portrait { aspect-ratio: 4 / 5; } }
+.portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
+
+
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; color: var(--ink-3); }
+
+.exp-list { border-top: 1px solid var(--line); }
+.exp-row { position: relative; align-items: center; row-gap: 16px; padding: 24px 0; border-bottom: 1px solid var(--line); transition: background-color .3s; }
+.exp-row:hover { background: var(--hover); }
+.exp-row:hover h3 { color: var(--accent-ink); }
+@container app (width >= 48rem) { .exp-row { padding: 0; } }
+.exp-when { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+@container app (width >= 48rem) { .exp-when { display: block; padding: 28px 0; } .exp-when .faint { margin-top: 6px; } .exp-role { padding: 28px 0; } }
+.exp-role h3 { transition: color .3s; }
+.exp-role p { margin-top: 4px; color: var(--ink-2); }
+.track { position: relative; height: 48px; }
+@container app (width >= 48rem) { .track { height: 100%; min-height: 112px; } }
+.track .yr { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line); }
+.track .bar { position: absolute; top: 50%; translate: 0 -50%; }
+.scale { position: relative; height: 32px; }
+.scale span { position: absolute; top: 8px; translate: -50% 0; color: var(--ink-3); }
+
+
+/* How I work (About): four columns (2 on tablets, 1 on phones) with thin vertical lines between them and no
+   horizontal rules. The first column's text lines up with the other lists (--row-pad). */
+.principles { display: grid; row-gap: 40px; }
+@container app (width >= 40rem) { .principles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container app (width >= 64rem) { .principles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.principle { display: flex; flex-direction: column; gap: 12px; padding: 0 var(--row-pad); }
+@container app (width >= 40rem) { .principle { padding: 4px 24px; } .principle:nth-child(odd) { padding-left: var(--row-pad); } .principle:nth-child(even) { border-left: 1px solid var(--line); } }
+@container app (width >= 64rem) { .principle:nth-child(odd) { padding-left: 24px; } .principle:nth-child(n + 2) { border-left: 1px solid var(--line); } .principle:first-child { padding-left: var(--row-pad); } }
+.principle-ico { display: flex; margin-bottom: 12px; }
+.principle-title { font-size: clamp(1.25rem, 1.05rem + .5cqi, 1.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -.025em; }
+.principle-ico .ico { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; color: var(--ink); transition: color .3s; }
+.principle:hover .principle-ico .ico { color: var(--accent-ink); }
+.principle p { color: var(--ink-2); max-width: 40ch; }
+
+/* Contact: the address large, the other ways to reach me in one line */
+.reach-mail { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.reach-mail .lk { font-size: clamp(1.5rem, 1.1rem + 1.6cqi, 2.5rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.2; overflow-wrap: anywhere; }
+.reach-links { display: flex; flex-wrap: wrap; gap: 12px 32px; margin-top: 32px; }
+.copy-btn { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; font-size: .8125rem; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line-2); }
+.copy-btn:hover { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.links { margin-top: 40px; display: grid; gap: 8px; justify-items: start; }
+.links li, .foot-links li { display: flex; align-items: center; min-height: 28px; }
+
+/* ───────────────────────── Footer ───────────────────────── */
+.foot { position: relative; z-index: 1;
+  --paper: oklch(0.2 0.012 262); --paper-2: oklch(0.235 0.012 262); --paper-3: oklch(0.27 0.012 262);
+  --ink: oklch(0.95 0.005 85); --ink-2: oklch(0.78 0.008 85); --ink-3: oklch(0.64 0.008 85);
+  --line: oklch(0.95 0.005 85 / 0.12); --line-2: oklch(0.95 0.005 85 / 0.24);
+  --accent: oklch(0.7 0.17 40); --accent-ink: oklch(0.74 0.15 42); --on-accent: oklch(0.175 0.008 262);
+  --bg: var(--paper); background: var(--bg); color: var(--ink); color-scheme: dark; }
+.app[data-theme="dark"] .foot { --paper: oklch(0.135 0.008 262); --paper-2: oklch(0.165 0.009 262); box-shadow: inset 0 1px 0 var(--line); }
+.foot-top { row-gap: 48px; padding: 64px 0; }
+@container app (width >= 48rem) { .foot-top { padding: 80px 0; } }
+.foot-brand { display: inline-flex; align-items: center; gap: 12px; }
+.foot-brand .mono-mark { width: 40px; height: 40px; }
+.foot-note { margin-top: 24px; max-width: 36ch; color: var(--ink-2); }
+.foot h4 { margin: 0; font-weight: 400; color: var(--ink-3); }
+.foot-links { margin-top: 16px; display: grid; gap: 8px; justify-items: start; }
+.foot-base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding: 28px 0 32px; border-top: 1px solid var(--line); font-size: .875rem; color: var(--ink-3); }
+.foot .links a { overflow-wrap: anywhere; }
+
+/* ───────────────────────── Projects ───────────────────────── */
+.ptabs-row { display: flex; flex-direction: column; gap: 16px; margin-top: 56px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+@container app (width >= 48rem) { .ptabs-row { flex-direction: row; align-items: flex-end; justify-content: space-between; margin-top: 80px; } }
+.tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-inline: -12px; }
+.tabs button { position: relative; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; flex: none; font-size: .9375rem; color: var(--ink-3); transition: color .3s; }
+.tabs button:hover, .tabs button.on { color: var(--ink); }
+.tabs button .an { color: var(--ink-3); }
+.tabs button.on .an { color: var(--accent-ink); }
+.tabs button::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 0; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform .5s var(--settle); }
+.tabs button.on::after { transform: scaleX(1); }
+.tabs button:disabled { opacity: .4; cursor: default; }
+.ptype-hint { color: var(--ink-3); padding-bottom: 12px; }
+@container app (width >= 48rem) { .ptype-hint { max-width: 38ch; text-align: right; } }
+.cards { margin-top: 48px; display: grid; gap: 64px 24px; }
+@container app (width >= 48rem) { .cards { margin-top: 64px; grid-template-columns: 1fr 1fr; row-gap: 96px; } }
+@container app (width >= 64rem) { .cards.three { grid-template-columns: repeat(3, 1fr); } }
+.card { position: relative; }
+.card-meta { margin-top: 20px; }
+.card h3 { margin-top: 12px; }
+.card h3 a { transition: color .3s; }
+.card h3 a::after { content: ""; position: absolute; inset: 0; }
+.card:hover h3 a { color: var(--accent-ink); }
+.card .sub { margin-top: 6px; color: var(--ink-2); }
+.placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; color: var(--ink-3); text-align: center; }
+.placeholder .n { background: var(--paper-2); padding: 4px 12px; color: var(--ink-2); font-size: clamp(1.25rem, 3cqi, 2rem); font-weight: 500; letter-spacing: -.03em; }
+.placeholder .an { background: var(--paper-2); padding: 2px 8px; }
+
+/* ───────────────────────── Project page ───────────────────────── */
+.p-title { margin-top: 24px; row-gap: 32px; }
+.p-title .sub { margin-top: 20px; color: var(--ink-2); }
+.p-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+@container app (width >= 48rem) { .p-actions { justify-content: flex-end; align-self: end; } }
+.p-specs { margin-top: 48px; grid-template-columns: 1fr 1fr; }
+@container app (width >= 48rem) { .p-specs { margin-top: 64px; grid-template-columns: repeat(4, 1fr); } }
+.p-hero { margin-top: 40px; }
+@container app (width >= 48rem) { .p-hero { margin-top: 56px; } }
+.p-brief .lead { max-width: 52ch; }
+.p-brief .lead + .lead { margin-top: 20px; }
+.b-stack { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.r-org { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; }
+.r-org .tl-link { font-weight: inherit; }
+.r-org .r-doc { font-size: .9375rem; color: var(--ink-2); }
+.r-org a { transition: color .3s; } .r-org a:hover { color: var(--accent-ink); }
+.part p + p { margin-top: 16px; }
+.figs { display: grid; gap: 32px; }
+/* Previous / Next: a band of its own with no padding; each link fills its half edge to edge, so the whole half is
+   the link (no hover plate: a half-band tint reads as another band; the title turns red and the arrow nudges). No rules above or below (the bands mark the edges); one divider between the two.
+   Text lines up with the content edges: --side is the .wrap's outer margin plus its gutter. */
+.pager-band { padding-block: 0; }
+.pager { display: grid; --side: calc(max(0px, (100cqi - 90rem) / 2) + var(--gutter)); }
+.pager a { display: flex; flex-direction: column; gap: 12px; padding: 40px calc(var(--side) + var(--row-pad)); }
+.pager a.end { border-top: 1px solid var(--line); }
+.pager a:hover .heading { color: var(--accent-ink); }
+.pager .an { display: flex; align-items: center; gap: 8px; color: var(--ink-3); }
+.pager .heading { transition: color .3s; }
+.pager .sub { color: var(--ink-2); }
+@container app (width >= 48rem) {
+  .pager { grid-template-columns: 1fr 1fr; }
+  .pager a { padding: 56px 32px 56px calc(var(--side) + var(--row-pad)); }
+  .pager a.end { align-items: flex-end; text-align: right; border-top: 0; border-left: 1px solid var(--line); padding: 56px calc(var(--side) + var(--row-pad)) 56px 32px; }
+}
+
+/* ───────────────────────── Timeline ───────────────────────── */
+.chart-fig { margin-top: 64px; }
+@container app (width >= 48rem) { .chart-fig { margin-top: 80px; } }
+.chart-scroll { overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); padding-top: 8px; scrollbar-width: thin; }
+.chart { min-width: 42rem; --label-w: 8.5rem; }
+@container app (width >= 48rem) { .chart { --label-w: 13rem; } }
+@container app (width >= 64rem) { .chart { --label-w: 16rem; } }
+.crow { display: grid; grid-template-columns: var(--label-w) 1fr; }
+.crow > .lab { display: flex; min-width: 0; align-items: center; gap: 12px; padding-right: 16px; }
+.crow > .area { position: relative; }
+.lab-t { display: block; font-size: 14px; line-height: 1.2; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lab-m { display: none; margin-top: 2px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lab-t .wide { display: none; }
+@container app (width >= 48rem) { .lab-m { display: block; } .lab-t .wide { display: inline; } .lab-t .narrow { display: none; } }
+.lab-w { display: flex; flex-direction: column; min-width: 0; }
+.cbody { position: relative; }
+.cover { position: absolute; top: 0; bottom: 0; right: 0; left: var(--label-w); pointer-events: none; }
+.guide { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line); }
+.guide.tr { background: none; border-left: 1px dashed color-mix(in oklab, var(--accent) 70%, transparent); }
+.guide.today { background: var(--ink); }
+.brk { position: absolute; top: 0; bottom: 0; background: var(--bg); z-index: 2; }
+.brk svg { position: absolute; top: 0; bottom: 0; width: 12px; height: 100%; color: var(--ink-3); }
+.brk svg.l { left: -6px; } .brk svg.r { right: -6px; }
+.rrow { position: relative; display: block; border-top: 1px solid var(--line); transition: background-color .3s; }
+.rrow:hover { background: var(--hover); }
+.rrow .area { height: 48px; }
+.cbar { position: absolute; top: 50%; height: 10px; translate: 0 -50%; color: var(--ink-2); background: currentColor; transform-origin: left; transition: color .3s, scale 1.2s var(--drawing); }
+.cbar.edu { background: var(--bg); box-shadow: inset 0 0 0 1px currentColor; }   /* studies: outlined; hatching stays for "not built yet" */
+.cbar.run, .rrow:hover .cbar { color: var(--accent); }
+.rrow:hover .glyph { color: var(--accent); }
+.mk { position: absolute; z-index: 3; margin-left: -8px; width: 16px; height: 16px; display: grid; place-items: center; color: var(--ink-2); transition: color .3s; }
+.mk:hover { color: var(--accent); }
+.mk .tip { position: absolute; bottom: calc(100% + 10px); left: 50%; translate: -50% 4px; opacity: 0; pointer-events: none; white-space: nowrap; background: var(--ink); color: var(--paper); padding: 4px 8px; transition: opacity .2s, translate .3s var(--settle); }
+.mk:hover .tip { opacity: 1; translate: -50% 0; }
+.era { position: absolute; top: 20px; }
+.ticks { height: 64px; }
+.ticks .an { position: absolute; top: 12px; translate: -50% 0; color: var(--ink-3); white-space: nowrap; }
+.ticks .an.first { translate: 0 0; }
+.ticks .an.low { top: 36px; }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; margin-top: 32px; color: var(--ink-3); }
+.legend ul { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.legend svg, .legend .sw { width: 10px; height: 10px; flex: none; overflow: visible; color: var(--ink-2); }
+.legend .sw { display: inline-block; width: 18px; height: 8px; background: currentColor; }
+.legend .sw.edu { background: var(--bg); box-shadow: inset 0 0 0 1px currentColor; }
+
+.fbar { position: sticky; top: calc(var(--sb-h, 0px) + var(--header-h)); z-index: 15; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); background: color-mix(in oklab, var(--bg) 90%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.fbar-row { display: flex; flex-direction: column; gap: 12px; padding: 12px 0; }
+@container app (width >= 64rem) { .fbar-row { flex-direction: row; align-items: center; justify-content: space-between; } }
+.ftools { display: flex; align-items: center; gap: 8px; }
+.search { position: relative; display: flex; flex: 1; align-items: center; gap: 8px; height: 40px; padding: 0 12px; min-width: 0; box-shadow: inset 0 0 0 1px var(--line-2); }
+.search:focus-within { box-shadow: inset 0 0 0 1px var(--ink); }
+@container app (width >= 64rem) { .search { flex: none; width: 18rem; } }
+.search input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font-size: .875rem; }
+.search input::placeholder { color: var(--ink-3); }
+.search kbd { font-family: var(--mono); font-size: 11px; color: var(--ink-3); padding: 0 6px; box-shadow: inset 0 0 0 1px var(--line-2); }
+.tool-btn { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; font-size: .875rem; flex: none; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line-2); transition: color .3s, box-shadow .3s; }
+.tool-btn:hover, .tool-btn.on { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.tool-btn .cnt { display: grid; place-items: center; width: 16px; height: 16px; background: var(--accent); color: var(--on-accent); font-size: 10px; }
+/* Filters modal: centred on desktop, a bottom sheet on phones (sized to the study's frame) */
+.fmodal { width: min(40rem, calc(var(--app-w, 100vw) - 32px)); max-width: none; max-height: min(80vh, 44rem); padding: 0; border: 0; overflow: hidden; background: var(--paper); color: var(--ink); box-shadow: 0 0 0 1px var(--line-2), 0 32px 80px -32px rgb(0 0 0 / .5); }
+.fmodal[open] { display: flex; flex-direction: column; animation: fmodal-in .3s var(--settle); }
+.fmodal::backdrop { background: rgb(12 12 16 / .45); }
+@keyframes fmodal-in { from { opacity: 0; translate: 0 12px; } }
+.fmodal-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 12px 12px 24px; border-bottom: 1px solid var(--line); }
+.fmodal-body { flex: 1; min-height: 0; overflow: auto; display: grid; align-content: start; gap: 16px; padding: 8px 24px 24px; }
+.fmodal-body .fgroup:first-child { border-top: 0; }
+.fmodal-head h2:focus { outline: none; }
+.fmodal-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 12px 12px 24px; border-top: 1px solid var(--line); }
+.fclear { font-size: .875rem; color: var(--ink-2); } .fclear:hover { color: var(--ink); } .fclear:disabled { opacity: .4; cursor: default; }
+@container app (width < 40rem) { .fmodal { width: var(--app-w, 100vw); margin: auto auto 0; max-height: 85vh; } }
+.fgroup { display: grid; gap: 8px; border-top: 1px solid var(--line); padding-top: 16px; }
+.fgroup .an { color: var(--ink-3); }
+/* Checklist: equal columns (2, 3 from 40rem); the plate hangs 8px so boxes align with the group label */
+.fopts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 8px; margin-inline: -8px; }
+@container app (width >= 40rem) { .fopts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.fopt { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 6px 8px; font-size: .875rem; line-height: 1.3; text-align: left; color: var(--ink-2); transition: background-color .2s, color .2s; }
+.fopt:not(:disabled):hover { background: var(--hover); color: var(--ink); }
+.fopt:disabled { opacity: .35; cursor: default; }
+.fbox { flex: none; width: 16px; height: 16px; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--ink-3); transition: background-color .2s, box-shadow .2s; }
+.fbox .ico { width: 12px; height: 12px; stroke: var(--paper); stroke-width: 2.5; opacity: 0; transition: opacity .2s; }
+.fopt:not(:disabled):hover .fbox { box-shadow: inset 0 0 0 1px var(--ink); }
+.fopt.on { color: var(--ink); }
+.fopts.one { grid-template-columns: minmax(0, 1fr); }
+.fopts.one .fopt { align-items: flex-start; } .fopts.one .fbox { margin-top: 1px; }
+.fhint { display: block; margin-top: 2px; font-size: .8125rem; color: var(--ink-3); }
+/* Stack: one section with four sub-lists; sub-labels are quieter than the section labels */
+.fsub { display: grid; gap: 4px; }
+.fsub + .fsub { margin-top: 12px; }
+.fsub-l { font-size: .8125rem; font-weight: 500; color: var(--ink-2); }
+.fopt.on .fbox { background: var(--ink); box-shadow: none; }
+.fopt.on .fbox .ico { opacity: 1; }
+
+.tgrid { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr); column-gap: 16px; }
+@container app (width >= 64rem) { .tgrid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); } }
+/* Years sit 24px under the previous year's last entry (the first one keeps 64 under the toolbar). The spine runs
+   on through each year down to its marker, so the timeline is one continuous line. */
+.level { align-items: end; padding-top: 24px; }
+li:first-child > .level { padding-top: 64px; }
+.level h2 { grid-column: 2 / -1; grid-row: 1; padding-left: var(--row-pad); }
+.l-spine { grid-column: 1; grid-row: 1 / span 2; position: relative; align-self: stretch; margin-top: -24px; translate: var(--row-pad) 0; }
+.l-spine::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; translate: -50% 0; background: var(--line-2); }
+.level .datum { grid-column: 1 / -1; grid-row: 2; position: relative; display: flex; justify-content: flex-end; margin-top: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--ink); color: var(--ink-3); }
+.level .datum svg { position: absolute; bottom: 0; left: 10px; width: 14px; height: 10px; translate: -50% 0; overflow: visible; color: var(--ink); }
+@container app (width >= 64rem) {
+  .level h2 { grid-column: 1 / span 2; padding-left: 0; }
+  .l-spine { grid-column: 3 / span 1; grid-row: 1; translate: none; }
+  .level .datum { grid-column: 3 / span 10; grid-row: 1; margin-top: 0; }
+  .level .datum svg { left: calc((100% - 9 * var(--grid-gap)) / 20); }
+}
+.entry { position: relative; transition: background-color .3s; }
+.entry:hover { background: var(--hover); }
+.e-spine { grid-column: 1; grid-row: 1 / span 3; position: relative; display: flex; justify-content: center; }
+.e-spine::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; translate: -50% 0; background: var(--line-2); }
+.e-spine .gl { position: relative; margin-top: 28px; width: 20px; height: 20px; display: grid; place-items: center; background: var(--bg); transition: background-color .3s; }
+.entry:hover .e-spine .gl { background: color-mix(in oklab, var(--ink) 4%, var(--bg)); }
+.entry:hover .e-spine .glyph { color: var(--accent); }
+.e-date { grid-column: 2; grid-row: 1; padding-top: 28px; color: var(--ink-2); }
+.e-date .d { color: var(--ink-3); margin-left: 12px; }
+/* A range stays on one line when it fits ("Mar 2024 – Feb 2025"); if not, it breaks only after the dash */
+.e-date .nw { white-space: nowrap; }
+.e-body { grid-column: 2; grid-row: 2; padding-top: 12px; }
+.e-body h3 a { transition: color .3s; }
+.e-body h3 a::after { content: ""; position: absolute; inset: 0; }
+.entry:hover .e-body h3 a { color: var(--accent-ink); }
+.e-body .org { margin-top: 4px; color: var(--ink-2); }
+.e-body .sum { margin-top: 12px; color: var(--ink-2); font-size: .9375rem; max-width: 62ch; }
+.e-body .stack { margin-top: 16px; }
+.e-meta { grid-column: 2; grid-row: 3; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 12px 0 32px; color: var(--ink-3); }
+.e-meta .ico { display: none; }
+@container app (width >= 64rem) {
+  .e-spine { grid-column: 3 / span 1; grid-row: 1; }
+  .e-spine .gl { margin-top: 30px; }
+  .e-date { grid-column: 1 / span 2; padding-top: 32px; }
+  .e-date .d { display: block; }
+  .e-date .d { margin: 4px 0 0; }
+  .e-body { grid-column: 4 / span 7; grid-row: 1; padding: 28px 0 32px; }
+  .e-meta { grid-column: 11 / span 2; grid-row: 1; flex-direction: column; align-items: flex-end; padding-top: 32px; }
+  .e-meta .ico { display: block; margin-top: auto; transition: color .3s; }
+  .entry:hover .e-meta .ico { color: var(--accent-ink); }
+}
+.empty { margin-top: 48px; min-height: 240px; display: grid; place-items: center; padding: 32px; text-align: center; }
+.empty p { background: var(--bg); color: var(--ink-2); padding: 8px 16px; max-width: 40ch; }
+
+/* ───────────────────────── Records ───────────────────────── */
+.r-title { margin-top: 24px; row-gap: 40px; }
+.r-title .sub { margin-top: 20px; color: var(--ink-2); }
+.dur .an { color: var(--ink-3); }
+.dur .dim { margin-top: 32px; }
+.dur .ends { display: flex; justify-content: space-between; gap: 16px; margin-top: 12px; color: var(--ink-2); }
+.block p { max-width: 62ch; }
+.block p.read { max-width: 34em; }
+/* Scope: no rules; four points in two columns at a larger size (wider column, like the stack row), so the section
+   has some weight without boxes. Bullets hang in the margin on desktop so the text lines up with the overview. */
+.hl { display: grid; gap: 20px 48px; }
+@container app (width >= 48rem) { .hl { grid-template-columns: 1fr 1fr; } }
+.hl li { position: relative; padding-left: 22px; font-size: 1.0625rem; line-height: 1.45; color: var(--ink); max-width: 40ch; }
+.hl li::before { content: ""; position: absolute; left: 0; top: .6em; width: 6px; height: 6px; background: var(--ink-2); }
+@container app (width >= 64rem) { .hl li { padding-left: 0; } .hl li::before { left: -22px; } }
+/* Scope: a short title and a sentence per point, two columns (the layout Products had), no bullets or rules */
+.scope { display: grid; gap: 32px 48px; }
+@container app (width >= 48rem) { .scope { grid-template-columns: 1fr 1fr; } }
+.scope p { margin-top: 8px; color: var(--ink-2); max-width: 40em; }
+/* Products / Highlights (role and degree pages): no box or rules; one column, one product under another, at
+   reading width (Scope keeps the two columns). Linked items: the name carries ↗ or ↓; hover turns it red. */
+.prods { display: grid; gap: 32px; max-width: 34em; }
+.prods li > a { display: block; }
+.prods h3 { display: inline-flex; align-items: baseline; gap: 8px; transition: color .3s; }
+.prods h3 .ico { width: 14px; height: 14px; color: var(--ink-3); }
+.prods a:hover h3 { color: var(--accent-ink); }
+.prods p { margin-top: 8px; color: var(--ink-2); max-width: 40em; }
+.prods .stack { margin-top: 12px; }
+.show { border-top: 1px solid var(--line); }
+.show li { border-bottom: 1px solid var(--line); }
+.show .in { display: block; padding: 24px 0; transition: background-color .3s; }
+.show a.in:hover { background: var(--hover); }
+.show a.in:hover h3 { color: var(--accent-ink); }
+.show .top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.show .top .ico { color: var(--ink-3); }
+.show p { margin-top: 8px; color: var(--ink-2); }
+.show .stack { margin-top: 16px; }
+
+/* ───────────────────────── About ───────────────────────── */
+.a-intro { margin-top: 64px; row-gap: 48px; }
+@container app (width >= 48rem) { .a-intro { margin-top: 96px; } }
+.a-intro .portrait { aspect-ratio: 4 / 5; }
+.bio p + p { margin-top: 24px; }
+.bio .specs { grid-template-columns: 1fr 1fr; margin-top: 48px; }
+.story { border-bottom: 1px solid var(--line); }
+.story li { row-gap: 16px; border-top: 1px solid var(--line); padding: 40px 0; }
+.story .an { color: var(--ink-3); }
+.story p { color: var(--ink-2); }
+.story .rel { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 16px; }
+.story .rel a { font-size: .875rem; }
+/* Stack: the main eight as a ruled panel of compact cells, then a row of smaller chips */
+.stack-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); box-shadow: 0 0 0 1px var(--line); }
+@container app (width >= 48rem) { .stack-panel { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.stack-cell { display: flex; align-items: center; gap: 16px; min-width: 0; padding: 20px var(--row-pad); background: var(--bg); transition: background-color .3s; }
+.stack-cell:hover { background: color-mix(in oklab, var(--ink) 4%, var(--bg)); }
+.stack-ico { width: 40px; height: 40px; flex: none; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--line-2); transition: box-shadow .3s; }
+.stack-ico svg { width: 20px; height: 20px; fill: currentColor; color: var(--ink); transition: color .3s; }
+.stack-cell:hover .stack-ico { box-shadow: inset 0 0 0 1px var(--ink); }
+.stack-cell:hover .stack-ico svg, .stack-chip:hover svg { color: var(--brand, var(--ink)); }
+.stack-cell .name { min-width: 0; font-size: 1rem; font-weight: 500; line-height: 1.3; letter-spacing: -.01em; }
+.stack-also { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 24px; }
+.stack-also .an { color: var(--ink-3); }
+.stack-also ul { display: flex; flex-wrap: wrap; gap: 8px; }
+.stack-chip { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; font-size: .875rem; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line-2); transition: color .3s, box-shadow .3s; }
+.stack-chip svg { width: 14px; height: 14px; flex: none; fill: currentColor; transition: color .3s; }
+.stack-chip:hover { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.learn { border-bottom: 1px solid var(--line); }
+.learn a { align-items: baseline; row-gap: 8px; border-top: 1px solid var(--line); padding: 24px 0; transition: background-color .3s; }
+.learn a:hover { background: var(--hover); }
+.learn a:hover .subheading { color: var(--accent-ink); }
+.learn .subheading { transition: color .3s; }
+.learn .ico { justify-self: end; color: var(--ink-3); }
+
+/* ───────────────────────── Lists: room around the hover ───────────────────────── */
+/* List rows keep their lines and hover plates flush with the column, like everything else on the page, and pad
+   their content by --row-pad, so a hovered row's typography and arrows never touch the plate's edges. */
+.app { --row-pad: 12px; }
+@container app (width >= 48rem) { main.page { --row-pad: 16px; } }
+.exp-row, .scale-row, .learn a, .show .in, .story li, .chart .crow { padding-inline: var(--row-pad); }
+.cbody > .cover { left: calc(var(--label-w) + var(--row-pad)); right: var(--row-pad); }
+/* Timeline entries: while the spine is the row's first column (phones, tablets) the whole row is padded and the
+   year's marker moves with it; on desktop only the first and last columns are, which keeps the spine on the marker */
+.entry { padding-inline: var(--row-pad); }
+.level .datum svg { left: calc(10px + var(--row-pad)); }
+@container app (width >= 64rem) {
+  .entry { padding-inline: 0; }
+  .e-date { padding-left: var(--row-pad); }
+  .e-meta { padding-right: var(--row-pad); }
+  .level .datum svg { left: calc((100% - 9 * var(--grid-gap)) / 20); }
+}
+
+/* ═════════════════════════ The two switches ═════════════════════════ */
+.app[data-marks="off"] .crop { display: none; }
+
+/* Motion: calm (the headline rises, the timeline bars draw, sections fade in once) or off */
+.app[data-motion="calm"] .rise { animation: rise 1.1s var(--settle) both; animation-delay: var(--d, 0ms); }
+.app[data-motion="calm"] .fade { animation: fade .8s ease both; animation-delay: var(--d, 0ms); }
+.app[data-motion="calm"] [data-reveal] { transition: opacity .7s ease; }
+.app[data-motion="calm"] [data-reveal]:not([data-revealed]) { opacity: 0; }
+.app[data-motion="calm"] [data-reveal]:not([data-revealed]) .cbar { scale: 0 1; }
+.app[data-motion="calm"] .cbar { transition-delay: var(--bd, 0ms); }
+.app[data-motion="off"] * { transition-duration: 0s !important; }
+.app[data-motion="off"] .group:hover .sheet-frame img { scale: 1; }
+.app[data-motion="off"] .group:hover .crop, .app[data-motion="off"] .ico .mv { translate: none !important; }
+@keyframes rise { from { translate: 0 110%; } }
+@keyframes fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .app *, .app *::before, .app *::after { animation: none !important; transition-duration: 0s !important; } .app [data-reveal] { opacity: 1 !important; } }
+</style>
+</head>
+<body>
+
+<header class="study-bar" id="studyBar">
+  <div class="sb-row">
+    <h1 title="One version of the drawing set: architectural where it reads on its own, plain wherever it could confuse.">Portfolio <span>study</span></h1>
+    <div class="sb-grp" role="group" aria-label="Frame"><span class="sb-lab">Frame</span>
+      <button type="button" data-set="frame" data-val="desktop">Desktop</button><button type="button" data-set="frame" data-val="mobile">Mobile</button></div>
+    <div class="sb-grp" role="group" aria-label="Theme"><span class="sb-lab">Theme</span>
+      <button type="button" data-set="theme" data-val="light">Light</button><button type="button" data-set="theme" data-val="dark">Dark</button></div>
+    <div class="sb-grp" role="group" aria-label="Language"><span class="sb-lab">Lang</span>
+      <button type="button" data-set="lang" data-val="en">EN</button><button type="button" data-set="lang" data-val="pt">PT</button></div>
+    <div class="sb-grp" role="group" aria-label="Screen" id="screenSeg"></div>
+    <div class="sb-grp sb-ctx" role="group" aria-label="Scenario" id="ctxSeg" hidden></div>
+  </div>
+  <div class="sb-row sb-adj">
+    <div class="sb-grp" role="group" aria-label="Image marks"><span class="sb-lab" title="Printer's crop marks that appear on hover around images you can open.">Image marks</span>
+      <button type="button" data-set="marks" data-val="on">On</button><button type="button" data-set="marks" data-val="off">Off</button></div>
+    <div class="sb-grp" role="group" aria-label="Motion"><span class="sb-lab" title="Calm: the headline rises once, the timeline bars draw once, sections fade in. Off: nothing moves.">Motion</span>
+      <button type="button" data-set="motion" data-val="calm">Calm</button><button type="button" data-set="motion" data-val="off">Off</button></div>
+    <div class="sb-grp"><button type="button" id="replay" title="Redraw the screen from the top, to see the motion again">Replay</button></div>
+    <span class="sb-note">One version. Hover the labels for what each switch does.</span>
+  </div>
+</header>
+
+<main class="stage">
+  <div class="frame" id="frame"><div class="app" id="app"></div></div>
+</main>
+
+<script>
+(() => {
+  const PF = window.PF;
+  /* Role names are never translated and are always written the same way: Frontend Developer, Full-Stack Developer.
+     Content fixes to make in src/content when porting (REDESIGN.md §7). */
+  const fixRoles = (v) => typeof v === "string" ? v.replace(/Full-stack Developer/g, "Full-Stack Developer").replace(/developer frontend/g, "frontend developer")
+    : Array.isArray(v) ? v.map(fixRoles) : v && typeof v === "object" ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, fixRoles(x)])) : v;
+  PF.i18n = fixRoles(PF.i18n);
+  const store = {
+    get(k, d) { try { const v = JSON.parse(localStorage.getItem("pfstudy2:" + k)); return v ?? d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem("pfstudy2:" + k, JSON.stringify(v)); } catch (e) {} },
+  };
+
+  const SCREENS = [["home", "Home"], ["projects", "Projects"], ["project", "Project"], ["timeline", "Timeline"], ["about", "About"]];
+  const PAGES = ["home", "projects", "project", "timeline", "about", "record"];
+  const SCENARIOS = [["uparque", "Uparque · finished"], ["voydex", "Voydex · in progress"], ["lifeflow", "Lifeflow · no images yet"]];
+
+  const S = {
+    frame: store.get("frame", "desktop"), theme: store.get("theme", "light"), lang: store.get("lang", "en"),
+    screen: store.get("screen", "home"), project: store.get("project", "uparque"), record: store.get("record", "exp-aquasis"),
+    marks: store.get("marks", "on"), motion: store.get("motion", "calm"),
+    menu: false, ptype: "all", tcat: "all", tq: "", tsort: "newest", ttechs: [], ttypes: [], tnow: [],
+  };
+  if (!PAGES.includes(S.screen)) S.screen = "home";
+  if (!["desktop", "mobile"].includes(S.frame)) S.frame = "desktop";
+
+  /* Links into the study: #screen.frame[.menu], e.g. #timeline.mobile */
+  const readHash = () => {
+    const h = location.hash.slice(1).split(".");
+    if (PAGES.includes(h[0])) S.screen = h[0];
+    if (["desktop", "mobile"].includes(h[1])) S.frame = h[1];
+    S.menu = h[2] === "menu";
+  };
+  readHash();
+  /* One-shot overrides for sharing an exact state, e.g. ?theme=dark&project=voydex#project.desktop */
+  const q = new URLSearchParams(location.search);
+  const ONE_OF = { theme: ["light", "dark"], lang: ["en", "pt"], marks: ["on", "off"], motion: ["calm", "off"] };
+  Object.entries(ONE_OF).forEach(([k, vals]) => { if (vals.includes(q.get(k))) S[k] = q.get(k); });
+  if (q.get("project")) S.project = q.get("project");
+  if (q.get("record")) S.record = q.get("record");
+
+  /* Study-only copy: strings the site needs once this version is ported */
+  const COPY = {
+    en: { projectsIntro: "Client work, my own products and experiments, and the early work where it all started.", madeBy: "Designed and built by", updated: "Last updated", thesis: "Master's thesis", copied: "Copied", stack: "Main stack", since: "Since", also: "Also", frontendSince: "Frontend since", showResults: "Show {n} results", showResult: "Show 1 result", noResults: "No results", currentOnly: "Current only", currentHint: "My current job and projects in progress", techFrontend: "Frontend", techBackend: "Backend & data", techTools: "Tools & process", techArchitecture: "Architecture", techOther: "Other" },
+    pt: { projectsIntro: "Trabalho para clientes, os meus produtos e experiências, e os primeiros trabalhos onde tudo começou.", madeBy: "Desenhado e construído por", updated: "Última atualização", thesis: "Tese de mestrado", copied: "Copiado", stack: "Stack principal", since: "Desde", also: "Também", frontendSince: "Frontend desde", showResults: "Mostrar {n} resultados", showResult: "Mostrar 1 resultado", noResults: "Sem resultados", currentOnly: "Apenas o atual", currentHint: "O meu trabalho atual e projetos em curso", techFrontend: "Frontend", techBackend: "Backend e dados", techTools: "Ferramentas e processo", techArchitecture: "Arquitetura", techOther: "Outros" },
+  };
+  const C = (k) => COPY[S.lang][k];
+  /* Timeline chart: short labels where the full organisation or role is cut (the list below keeps the full names).
+     [organisation, role, organisation on phones] */
+  /* Scope points with a short title each (the title taken from the point; the sentence keeps the rest). Port into the
+     records' detail content. */
+  const SCOPE = {"en": {"exp-aquasis": [["Core team", "One of the main frontend developers on Aquaworks, Aquasis' platform for water supply, wastewater and waste management."], ["Design reference", "The team's reference for interface decisions: I design screens, review UI work and help colleagues with frontend questions."], ["Frontend ownership", "Refactoring old code, building new features, optimizing workflows and connecting screens to the backend, all tested by hand."], ["Clients and .NET", "Working closely with clients on newer modules like Laboratory and Maintenance Plans, and taking first steps with .NET."]], "exp-talent-protocol": [["Frontend ownership", "The main frontend developer, working closely with the CTO across products like Talent Passport and Build.top."], ["Features", "New features and better flows in products that help builders show what they ship and grow their reputation."], ["Design to code", "Turning Figma designs into production interfaces, as on Build.top, a builder discovery and nomination product."], ["Quality", "Fixing bugs and testing the apps by hand, plus small backend fixes across company projects when needed."]], "exp-subvisual": [["Frontend", "Contributing mainly to frontend development as a Full-Stack Developer Apprentice in a professional team."], ["Agile team", "Working in an agile team alongside experienced engineers, and taking part in team discussions."], ["Modern workflows", "Hands-on experience with full-stack workflows and modern engineering practices, on projects like Wordlechain and Talio."], ["Code reviews", "Code reviews and collaborative delivery, a key step in moving from architecture into software engineering."]], "exp-crespassos": [["Design", "Architectural design and project development for homes, warehouses, commercial and medical buildings, and urban-scale projects."], ["Documentation", "Technical documentation and drawings in Revit and AutoCAD, plus presentation materials for clients."], ["Clients", "Talking with clients and balancing their needs with the design and the documentation."], ["Coordination", "Coordinating projects and leading a small team of student interns."]], "edu-faul": [["Design", "Spatial design, urban context and architectural systems: the design foundation I still use in software."], ["Process", "Developing projects through constraints, iteration and critique, and thinking through the experience before building."], ["Communication", "Visual communication, technical drawings and presentations, and organizing complex information clearly."], ["Research", "A master's thesis on what architecture can learn from video games, game spaces and player experience."]], "edu-ironhack": [["Stack", "Fundamentals of JavaScript, React, Node.js, Express and MongoDB, from the frontend to the backend and databases."], ["Remote", "A fully remote, English-language bootcamp built around short learning cycles."], ["Projects", "Three modules, each ending in a project: a browser game, a React app and a full-stack app."], ["Iteration", "Fast iteration through demos and feedback; the projects later became the base for revamped portfolio apps."]]}, "pt": {"exp-aquasis": [["Equipa principal", "Um dos principais frontend developers no Aquaworks, a plataforma da Aquasis para gestão de água, saneamento e resíduos."], ["Referência de design", "A referência da equipa nas decisões de interface: desenho ecrãs, revejo trabalho de UI e ajudo colegas em questões de frontend."], ["Ownership frontend", "Refactoring de código antigo, novas funcionalidades, otimização de workflows e ligação dos ecrãs ao backend, tudo testado manualmente."], ["Clientes e .NET", "Trabalho próximo com clientes em módulos novos como Laboratório e Planos de Manutenção, e os primeiros passos com .NET."]], "exp-talent-protocol": [["Ownership frontend", "O principal frontend developer, a trabalhar de perto com o CTO em produtos como o Talent Passport e o Build.top."], ["Funcionalidades", "Novas funcionalidades e melhores flows em produtos que ajudam builders a mostrar o que constroem e a crescer a sua reputação."], ["Do design ao código", "Transformar designs de Figma em interfaces de produção, como no Build.top, um produto de descoberta e nomeação de builders."], ["Qualidade", "Correção de bugs e testes manuais das apps, além de pequenas correções de backend nos projetos da empresa quando necessário."]], "exp-subvisual": [["Frontend", "Contribuição sobretudo para o frontend, como Full-Stack Developer Apprentice numa equipa profissional."], ["Equipa ágil", "Trabalho numa equipa ágil, ao lado de engenheiros experientes, e participação nas discussões de equipa."], ["Workflows modernos", "Experiência prática com workflows full-stack e práticas modernas de engenharia, em projetos como o Wordlechain e o Talio."], ["Code reviews", "Code reviews e entrega colaborativa, um passo importante na mudança da arquitetura para a engenharia de software."]], "exp-crespassos": [["Projeto", "Design arquitetónico e desenvolvimento de projeto em habitação, armazéns, edifícios comerciais e clínicos, e projetos à escala urbana."], ["Documentação", "Documentação técnica e desenhos em Revit e AutoCAD, e materiais de apresentação para clientes."], ["Clientes", "Comunicação com clientes, equilibrando as suas necessidades com o design e a documentação."], ["Coordenação", "Coordenação de projetos e liderança de uma pequena equipa de estagiários."]], "edu-faul": [["Design", "Design espacial, contexto urbano e sistemas arquitetónicos: a base de design que ainda uso em software."], ["Processo", "Desenvolvimento de projeto através de constraints, iteração e crítica, pensando na experiência antes de construir."], ["Comunicação", "Comunicação visual, desenho técnico e apresentações, e organização clara de informação complexa."], ["Investigação", "Uma tese de mestrado sobre o que a arquitetura pode aprender com os videojogos, os espaços de jogo e a experiência do jogador."]], "edu-ironhack": [["Stack", "Fundamentos de JavaScript, React, Node.js, Express e MongoDB, do frontend ao backend e às bases de dados."], ["Remoto", "Um bootcamp totalmente remoto e em inglês, organizado em ciclos curtos de aprendizagem."], ["Projetos", "Três módulos, cada um com o seu projeto: um jogo no browser, uma app React e uma app full-stack."], ["Iteração", "Iteração rápida através de demos e feedback; os projetos serviram depois de base para apps de portfólio renovadas."]]}};
+  const CHART_LABELS = {
+    en: { "edu-faul": ["University of Lisbon", "Architecture", "ULisboa"], "edu-ironhack": ["Ironhack", "Full-Stack Bootcamp"], "exp-subvisual": ["Subvisual", "Full-Stack Apprentice"] },
+    pt: { "edu-faul": ["Universidade de Lisboa", "Arquitetura", "ULisboa"], "edu-ironhack": ["Ironhack", "Full-Stack Bootcamp"], "exp-subvisual": ["Subvisual", "Full-Stack Apprentice"] },
+  };
+  /* Home hero: frontend first, architect as the second line */
+  const HERO = {
+    en: { line1: "Frontend developer", line2: "& architect.", lead: ["I work mainly with React, Next.js and TypeScript.", "My background in architecture makes me care a lot about structure and design.", "Currently at Aquasis, in Lisbon, and available for freelance."] },
+    pt: { line1: "Frontend developer", line2: "& arquiteto.", lead: ["Trabalho sobretudo com React, Next.js e TypeScript.", "A minha formação em arquitetura faz-me dar muita atenção à estrutura e ao design.", "Atualmente na Aquasis, em Lisboa, e disponível para freelance."] },
+  };
+  const heroCopy = () => HERO[S.lang];
+
+  /* ---------- i18n ---------- */
+  /* Proposed copy (2026-09-29): frontend first, architecture as background. Overrides the site's dictionary;
+     REDESIGN.md §7 lists these for ui.ts. */
+  const COPY_OVERRIDES = {
+    en: {
+      "home.hero.line1": "Frontend developer.",
+      "home.hero.line2": "Interfaces built to last.",
+      "home.hero.lead": "I build web interfaces that are clear to use and easy to maintain, with an architect's eye for structure. Right now I work on Aquaworks at Aquasis, operational software for water, wastewater and waste management.",
+      "project.type.client": "Client",
+      "project.type.personal": "Personal",
+      "project.type.learning": "Learning",
+      "projects.typeHint.client": "Built for clients.",
+      "projects.typeHint.personal": "My own products and experiments.",
+      "projects.typeHint.learning": "My early work, from when I was learning.",
+      "contact.body": "I'm available for freelance projects: websites, web apps and interfaces. The quickest way to reach me is email.",
+      "projects.title": "From first idea to shipped product.",
+      "project.placeholder.planned": "In planning",
+      "project.placeholder.none": "No screenshots yet",
+      "timeline.title": "The path so far.",
+      "timeline.subtitle": "Studies, work, projects and certifications on one timeline, from my first degree to today.",
+      "timeline.noResults": "Nothing matches these filters.",
+      "about.intro": "A frontend developer with a background in architecture and an interest in UX and UI.",
+      "about.story.title": "How I got into frontend.",
+      "about.story.software.title": "Frontend",
+      "about.story.practice.title": "Architect",
+      "about.bio": "I'm based in Lisbon and have been building for the web since 2023, mostly with React, Next.js and TypeScript.\n\nBefore that I was an architect, and I wrote my master's thesis on architecture and video games. Games stuck with me: several of my own projects are game companions, like Voydex, a Pokémon companion I'm building now. The rest are mostly small trackers for things I care about, from concerts to finances.",
+      "about.story.software.body": "Full-stack roles at Subvisual and Talent Protocol, then frontend at Aquasis, with client and personal projects along the way.",
+      "home.method.title": "How I work.",
+      "home.method.intro": "Four principles behind everything I build.",
+      "home.method.design.title": "Design",
+      "home.method.design.body": "I pay attention to hierarchy, spacing and states, so screens are easy to read.",
+      "home.method.structure.title": "Structure",
+      "home.method.structure.body": "I plan components and layouts before building, so new features are easier to add.",
+      "home.method.access.title": "Accessibility",
+      "home.method.access.body": "I use semantic HTML, keyboard support and good contrast, and test on different screen sizes.",
+      "home.method.longevity.title": "Longevity",
+      "home.method.longevity.body": "I write typed, readable code and tidy up as I go, so it stays easy to change.",
+      "footer.note": "Frontend developer and former architect, based in Lisbon."
+    },
+    pt: {
+      "home.hero.line1": "Frontend developer.",
+      "home.hero.line2": "Interfaces feitas para durar.",
+      "home.hero.lead": "Construo interfaces web claras de usar e fáceis de manter, com um olhar de arquiteto para a estrutura. Neste momento trabalho no Aquaworks, na Aquasis: software operacional para a gestão de água, saneamento e resíduos.",
+      "project.type.client": "Cliente",
+      "project.type.personal": "Pessoal",
+      "project.type.learning": "Aprendizagem",
+      "projects.typeHint.client": "Feitos para clientes.",
+      "projects.typeHint.personal": "Os meus produtos e experiências.",
+      "projects.typeHint.learning": "Os meus primeiros trabalhos, de quando estava a aprender.",
+      "contact.body": "Estou disponível para projetos freelance: websites, aplicações web e interfaces. A forma mais rápida de me contactar é por email.",
+      "projects.title": "Da primeira ideia ao produto final.",
+      "project.placeholder.planned": "Em planeamento",
+      "project.placeholder.none": "Ainda sem imagens",
+      "timeline.title": "O percurso até aqui.",
+      "timeline.subtitle": "Estudos, trabalho, projetos e certificações numa só linha do tempo, da primeira formação até hoje.",
+      "timeline.noResults": "Nada corresponde a estes filtros.",
+      "about.intro": "Um frontend developer com formação em arquitetura e interesse por UX e UI.",
+      "about.story.title": "Como cheguei ao frontend.",
+      "about.story.software.title": "Frontend",
+      "about.story.practice.title": "Arquiteto",
+      "about.bio": "Vivo em Lisboa e construo para a web desde 2023, sobretudo com React, Next.js e TypeScript.\n\nAntes disso fui arquiteto, e a minha tese de mestrado foi sobre arquitetura e videojogos. Os jogos ficaram comigo: vários dos meus projetos são companions de jogos, como o Voydex, um companion de Pokémon que estou a construir agora. Os outros são sobretudo pequenos trackers para coisas de que gosto, de concertos a finanças.",
+      "about.story.software.body": "Funções full-stack na Subvisual e na Talent Protocol, depois frontend na Aquasis, com projetos pessoais e de clientes pelo caminho.",
+      "home.method.title": "Como trabalho.",
+      "home.method.intro": "Quatro princípios por trás de tudo o que construo.",
+      "home.method.design.title": "Design",
+      "home.method.design.body": "Dou atenção à hierarquia, ao espaçamento e aos estados, para que os ecrãs sejam fáceis de ler.",
+      "home.method.structure.title": "Estrutura",
+      "home.method.structure.body": "Planeio componentes e layouts antes de construir, para que seja mais fácil acrescentar funcionalidades.",
+      "home.method.access.title": "Acessibilidade",
+      "home.method.access.body": "Uso HTML semântico, suporte de teclado e bom contraste, e testo em vários tamanhos de ecrã.",
+      "home.method.longevity.title": "Longevidade",
+      "home.method.longevity.body": "Escrevo código tipado e legível e arrumo à medida que avanço, para que continue fácil de alterar.",
+      "footer.note": "Frontend developer e ex-arquiteto, baseado em Lisboa."
+    },
+  };
+  const T = (k) => { const v = COPY_OVERRIDES[S.lang][k] ?? PF.i18n[S.lang][k] ?? PF.i18n.en[k]; return typeof v === "string" ? v : k; };
+  const TV = (k) => (k ? PF.i18n[S.lang][k] ?? PF.i18n.en[k] : undefined);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+  /* ---------- dates (content dates are UTC midnights) ---------- */
+  const NOW = new Date();
+  const D = (iso) => new Date(iso);
+  const LOC = { en: "en-US", pt: "pt-PT" };
+  const fmts = {};
+  /* Month and year are formatted apart: pt-PT turns a short month plus year into "01/2025" */
+  const monthName = (d, tz) => (fmts["m" + S.lang + tz] ??= new Intl.DateTimeFormat(LOC[S.lang], { month: "short", timeZone: tz })).format(d).replace(".", "");
+  const monthYear = (iso) => `${monthName(D(iso), "UTC")} ${D(iso).getUTCFullYear()}`;
+  const dayMonthYear = (d) => `${d.getDate()} ${monthName(d, undefined)} ${d.getFullYear()}`;
+  const yearOf = (iso) => D(iso).getUTCFullYear();
+  const monthsOf = (a, b) => { const s = D(a), e = b === null ? NOW : D(b ?? a); return Math.max(1, (e.getUTCFullYear() - s.getUTCFullYear()) * 12 + e.getUTCMonth() - s.getUTCMonth() + 1); };
+  const dur = (m) => { const y = Math.floor(m / 12), mo = m % 12, out = []; if (y) out.push(`${y} ${T(y === 1 ? "duration.year" : "duration.years")}`); if (mo || !y) out.push(`${mo} ${T(mo === 1 ? "duration.month" : "duration.months")}`); return out.join(" "); };
+
+  /* ---------- collections ---------- */
+  const endKey = (i) => (i.dateEnd === null ? Infinity : D(i.dateEnd ?? i.dateStart).getTime());
+  const newestFirst = (list) => [...list].sort((a, b) => D(b.dateStart) - D(a.dateStart) || endKey(b) - endKey(a) || a.id.localeCompare(b.id));
+  const oldestFirst = (list) => [...list].sort((a, b) => D(a.dateStart) - D(b.dateStart) || a.id.localeCompare(b.id));
+  const PROJECTS = PF.projects.filter((p) => p.visible !== false);
+  const projectsSorted = newestFirst(PROJECTS);
+  const featured = projectsSorted.filter((p) => p.featured);
+  const EXP = newestFirst(PF.experience), EDU = newestFirst(PF.education);
+  const ALL = [...PF.experience, ...PROJECTS, ...PF.education, ...PF.certifications];
+  const byId = (id) => ALL.find((i) => i.id === id);
+  const slugOf = (i) => i.id.replace(/^(exp|proj|edu|cert)-/, "");
+  const titleOf = (i) => (i.titleKey ? T(i.titleKey) : i.title);
+  const orgOf = (i) => (i.orgKey ? T(i.orgKey) : i.org);
+  const goOf = (i) => (i.category === "projects" ? `project:${slugOf(i)}` : i.hasDetailsPage ? `record:${i.id}` : null);
+  const ironhack = PF.education.find((e) => e.id === "edu-ironhack");
+  const faul = PF.education.find((e) => e.id === "edu-faul");
+  const transitionDate = D(ironhack.dateStart);
+  const archStart = D(oldestFirst(PF.education)[0].dateStart);
+  const img = (path, w = 1280) => "assets/" + path.replace(/^\/+/, "").replace(/\.(png|jpe?g)$/i, "") + "-" + w + ".webp";
+  const parents = (id) => [...PF.experience, ...PF.education].filter((r) => (r.showcaseItems || []).some((s) => s.itemId === id));
+
+  /* ---------- icons & marks ---------- */
+  const ICONS = {
+    right: '<path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5"/>', left: '<path d="M20 12H5M10.5 6.5 5 12l5.5 5.5"/>',
+    out: '<path d="M7 17 17 7M8.5 7H17v8.5"/>', down: '<path d="M12 4v15M6.5 13.5 12 19l5.5-5.5"/>', up: '<path d="M12 20V5M6.5 10.5 12 5l5.5 5.5"/>',
+    dl: '<g class="mv"><path d="M12 4v11M7 10.5l5 5 5-5"/></g><path d="M5 20h14"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/>',
+    moon: '<path d="M19.5 14.6A7.9 7.9 0 0 1 9.4 4.5a7.9 7.9 0 1 0 10.1 10.1Z"/>', menu: '<path d="M4 8.5h16M4 15.5h16"/>', x: '<path d="m6 6 12 12M18 6 6 18"/>',
+    copy: '<path d="M8.5 8.5h11v11h-11z"/><path d="M15.5 8.5v-4h-11v11h4"/>', search: '<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/>',
+    sliders: '<path d="M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4"/>', check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  };
+  /* Arrows sit in a <g class="mv"> so a hover can nudge the arrow the way it points while the icon box stays put
+     (the download tray stays still; only its arrow drops). */
+  const icon = (n, cls = "") => `<svg class="ico i-${n} ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n].includes('class="mv"') ? ICONS[n] : `<g class="mv">${ICONS[n]}</g>`}</svg>`;
+  const mono = () => `<svg class="mono-mark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" stroke-width="2.5"/><g fill="none" stroke-width="4" stroke-linecap="square"><path d="M13 22.5h13M19.5 22.5v19"/><path d="M47.78 25.89A9.5 9.5 0 1 0 50 32h-8"/></g></svg>`;
+  const statusSym = (s) => {
+    const box = '<rect x="0.5" y="0.5" width="11" height="11" fill="none" stroke="currentColor"/>';
+    const inner = s === "completed" ? '<rect x="0.5" y="0.5" width="11" height="11" fill="currentColor"/>'
+      : s === "in progress" ? box + '<path d="M0.5 7.5 7.5 0.5M0.5 11.5l11-11M4.5 11.5l7-7" stroke="currentColor"/>'
+      : s === "planned" ? '<rect x="0.5" y="0.5" width="11" height="11" fill="none" stroke="currentColor" stroke-dasharray="2.5 1.5"/>'
+      : box;
+    return `<svg viewBox="0 0 12 12" aria-hidden="true">${inner}</svg>`;
+  };
+  const statusMark = (s) => `<span class="an status ${s === "in progress" ? "running" : ""}">${statusSym(s)}${T("status." + s)}</span>`;
+  /* In lists only the exceptions are marked: finished work carries no label */
+  const listStatus = (s) => (s === "completed" ? "" : statusMark(s));
+  const glyph = (cat, status) => {
+    const outline = status === "planned" || status === "in progress";
+    const body = cat === "experience" ? '<rect x="1" y="1" width="10" height="10" fill="currentColor"/>'
+      : cat === "projects" ? `<circle cx="6" cy="6" r="5" fill="${outline ? "var(--bg)" : "currentColor"}" stroke="currentColor" ${status === "planned" ? 'stroke-dasharray="2 1.5"' : ""}/>${status === "in progress" ? '<path d="M2.5 9.5 9.5 2.5M1.3 6.9 6.9 1.3M5.1 10.7l5.6-5.6" stroke="currentColor" stroke-width="0.9"/>' : ""}`
+      : cat === "education" ? '<path d="M6 0.8 11.4 11H0.6Z" fill="var(--bg)" stroke="currentColor"/>'
+      : '<path d="M6 0.5 11.5 6 6 11.5 0.5 6Z" fill="var(--bg)" stroke="currentColor"/>';
+    return `<svg class="glyph" viewBox="0 0 12 12" aria-hidden="true">${body}</svg>`;
+  };
+  const crops = '<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>';
+  const sheet = (inner) => `<div class="sheet">${crops}<div class="sheet-frame">${inner}</div></div>`;
+  const dim = (label, { open = false, cls = "", labelCls = "" } = {}) =>
+    `<div class="dim ${cls}" aria-hidden="true"><span class="dim-line"></span><span class="dim-ext" style="left:0"></span><span class="dim-tick" style="left:0"></span>${open ? '<svg class="dim-arrow" viewBox="0 0 8 8"><path d="M0 0 8 4 0 8" fill="none" stroke="currentColor"/></svg>' : '<span class="dim-ext" style="left:100%"></span><span class="dim-tick" style="left:100%"></span>'}${label ? `<span class="dim-label ${labelCls}">${label}</span>` : ""}</div>`;
+  const stack = (techs) => (techs?.length ? `<ul class="stack">${techs.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "");
+  const chips = (techs) => `<ul class="chips">${techs.map((x) => `<li class="chip">${esc(x)}</li>`).join("")}</ul>`;
+  /* Entry pages: the stack as one row under the brief (label, then the tools), easier to scan than a wrapped column */
+  const stackRow = (techs) => `<div class="b-stack"><p class="an faint">${T("project.stack")}</p>${chips(techs)}</div>`;
+  const media = (p, idx = 0) => {
+    const src = p.images?.[idx];
+    if (src) return `<img src="${img(src)}" alt="" loading="lazy">`;
+    return `<div class="placeholder hatch"><span class="n">${esc(p.title)}</span><span class="an">${T(p.status === "planned" ? "project.placeholder.planned" : "project.placeholder.none")}</span></div>`;
+  };
+  const rich = (parts) => parts.map((p) => {
+    if (typeof p === "string") return esc(p);
+    const target = p.itemId && byId(p.itemId);
+    const inner = p.bold ? `<strong>${esc(p.text)}</strong>` : esc(p.text);
+    if (target && goOf(target)) return `<a class="lk ink" data-go="${goOf(target)}">${inner}</a>`;
+    if (p.href) return `<a class="lk ink" href="${esc(p.href)}" target="_blank" rel="noreferrer">${inner}</a>`;
+    return `<span class="ink">${inner}</span>`;
+  }).join("");
+  const leadOf = (item) => { const v = TV(item.detailKey); return v && typeof v === "object" ? v.lead || [] : []; };
+  const portrait = () => `<div class="portrait"><img src="assets/portrait/tg-1280.webp" alt="${esc(T("home.hero.portraitAlt"))}"></div>`;
+
+  /* ---------- hero grid (bubbles are lettered per width, like axes on a plan) ---------- */
+
+  /* ---------- shell ---------- */
+  const NAV = [
+    { screen: "projects", key: "nav.projects", on: ["projects", "project"] },
+    { screen: "timeline", key: "nav.timeline", on: ["timeline", "record"] },
+    { screen: "about", key: "nav.about", on: ["about"] },
+  ];
+  const langSwitch = () => `<div class="lang an">${["en", "pt"].map((l) => `<button type="button" data-lang="${l}" class="${S.lang === l ? "on" : ""}">${l}</button>`).join('<span class="sl">/</span>')}</div>`;
+  const header = () => `
+  <header class="hdr"><div class="wrap hdr-in">
+    <a class="brand" data-go="screen:home" aria-label="${T("nav.homeLabel")}">${mono()}<span class="brand-name">${esc(PF.person.name)}</span></a>
+    <nav class="nav" aria-label="${T("nav.label")}">${NAV.map((n) => `<a data-go="screen:${n.screen}" class="${n.on.includes(S.screen) ? "on" : ""}">${T(n.key)}</a>`).join("")}</nav>
+    <div class="hdr-tools">
+      ${langSwitch()}
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="${T(S.theme === "dark" ? "theme.toLight" : "theme.toDark")}">${icon(S.theme === "dark" ? "sun" : "moon")}</button>
+      <a class="btn sm hdr-contact" href="mailto:${esc(PF.person.email)}">${T("nav.contact")}</a>
+      <button type="button" class="an menu-btn" data-menu>${icon("menu")}${T("nav.menu")}</button>
+    </div>
+  </div></header>`;
+
+  const contactLinks = (email) => `<ul class="links">${email ? `<li><a class="lk" href="mailto:${esc(PF.person.email)}">${esc(PF.person.email)}</a></li>` : ""}${PF.person.socials.map((s) => `<li><a class="tl-link" href="${esc(s.href)}" target="_blank" rel="noreferrer"><span class="lk">${esc(s.label)}</span>${icon("out")}</a></li>`).join("")}<li><a class="tl-link" href="${esc(PF.person.resumeHref)}" target="_blank" rel="noreferrer"><span class="lk">${T("contact.cv")}</span>${icon("dl")}</a></li></ul>`;
+
+  const menu = () => !S.menu ? "" : `
+  <div class="menu"><div class="wrap">
+    <div class="menu-top"><span class="brand">${mono()}<span class="brand-name">${esc(PF.person.name)}</span></span><button type="button" class="an menu-btn" style="display:flex" data-menu>${icon("x")}${T("nav.close")}</button></div>
+    <ul class="menu-list">${[{ screen: "home", key: "nav.home", on: ["home"] }, ...NAV].map((n) => `<li><a data-go="screen:${n.screen}" class="heading ${n.on.includes(S.screen) ? "on" : ""}">${T(n.key)}</a></li>`).join("")}</ul>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:32px">${langSwitch().replace('class="lang an"', 'class="lang an" style="display:flex"')}<button type="button" class="icon-btn" data-theme-toggle>${icon(S.theme === "dark" ? "sun" : "moon")}</button></div>
+    <p class="an faint" style="margin-top:40px">${T("footer.contact")}</p>${contactLinks(true)}
+  </div></div>`;
+
+  const footer = () => `
+  <footer class="foot"><div class="wrap">
+    <div class="grid foot-top">
+      <div class="col m-4 l-6"><a class="foot-brand brand" data-go="screen:home">${mono()}<span class="subheading">${esc(PF.person.name)}</span></a><p class="foot-note">${T("footer.note")}</p></div>
+      <nav class="col s-2 m-2 l-3"><h4 class="an">${T("footer.index")}</h4><ul class="foot-links">${[{ screen: "home", key: "nav.home" }, ...NAV].map((n) => `<li><a class="ld" data-go="screen:${n.screen}">${T(n.key)}</a></li>`).join("")}</ul></nav>
+      <div class="col s-2 m-2 l-3"><h4 class="an">${T("footer.contact")}</h4>${contactLinks(true).replace('class="links"', 'class="links" style="margin-top:16px"')}</div>
+    </div>
+    <div class="foot-base"><span>© ${NOW.getFullYear()} ${esc(PF.person.name)} · ${C("updated")} ${dayMonthYear(NOW)}</span><a data-top class="tl-link">${T("common.backToTop")}${icon("up")}</a></div>
+  </div></footer>`;
+
+  /* Section head: the heading (with an optional eyebrow and intro) and an optional action on the right */
+  const secHead = (title, { eyebrow = "", intro = "", action = "" } = {}) => `
+    <header class="sec-head" data-reveal>
+      <div class="sec-title">${eyebrow ? `<p class="an sec-eyebrow">${eyebrow}</p>` : ""}<h2 class="heading">${title}</h2>${intro ? `<p class="lead sec-intro">${intro}</p>` : ""}</div>
+      ${action ? `<div class="sec-action">${action}</div>` : ""}
+    </header>`;
+  const secLink = (label, go) => `<a class="tl-link" data-go="${go}"><span class="lk">${label}</span>${icon("right")}</a>`;
+  const pageHead = (label, title, intro = "") => `
+    <header class="wrap page-head">
+      <p class="an eyebrow fade">${label}</p>
+      <h1 class="title"><span class="rise-mask"><span class="rise" style="--d:80ms">${title}</span></span></h1>
+      ${intro ? `<p class="lead intro fade" style="--d:260ms">${intro}</p>` : ""}
+    </header>`;
+
+  /* ═════════════ Home ═════════════ */
+  /* How I work (About): four principles, each with a line icon in the site's icon style */
+  const PRINCIPLES = {
+    design: '<path d="M5 18c1.5-7 12.5-7 14 0"/><path d="M5 18 8.5 7.5M19 18 15.5 7.5"/><rect x="3" y="16" width="4" height="4"/><rect x="17" y="16" width="4" height="4"/><circle cx="8.5" cy="6.5" r="1.2"/><circle cx="15.5" cy="6.5" r="1.2"/>',
+    structure: '<rect x="3" y="3" width="18" height="18"/><path d="M3 9h18M10 9v12M10 15h11"/>',
+    access: '<circle cx="12" cy="4.5" r="1.8"/><path d="M4 8.5l8 1.5 8-1.5M12 10v4.5M12 14.5 8.5 21M12 14.5l3.5 6.5"/>',
+    longevity: '<path d="M8 7 3 12l5 5M16 7l5 5-5 5M14 4l-4 16"/>',
+  };
+
+  const home = () => {
+    const hc = heroCopy();
+    const hero = `
+    <section class="band hero">
+      <div class="wrap grid hero-grid">
+        <div class="col m-5 l-7 hero-text">
+          <h1 class="hero-title"><span class="rise-mask"><span class="rise" style="--d:80ms">${esc(hc.line1)}</span></span><span class="rise-mask"><span class="rise faint" style="--d:180ms">${esc(hc.line2)}</span></span></h1>
+          <div class="hero-lead fade" style="--d:320ms">
+            <p class="lead muted">${hc.lead.map(esc).join(" ")}</p>
+            <div class="btns"><a class="btn" data-scroll="work">${T("home.hero.ctaWork")}${icon("down")}</a><a class="btn outline" href="${esc(PF.person.resumeHref)}" target="_blank" rel="noreferrer">${T("contact.cv")}${icon("dl")}</a></div>
+          </div>
+        </div>
+        <figure class="col s-3 m-3 ms-6 l-4 ls-9 hero-portrait fade" style="--d:200ms">${portrait()}</figure>
+      </div>
+    </section>`;
+
+    const first = D(Math.min(...EXP.map((r) => D(r.dateStart))));
+    const sStart = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth() - 2, 1));
+    const sc = scaleOf([[sStart, NOW]]);
+    const pct = (v) => (v * 100).toFixed(3) + "%";
+    const yrs = sc.ticks.map((t) => `<span class="yr" style="left:${pct(t.pos)}"></span>`).join("");
+    const rows = EXP.map((r) => {
+      const run = r.dateEnd === null, s = sc.pos(D(r.dateStart)), e = sc.pos(run ? NOW : D(r.dateEnd));
+      return `
+      <li data-reveal><a class="grid exp-row" data-go="record:${r.id}">
+        <div class="col m-2 l-3 exp-when an"><p class="muted">${monthYear(r.dateStart)} – ${run ? T("timeline.present") : monthYear(r.dateEnd)}</p><p class="faint">${dur(monthsOf(r.dateStart, r.dateEnd))}</p></div>
+        <div class="col m-3 l-4 exp-role"><h3 class="subheading">${esc(titleOf(r))}</h3><p>${esc(r.org)}</p></div>
+        <div class="col m-3 l-5 track">${yrs}<div class="bar" style="left:${pct(s)};width:${pct(Math.max(e - s, 0.012))}">${dim("", { open: run, cls: run ? "acc" : "muted" })}</div></div>
+      </a></li>`;
+    }).join("");
+
+    return `
+    ${hero}
+    <section id="work" class="band"><div class="wrap">
+      ${secHead(T("home.work.title"), { action: secLink(`${T("home.work.all")} (${PROJECTS.length})`, "screen:projects") })}
+      <ul class="cards three">${featured.map((p) => `<li data-reveal>${projectCard(p)}</li>`).join("")}</ul>
+    </div></section>
+    <section class="band"><div class="wrap">
+      ${secHead(T("home.experience.title"), { action: secLink(T("home.experience.timeline"), "screen:timeline") })}
+      <ol class="exp-list sec-body">${rows}</ol>
+      <div class="grid scale-row" aria-hidden="true"><div class="col m-3 ms-6 l-5 ls-8 scale an">${sc.ticks.map((t) => `<span style="left:${pct(t.pos)}">${t.year}</span>`).join("")}</div></div>
+    </div></section>
+    ${contact()}`;
+  };
+
+  const contact = () => `
+    <section class="band"><div class="wrap">
+      ${secHead(T("contact.title"), { intro: T("contact.body") })}
+      <div class="sec-body" data-reveal>
+        <div class="reach-mail"><a class="lk" href="mailto:${esc(PF.person.email)}">${esc(PF.person.email)}</a><button type="button" class="copy-btn">${icon("copy")}${T("contact.copy")}</button></div>
+        <ul class="reach-links">${PF.person.socials.map((s) => `<li><a class="tl-link" href="${esc(s.href)}" target="_blank" rel="noreferrer"><span class="lk">${esc(s.label)}</span>${icon("out")}</a></li>`).join("")}<li><a class="tl-link" href="${esc(PF.person.resumeHref)}" target="_blank" rel="noreferrer"><span class="lk">${T("contact.cv")}</span>${icon("dl")}</a></li></ul>
+      </div>
+    </div></section>`;
+
+  /* ═════════════ Projects ═════════════ */
+  /* Three kinds of project, by who it was for. The content's five types map onto them; the two client projects are
+     named (Lifeflow is typed "product" but is a personal project) */
+  const TYPES = ["client", "personal", "learning"];
+  const CLIENT = new Set(["proj-uparque", "proj-onesbryne"]);
+  const kindOf = (p) => (CLIENT.has(p.id) ? "client" : p.type === "early-work" ? "learning" : "personal");
+  const projectCard = (p) => `
+    <article class="card group">
+      ${sheet(media(p))}
+      <p class="an meta card-meta"><span>${yearOf(p.dateStart)}</span><span>${T("project.type." + kindOf(p))}</span>${listStatus(p.status)}</p>
+      <h3 class="subheading"><a data-go="project:${slugOf(p)}">${esc(p.title)}</a></h3>
+      <p class="sub">${esc(T(p.subjectKey))}</p>
+    </article>`;
+  const projects = () => {
+    const list = S.ptype === "all" ? projectsSorted : projectsSorted.filter((p) => kindOf(p) === S.ptype);
+    const opts = [["all", T("timeline.all"), PROJECTS.length], ...TYPES.map((t) => [t, T("project.type." + t), PROJECTS.filter((p) => kindOf(p) === t).length]).filter((o) => o[2] > 0)];
+    return `
+    <section class="band">${pageHead(T("nav.projects"), T("projects.title"), C("projectsIntro"))}</section>
+    <section class="band"><div class="wrap">
+      <div class="ptabs-row">
+        <div class="tabs" role="group">${opts.map(([v, l, n]) => `<button type="button" data-ptype="${v}" class="${S.ptype === v ? "on" : ""}">${l}<span class="an num">${n}</span></button>`).join("")}</div>
+        ${S.ptype !== "all" ? `<p class="an ptype-hint">${T("projects.typeHint." + S.ptype)}</p>` : ""}
+      </div>
+      <ul class="cards">${list.map((p) => `<li data-reveal>${projectCard(p)}</li>`).join("")}</ul>
+    </div></section>`;
+  };
+
+  /* ═════════════ Project ═════════════ */
+  const currentProject = () => PROJECTS.find((p) => slugOf(p) === S.project) || projectsSorted[0];
+  const project = () => {
+    const p = currentProject();
+    const i = projectsSorted.indexOf(p), n = projectsSorted.length;
+    const prev = projectsSorted[(i - 1 + n) % n], next = projectsSorted[(i + 1) % n];
+    const par = parents(p.id);
+    const imgs = p.images || [];
+    const spec = (l, v) => `<div><dt class="an">${l}</dt><dd>${v}</dd></div>`;
+    const lead = leadOf(p);
+    return `
+    <article>
+      <section class="band"><header class="wrap">
+        <nav class="an crumb fade"><a data-go="screen:projects">${T("nav.projects")}</a><span>/</span><span class="here">${esc(p.title)}</span></nav>
+        <div class="grid p-title">
+          <div class="col m-5 l-8"><h1 class="title"><span class="rise-mask"><span class="rise" style="--d:60ms">${esc(p.title)}</span></span></h1><p class="lead sub fade" style="--d:220ms">${esc(T(p.subjectKey))}</p></div>
+          <div class="col m-3 l-4 p-actions fade" style="--d:320ms">${p.link ? `<a class="btn" href="${esc(p.link)}" target="_blank" rel="noreferrer">${T("project.visit")}${icon("out")}</a>` : ""}${p.repo ? `<a class="btn outline" href="${esc(p.repo)}" target="_blank" rel="noreferrer">${T("project.repo")}${icon("out")}</a>` : ""}</div>
+        </div>
+        <dl class="specs p-specs fade" style="--d:360ms">
+          ${spec(T("project.started"), monthYear(p.dateStart))}
+          ${spec(T("project.status"), statusMark(p.status))}
+          ${spec(T("project.typeLabel"), T("project.type." + kindOf(p)))}
+          ${spec(T("project.context"), par.length ? par.map((r) => `<a class="lk" data-go="${goOf(r)}">${esc(orgOf(r))}</a>`).join(" ") : T("project.personal"))}
+        </dl>
+      </header>
+      <figure class="wrap p-hero ${imgs.length ? "group" : ""} fade" style="--d:400ms">${sheet(media(p))}</figure></section>
+      <section class="band">
+      <section class="wrap"><div class="grid part p-brief" data-reveal>
+        <h2 class="an col l-3 rail-label">${T("project.brief")}</h2>
+        <div class="col m-8 l-9">${lead.length ? lead.map((para) => `<p class="lead">${rich(para)}</p>`).join("") : `<p class="lead">${esc(T(p.summaryKey))}</p>`}${stackRow(p.techs)}</div>
+      </div></section>
+      ${(p.showcaseItems || []).length ? `<section class="wrap"><div class="grid part" data-reveal><h2 class="an col l-3 rail-label">${T("project.collection")}</h2><ul class="col l-9 show">${p.showcaseItems.map((s) => `<li><a class="in" href="${esc(s.href)}" target="_blank" rel="noreferrer"><div class="top"><h3 class="subheading">${esc(s.label)}</h3>${icon("out")}</div>${stack(s.techs)}</a></li>`).join("")}</ul></div></section>` : ""}
+      ${imgs.length > 1 ? `<section class="wrap"><div class="grid part"><h2 class="an col l-3 rail-label">${T("project.figures")}</h2><ul class="col l-9 figs">${imgs.slice(1).map((src) => `<li data-reveal><figure class="group">${sheet(`<img src="${img(src)}" alt="" loading="lazy">`)}</figure></li>`).join("")}</ul></div></section>` : ""}
+      </section>
+      <section class="band pager-band"><nav class="pager">
+        <a data-go="project:${slugOf(prev)}"><span class="an">${icon("left")}${T("common.previous")}</span><span class="heading">${esc(prev.title)}</span><span class="sub">${esc(T(prev.subjectKey))}</span></a>
+        <a class="end" data-go="project:${slugOf(next)}"><span class="an">${T("common.next")}${icon("right")}</span><span class="heading">${esc(next.title)}</span><span class="sub">${esc(T(next.subjectKey))}</span></a>
+      </nav></section>
+    </article>`;
+  };
+
+  /* ═════════════ Timeline ═════════════ */
+  const scaleOf = (segs, gap = 0.04) => {
+    const spans = segs.map(([a, b]) => ({ s: a.getTime(), e: b.getTime() }));
+    const total = spans.reduce((t, x) => t + (x.e - x.s), 0), draw = 1 - (spans.length - 1) * gap;
+    const off = []; let c = 0; spans.forEach((x) => { off.push(c); c += ((x.e - x.s) / total) * draw + gap; });
+    const pos = (d) => { const t = d.getTime(); for (let i = 0; i < spans.length; i++) { if (t < spans[i].s) return i === 0 ? 0 : off[i] - gap / 2; if (t <= spans[i].e) return off[i] + ((t - spans[i].s) / total) * draw; } return 1; };
+    const ticks = []; spans.forEach((x) => { for (let y = new Date(x.s).getUTCFullYear(); y <= new Date(x.e).getUTCFullYear(); y++) { const t = Date.UTC(y, 0, 1); if (t >= x.s && t <= x.e) ticks.push({ year: y, pos: pos(new Date(t)) }); } });
+    return { pos, ticks, breaks: off.slice(1).map((o) => o - gap / 2), gap };
+  };
+  const chart = () => {
+    const utc = (y, m) => new Date(Date.UTC(y, m, 1));
+    const st = utc(archStart.getUTCFullYear(), archStart.getUTCMonth());
+    const sc = scaleOf([[st, utc(st.getUTCFullYear() + 1, 5)], [utc(2022, 0), utc(NOW.getUTCFullYear(), NOW.getUTCMonth() + 3)]]);
+    const pct = (v) => (v * 100).toFixed(3) + "%";
+    const tr = sc.pos(transitionDate), today = sc.pos(NOW);
+    const rows = oldestFirst([...PF.education, ...PF.experience]);
+    const pack = (list) => { const ends = []; return oldestFirst(list).map((it) => { const p = sc.pos(D(it.dateStart)); let lane = ends.findIndex((e) => p - e >= 0.018); if (lane < 0) lane = ends.length; ends[lane] = p; return { it, p, lane }; }); };
+    const lanes = (m) => Math.max(1, ...m.map((x) => x.lane + 1)) * 16 + 22;
+    const pm = pack(PROJECTS), cm = pack(PF.certifications);
+    const markers = (list) => list.map(({ it, p, lane }) => `<a class="mk" ${goOf(it) ? `data-go="${goOf(it)}"` : it.link ? `href="${esc(it.link)}" target="_blank" rel="noreferrer"` : ""} style="left:${pct(p)};top:${11 + lane * 16}px">${glyph(it.category, it.status)}<span class="an tip">${esc(titleOf(it))} · ${monthYear(it.dateStart)}</span></a>`).join("");
+    const label = (g, t, m, full = t, narrow) => `<div class="lab">${g}<span class="lab-w"><span class="lab-t" title="${esc(full)}">${narrow ? `<span class="wide">${esc(t)}</span><span class="narrow">${esc(narrow)}</span>` : esc(t)}</span>${m ? `<span class="an lab-m">${esc(m)}</span>` : ""}</span></div>`;
+    const brk = sc.breaks.map((b) => `<div class="brk" style="left:${pct(b - sc.gap / 2)};width:${pct(sc.gap)}">${["l", "r"].map((s) => `<svg class="${s}" viewBox="0 0 12 100" preserveAspectRatio="none"><path d="M6 0V46L1 48.5 11 51.5 6 54V100" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>`).join("")}</div>`).join("");
+    return `
+    <figure class="chart-fig"><div class="chart-scroll"><div class="chart" data-reveal>
+      <div class="crow"><div></div><div class="area" style="height:56px">
+        <div class="era muted" style="left:0;width:${pct(tr)}">${dim(`${T("timeline.chart.architecture")} · ${st.getUTCFullYear()}–${transitionDate.getUTCFullYear()}`)}</div>
+        <div class="era acc" style="left:${pct(tr)};width:${pct(today - tr)}">${dim(`${T("timeline.chart.software")} · ${transitionDate.getUTCFullYear()}–${T("timeline.chart.today")}`, { open: true, labelCls: "acc" })}</div>
+      </div></div>
+      <div class="cbody">
+        <div class="cover">${sc.ticks.map((t) => `<span class="guide" style="left:${pct(t.pos)}"></span>`).join("")}<span class="guide tr" style="left:${pct(tr)}"></span><span class="guide today" style="left:${pct(today)}"></span>${brk}</div>
+        ${rows.map((r, k) => { const s = sc.pos(D(r.dateStart)), e = sc.pos(r.dateEnd === null ? NOW : D(r.dateEnd)); return `<a class="rrow" data-go="${goOf(r)}"><div class="crow">${(([o, m, n] = CHART_LABELS[S.lang][r.id] || [orgOf(r) || titleOf(r), titleOf(r)]) => label(glyph(r.category), o, m, `${orgOf(r) || titleOf(r)} · ${titleOf(r)}`, n))()}<div class="area"><span class="cbar ${r.category === "education" ? "edu" : ""} ${r.dateEnd === null ? "run" : ""}" style="left:${pct(s)};width:${pct(Math.max(e - s, 0.006))};--bd:${150 + k * 110}ms"></span></div></div></a>`; }).join("")}
+        <div class="crow" style="border-top:1px solid var(--line)">${label(glyph("projects"), T("section.projects"), `${PROJECTS.length} ${T("timeline.chart.entries")}`)}<div class="area" style="height:${lanes(pm)}px">${markers(pm)}</div></div>
+        <div class="crow" style="border-top:1px solid var(--line);border-bottom:1px solid var(--line)">${label(glyph("certifications"), T("section.certifications"), `${PF.certifications.length} ${T("timeline.chart.entries")}`)}<div class="area" style="height:${lanes(cm)}px">${markers(cm)}</div></div>
+      </div>
+      <div class="crow"><div></div><div class="area ticks">
+        <span class="an first" style="left:0">${st.getUTCFullYear()}</span>${sc.ticks.filter((t) => t.pos > 0.1).map((t) => `<span class="an" style="left:${pct(t.pos)}">${t.year}</span>`).join("")}
+        <span class="an low acc" style="left:${pct(tr)}">${T("timeline.chart.transition")}</span><span class="an low ink" style="left:${pct(today)}">${T("timeline.chart.today")}</span>
+      </div></div>
+    </div></div></figure>
+    <div class="an legend" data-reveal>
+      <ul><li><span class="sw"></span>${T("timeline.legend.experience")}</li><li><span class="sw edu"></span>${T("timeline.legend.education")}</li></ul>
+      <ul>${["projects", "certifications"].map((c) => `<li>${glyph(c)}${T("timeline.legend." + c)}</li>`).join("")}</ul>
+      <ul>${["in progress", "planned"].map((s) => `<li>${glyph("projects", s)}${T("status." + s)}</li>`).join("")}</ul>
+    </div>`;
+  };
+  const STOP = new Set(["a", "an", "and", "as", "the", "to", "of", "in", "for", "with", "e", "de", "do", "da", "em", "o", "os", "para", "com"]);
+  const matches = (it, f = S) => {
+    const toks = S.tq.trim().toLowerCase().split(/\s+/).filter((x) => x && !STOP.has(x));
+    if (toks.length) {
+      const hay = [titleOf(it), orgOf(it), it.summaryKey && T(it.summaryKey), T("section." + it.category), it.status, it.status && T("status." + it.status), yearOf(it.dateStart), it.dateEnd === null ? NOW.getUTCFullYear() : it.dateEnd && yearOf(it.dateEnd), ...it.techs, it.category === "projects" && T("project.type." + kindOf(it)), it.scope && T("project.scope." + it.scope)].filter(Boolean).join(" ").toLowerCase();
+      if (!toks.every((x) => hay.includes(x))) return false;
+    }
+    if (f.ttechs.length && !f.ttechs.every((x) => it.techs.includes(x))) return false;
+    if (f.ttypes.length && !(it.category === "projects" && f.ttypes.includes(kindOf(it)))) return false;
+    /* "Current": the job with no end date and projects in progress (planned ones aren't current) */
+    if (f.tnow.length && !(it.dateEnd === null || it.status === "in progress")) return false;
+    return true;
+  };
+  const entry = (it) => {
+    const go = goOf(it), ext = !go && it.link;
+    const range = it.dateEnd !== undefined, start = monthYear(it.dateStart);
+    const end = it.dateEnd === null ? T("timeline.present") : it.dateEnd ? monthYear(it.dateEnd) : null;
+    const title = go ? `<a data-go="${go}">${esc(titleOf(it))}</a>` : ext ? `<a href="${esc(it.link)}" target="_blank" rel="noreferrer">${esc(titleOf(it))}</a>` : esc(titleOf(it));
+    return `
+      <li class="tgrid entry">
+        <div class="e-spine" aria-hidden="true"><span class="gl">${glyph(it.category, it.status)}</span></div>
+        <p class="an e-date"><span class="nw">${start}</span>${end && end !== start ? ` – <span class="end nw">${end}</span>` : ""}${range ? `<span class="d">${dur(monthsOf(it.dateStart, it.dateEnd))}</span>` : ""}</p>
+        <div class="e-body"><h3 class="subheading">${title}</h3>${orgOf(it) ? `<p class="org">${esc(orgOf(it))}</p>` : ""}${it.summaryKey ? `<p class="sum">${esc(T(it.summaryKey))}</p>` : ""}${stack(it.techs)}</div>
+        <div class="an e-meta">${it.category === "projects" ? listStatus(it.status) : "<span></span>"}${go || ext ? icon(go ? "right" : "out") : ""}</div>
+      </li>`;
+  };
+  const timelineList = () => {
+    const m = ALL.filter((it) => matches(it));
+    const vis = S.tcat === "all" ? m : m.filter((x) => x.category === S.tcat);
+    const sorted = newestFirst(vis); if (S.tsort === "oldest") sorted.reverse();
+    const groups = []; sorted.forEach((it) => { const y = yearOf(it.dateStart), g = groups[groups.length - 1]; if (g && g.y === y) g.items.push(it); else groups.push({ y, items: [it] }); });
+    if (!groups.length) return `<div class="empty hatch"><p>${T("timeline.noResults")}</p></div>`;
+    return `<ol>${groups.map((g, gi) => `<li><div class="tgrid level">${gi ? '<span class="l-spine" aria-hidden="true"></span>' : ""}<h2 class="heading num">${g.y}</h2><div class="an datum"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0.5 0.5h13L7 9.5Z" fill="var(--bg)" stroke="currentColor"/><path d="M7 0.5h6.5L7 9.5Z" fill="currentColor"/></svg>${g.items.length} ${T(g.items.length === 1 ? "timeline.entry" : "timeline.entries")}</div></div><ol>${g.items.map(entry).join("")}</ol></li>`).join("")}</ol>`;
+  };
+  const timelineCounts = () => { const m = ALL.filter((it) => matches(it)), c = { all: m.length }; ["experience", "projects", "education", "certifications"].forEach((k) => (c[k] = m.filter((x) => x.category === k).length)); return c; };
+  const timelineTabs = () => { const c = timelineCounts(); return ["all", "experience", "projects", "education", "certifications"].map((k) => `<button type="button" data-tcat="${k}" class="${S.tcat === k ? "on" : ""}" ${!c[k] && S.tcat !== k ? "disabled" : ""}>${k === "all" ? T("timeline.all") : T("section." + k)}<span class="an num">${c[k]}</span></button>`).join(""); };
+  /* Timeline filters live in a modal (a bottom sheet on phones); picking a filter updates the list behind it */
+  /* The modal edits a draft (F); the list changes only when "Show N results" applies it. Closing discards it. */
+  let F = null;
+  const draftFrom = (f) => ({ ttechs: [...f.ttechs], ttypes: [...f.ttypes], tnow: [...f.tnow] });
+  const countOf = (f) => f.ttechs.length + f.ttypes.length + f.tnow.length;
+  const activeFilters = () => countOf(S);
+  const TECH_GROUPS = [
+    { id: "techFrontend", techs: ["React", "Next.js", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Material UI", "MUI", "Joy UI", "Shadcn UI", "Radix UI", "Bootstrap", "Zustand", "TanStack Query", "React Native", "Wagmi"] },
+    { id: "techBackend", techs: ["Node.js", "Express", ".NET", "REST API", "Supabase", "PostgreSQL", "MongoDB", "Solidity", "OutSystems"] },
+    { id: "techTools", techs: ["Jira", "Kanban", "Agile Methodologies", "Lean Principles", "Postman", "Microsoft Office"] },
+    { id: "techArchitecture", techs: ["AutoCAD", "Revit", "Adobe Photoshop"] },
+  ];
+  const filtersButton = () => `${icon("sliders")}${T("timeline.filters")}${activeFilters() ? `<span class="cnt">${activeFilters()}</span>` : ""}`;
+  const filterModal = () => {
+    const techs = [...new Set(ALL.flatMap((x) => x.techs))].sort((a, b) => a.localeCompare(b));
+    /* Stack options in four groups (from the repo's tech-groups.ts, with Web3 folded in); anything unlisted goes to Other */
+    const placed = new Set(TECH_GROUPS.flatMap((g) => g.techs));
+    const groups = [...TECH_GROUPS.map((g) => [C(g.id), techs.filter((t) => g.techs.includes(t))]), [C("techOther"), techs.filter((t) => !placed.has(t))]].filter(([, l]) => l.length);
+    /* Options are a checklist in equal columns; the box is always there and fills when picked, so nothing changes width */
+    const f = F || S;
+    /* An option that would leave nothing to show (added to the current picks and search) is faded and disabled */
+    const leadsNowhere = (key, v) => !ALL.some((it) => matches(it, { ...f, [key]: [...f[key], v] }));
+    const chipsOf = (list, key, lbl, raw = false) => list.map((v) => { const on = f[key].includes(v), off = !on && leadsNowhere(key, v); return `<button type="button" class="fopt ${on ? "on" : ""}" data-tchip="${key}" data-v="${esc(v)}" aria-pressed="${on}" ${off ? "disabled" : ""}><span class="fbox">${icon("check")}</span><span>${raw ? lbl(v) : esc(lbl(v))}</span></button>`; }).join("");
+    const n = ALL.filter((it) => matches(it, f)).length;
+    return `
+      <header class="fmodal-head"><h2 class="subheading" id="tlFiltersTitle" tabindex="-1" autofocus>${T("timeline.filters")}</h2><button type="button" class="icon-btn" data-fclose aria-label="${T("nav.close")}">${icon("x")}</button></header>
+      <div class="fmodal-body">
+        <div class="fgroup"><div class="fopts one">${chipsOf(["current"], "tnow", () => `${C("currentOnly")}<span class="fhint">${C("currentHint")}</span>`, true)}</div></div>
+        <div class="fgroup"><span class="an">${T("timeline.projectTypes")}</span><div class="fopts">${chipsOf(TYPES, "ttypes", (v) => T("project.type." + v))}</div></div>
+        <div class="fgroup"><span class="an">${T("timeline.techStack")}</span>${groups.map(([lbl, l]) => `<div class="fsub"><span class="fsub-l">${lbl}</span><div class="fopts">${chipsOf(l, "ttechs", (v) => v)}</div></div>`).join("")}</div>
+      </div>
+      <footer class="fmodal-foot"><button type="button" class="fclear" data-fclear ${countOf(f) ? "" : "disabled"}>${T("timeline.clearAdvancedFilters")}</button><button type="button" class="btn sm" data-fapply>${n === 0 ? C("noResults") : (n === 1 ? C("showResult") : C("showResults")).replace("{n}", n)}</button></footer>`;
+  };
+  const refreshTimeline = () => {
+    const list = document.getElementById("tlList"); if (!list) return;
+    list.innerHTML = timelineList(); linkify(list);
+    document.getElementById("tlTabs").innerHTML = timelineTabs();
+    const fb = app.querySelector("[data-tfilters]"); fb.innerHTML = filtersButton(); fb.classList.toggle("on", !!activeFilters());
+    refreshModal();
+  };
+  const refreshModal = () => {
+    const dlg = document.getElementById("tlFilters"), f = document.activeElement?.dataset; if (!dlg) return;
+    const keep = f?.tchip ? `[data-tchip="${f.tchip}"][data-v="${CSS.escape(f.v)}"]` : f && "fclear" in f ? "[data-fclear]" : null;
+    const top = dlg.querySelector(".fmodal-body")?.scrollTop || 0;
+    dlg.innerHTML = filterModal();
+    dlg.querySelector(".fmodal-body").scrollTop = top;
+    if (keep) (dlg.querySelector(keep)?.disabled ? dlg.querySelector(".fmodal-foot .btn") : dlg.querySelector(keep))?.focus({ preventScroll: true });
+  };
+  const timeline = () => {
+    return `
+    <section class="band">${pageHead(T("nav.timeline"), T("timeline.title"), T("timeline.subtitle"))}
+    <div class="wrap">${chart()}</div></section>
+    <section class="band"><div class="wrap">
+      <div class="fbar">
+        <div class="fbar-row">
+          <div class="tabs" id="tlTabs">${timelineTabs()}</div>
+          <div class="ftools">
+            <label class="search">${icon("search", "faint")}<input id="tlSearch" type="search" value="${esc(S.tq)}" placeholder="${esc(T("timeline.searchPlaceholder"))}"><kbd>/</kbd></label>
+            <button type="button" class="tool-btn ${activeFilters() ? "on" : ""}" data-tfilters aria-haspopup="dialog">${filtersButton()}</button>
+            <button type="button" class="tool-btn" data-tsort>${icon(S.tsort === "oldest" ? "up" : "down")}${T(S.tsort === "oldest" ? "timeline.oldest" : "timeline.newest")}</button>
+          </div>
+        </div>
+      </div>
+      <div id="tlList">${timelineList()}</div>
+      <dialog class="fmodal" id="tlFilters" aria-labelledby="tlFiltersTitle">${filterModal()}</dialog>
+    </div></section>`;
+  };
+
+  /* ═════════════ Record (experience and education pages, reached from Home and the Timeline) ═════════════ */
+  const record = () => {
+    const r = byId(S.record) || EXP[0];
+    const run = r.dateEnd === null;
+    const det = TV(r.detailKey), sections = det && typeof det === "object" ? det.sections || [] : [];
+    const list = r.category === "experience" ? EXP : EDU, i = list.indexOf(r), n = list.length;
+    const prev = list[(i - 1 + n) % n], next = list[(i + 1) % n];
+    const shows = r.showcaseItems || [], showProjects = shows.map((s) => s.itemId && byId(s.itemId)).filter((x) => x && x.category === "projects"), showRows = shows.filter((s) => !s.itemId);
+    const block = (label, body, wide = false) => `<section class="wrap"><div class="grid part block" data-reveal><h2 class="an col l-3 rail-label">${label}</h2><div class="col ${wide ? "m-8 l-9" : "m-6 l-7"}">${body}</div></div></section>`;
+    /* Top of the page: the organisation's name links to its site; documents not already shown in the highlights
+       (Ironhack's certificate) sit beside it. The stack sits beside the overview, as on project pages. */
+    const docs = (r.detailLinks || []).filter((l) => !shows.some((x) => x.href === l.href)).map((l) => ({ href: l.href, label: l.labelKey ? T(l.labelKey) : l.label }));
+    const pagerItems = prev.id === next.id ? [[next, T("common.next"), true]] : [[prev, T("common.previous"), false], [next, T("common.next"), true]];
+    return `
+    <article>
+      <section class="band"><header class="wrap">
+        <nav class="an crumb fade"><a data-go="screen:timeline">${T("nav.timeline")}</a><span>/</span><span class="here">${T("section." + r.category)}</span></nav>
+        <div class="grid r-title">
+          <div class="col m-5 l-8"><h1 class="title"><span class="rise-mask"><span class="rise" style="--d:60ms">${esc(titleOf(r))}</span></span></h1><p class="lead sub fade r-org" style="--d:220ms">${r.link ? `<a class="tl-link" href="${esc(r.link)}" target="_blank" rel="noreferrer">${esc(orgOf(r))}${icon("out")}</a>` : esc(orgOf(r))}${docs.map((l) => `<a class="tl-link r-doc" href="${esc(l.href)}" target="_blank" rel="noreferrer">${esc(l.label)}${icon("dl")}</a>`).join("")}</p></div>
+          <div class="col m-3 l-4 dur fade" style="--d:320ms; align-self:end"><p class="an">${T("record.duration")}</p>${dim(dur(monthsOf(r.dateStart, r.dateEnd)), { open: run, cls: run ? "acc" : "muted", labelCls: run ? "acc" : "ink" })}<p class="an ends"><span>${monthYear(r.dateStart)}</span><span>${run ? T("timeline.present") : monthYear(r.dateEnd)}</span></p></div>
+        </div>
+      </header></section>
+      <section class="band">
+      <section class="wrap"><div class="grid part block p-brief" data-reveal>
+        <h2 class="an col l-3 rail-label">${T("record.overview")}</h2>
+        <div class="col m-8 l-9">${leadOf(r).map((p) => `<p class="read">${rich(p)}</p>`).join("") || `<p class="read">${esc(T(r.summaryKey))}</p>`}${stackRow(r.techs)}</div>
+      </div></section>
+      ${sections.map((s) => block(s.id === "scope" ? T("record.scope") : esc(s.title), s.variant === "highlights" ? (s.id === "scope" && SCOPE[S.lang][r.id] ? `<ul class="scope">${SCOPE[S.lang][r.id].map(([t, d]) => `<li><h3 class="subheading">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("")}</ul>` : `<ul class="hl">${(s.items || []).map((it) => `<li><span>${rich(it)}</span></li>`).join("")}</ul>`) : (s.body || []).map((b) => `<p>${rich(b)}</p>`).join(""), s.variant === "highlights")).join("")}
+      ${showRows.length ? block(T(r.category === "experience" ? "record.products" : "record.highlights"), `<ul class="prods">${showRows.map((s) => { const lbl = s.labelKey ? T(s.labelKey) : s.label, desc = s.descriptionKey ? T(s.descriptionKey) : s.description, ext = s.href && /^https?:/.test(s.href); const inner = `<h3 class="subheading">${esc(lbl)}${s.href ? icon(ext ? "out" : "dl") : ""}</h3>${desc ? `<p>${esc(desc)}</p>` : ""}${stack(s.techs)}`; return `<li>${s.href ? `<a href="${esc(s.href)}" target="_blank" rel="noreferrer">${inner}</a>` : inner}</li>`; }).join("")}</ul>`, true) : ""}
+      ${showProjects.length ? `<section class="wrap"><div class="grid part" data-reveal><h2 class="an col l-3 rail-label">${T("record.projects")}</h2><ul class="col l-9 cards three">${showProjects.map((p) => `<li>${projectCard(p)}</li>`).join("")}</ul></div></section>` : ""}
+      </section>
+      <section class="band pager-band"><nav class="pager">${pagerItems.map(([it, lbl, end]) => `<a class="${end ? "end" : ""}" data-go="record:${it.id}" ${pagerItems.length === 1 ? 'style="grid-column:1/-1;align-items:flex-end;text-align:right;border-left:0;border-top:0"' : ""}><span class="an">${end ? "" : icon("left")}${lbl}${end ? icon("right") : ""}</span><span class="heading">${esc(orgOf(it) || titleOf(it))}</span><span class="sub">${esc(titleOf(it))}</span></a>`).join("")}</nav></section>
+    </article>`;
+  };
+
+  /* ═════════════ About ═════════════ */
+  const about = () => {
+    const cur = EXP.find((r) => r.dateEnd === null);
+    const cre = PF.experience.find((e) => e.id === "exp-crespassos");
+    const soft = oldestFirst(PF.experience.filter((e) => e.id !== "exp-crespassos"));
+    const span = (list) => { const s = Math.min(...list.map((x) => yearOf(x.dateStart))), run = list.some((x) => x.dateEnd === null), e = Math.max(...list.map((x) => yearOf(x.dateEnd ?? x.dateStart))); return run ? `${s} – ${T("timeline.present")}` : s === e ? `${s}` : `${s} – ${e}`; };
+    const chapters = [["school", [faul], T(faul.summaryKey)], ["practice", [cre], T(cre.summaryKey)], ["transition", [ironhack], T(ironhack.summaryKey)], ["software", soft, T("about.story.software.body")]];
+    return `
+    <section class="band">${pageHead(T("nav.about"), T("about.title"), T("about.intro"))}
+    <section class="wrap grid a-intro">
+      <figure class="col s-3 m-3 l-4" data-reveal>${portrait()}</figure>
+      <div class="col m-5 l-7 ls-6 bio" data-reveal>
+        ${T("about.bio").split(/\n{2,}/).map((p) => `<p class="read">${esc(p)}</p>`).join("")}
+        <dl class="specs">
+          <div><dt class="an">${T("home.hero.facts.based")}</dt><dd>${T("home.hero.facts.location")}</dd></div>
+          <div><dt class="an">${T("home.hero.facts.current")}</dt><dd><a class="lk" data-go="${goOf(cur)}">${esc(titleOf(cur))}, ${esc(cur.org)}</a></dd></div>
+          <div><dt class="an">${T("about.facts.degree")}</dt><dd>${esc(titleOf(faul))}</dd></div>
+          <div><dt class="an">${C("frontendSince")}</dt><dd>${yearOf(ironhack.dateStart)}</dd></div>
+        </dl>
+      </div>
+    </section></section>
+    <section class="band"><div class="wrap">
+      ${secHead(T("about.story.title"), { action: secLink(T("home.experience.timeline"), "screen:timeline") })}
+      <ol class="story sec-body">${chapters.map(([k, items, body]) => `<li class="grid" data-reveal><p class="an col l-3">${span(items)}</p><h3 class="subheading col m-3 l-4">${T(`about.story.${k}.title`)}</h3><div class="col m-5 l-5"><p>${esc(body)}</p><div class="rel">${items.map((it) => `<a class="tl-link" data-go="${goOf(it)}"><span class="lk">${esc(orgOf(it) || titleOf(it))}</span>${icon("right")}</a>`).join("")}</div></div></li>`).join("")}</ol>
+    </div></section>
+    <section class="band"><div class="wrap">
+      ${secHead(T("home.method.title"), { intro: T("home.method.intro") })}
+      <ol class="principles sec-body">${Object.entries(PRINCIPLES).map(([k, d]) => `<li class="principle" data-reveal><span class="principle-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${d}</svg></span><h3 class="principle-title">${T(`home.method.${k}.title`)}</h3><p>${T(`home.method.${k}.body`)}</p></li>`).join("")}</ol>
+    </div></section>
+    <section class="band"><div class="wrap">
+      ${secHead(T("about.toolbox.title"))}
+      <div class="sec-body">
+        <ul class="stack-panel">${STACK.main.map((x) => `<li class="stack-cell"${brandStyle(x)} data-reveal><span class="stack-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${x.d}"/></svg></span><span class="name">${esc(x.name)}</span></li>`).join("")}</ul>
+      </div>
+    </div></section>
+`;
+  };
+
+  /* Stack (About): the owner's twelve, in his order, three rows of four. Icons: Simple Icons (CC0); on hover an icon
+     takes its brand colour (near-black brands keep the ink). A tool not on the timeline yet shows no year */
+  const STACK = {
+    "main": [
+      {
+        "name": "React",
+        "d": "M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z",
+        "brand": "#61DAFB",
+        "techs": [
+          "React"
+        ]
+      },
+      {
+        "name": "Next.js",
+        "d": "M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z",
+        "brand": null,
+        "techs": [
+          "Next.js"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "d": "M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z",
+        "brand": "#3178C6",
+        "techs": [
+          "TypeScript"
+        ]
+      },
+      {
+        "name": "JavaScript",
+        "d": "M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z",
+        "brand": "#F7DF1E",
+        "techs": [
+          "JavaScript"
+        ]
+      },
+      {
+        "name": "Material UI",
+        "d": "M20.229 15.793a.666.666 0 0 0 .244-.243.666.666 0 0 0 .09-.333l.012-3.858a.666.666 0 0 1 .09-.333.666.666 0 0 1 .245-.243L23 9.58a.667.667 0 0 1 .333-.088.667.667 0 0 1 .333.09.667.667 0 0 1 .244.243.666.666 0 0 1 .089.333v7.014a.667.667 0 0 1-.335.578l-7.893 4.534a.666.666 0 0 1-.662 0l-6.194-3.542a.667.667 0 0 1-.246-.244.667.667 0 0 1-.09-.335v-3.537c0-.004.004-.006.008-.004s.008 0 .008-.005v-.004c0-.003.002-.005.004-.007l5.102-2.93c.004-.003.002-.01-.003-.01a.005.005 0 0 1-.004-.002.005.005 0 0 1-.001-.004l.01-3.467a.667.667 0 0 0-.333-.58.667.667 0 0 0-.667 0L8.912 9.799a.667.667 0 0 1-.665 0l-3.804-2.19a.667.667 0 0 0-.999.577v6.267a.667.667 0 0 1-.332.577.666.666 0 0 1-.332.09.667.667 0 0 1-.333-.088L.336 13.825a.667.667 0 0 1-.246-.244.667.667 0 0 1-.09-.336L.019 2.292a.667.667 0 0 1 .998-.577l7.23 4.153a.667.667 0 0 0 .665 0l7.228-4.153a.666.666 0 0 1 .333-.088.666.666 0 0 1 .333.09.667.667 0 0 1 .244.244.667.667 0 0 1 .088.333V13.25c0 .117-.03.232-.089.334a.667.667 0 0 1-.245.244l-3.785 2.18a.667.667 0 0 0-.245.245.666.666 0 0 0-.089.334.667.667 0 0 0 .09.334.666.666 0 0 0 .247.244l2.088 1.189a.67.67 0 0 0 .33.087.667.667 0 0 0 .332-.089l4.457-2.56Zm.438-9.828a.666.666 0 0 0 .09.335.666.666 0 0 0 .248.244.667.667 0 0 0 .67-.008l2.001-1.2a.666.666 0 0 0 .237-.243.667.667 0 0 0 .087-.329V2.32a.667.667 0 0 0-.091-.335.667.667 0 0 0-.584-.33.667.667 0 0 0-.334.094l-2 1.2a.666.666 0 0 0-.238.243.668.668 0 0 0-.086.329v2.445Z",
+        "brand": "#007FFF",
+        "techs": [
+          "Material UI",
+          "MUI"
+        ]
+      },
+      {
+        "name": "Tailwind CSS",
+        "d": "M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z",
+        "brand": "#06B6D4",
+        "techs": [
+          "Tailwind CSS"
+        ]
+      },
+      {
+        "name": "shadcn/ui",
+        "d": "M22.219 11.784 11.784 22.219c-.407.407-.407 1.068 0 1.476.407.407 1.068.407 1.476 0L23.695 13.26c.407-.408.407-1.069 0-1.476-.408-.407-1.069-.407-1.476 0ZM20.132.305.305 20.132c-.407.407-.407 1.068 0 1.476.408.407 1.069.407 1.476 0L21.608 1.781c.407-.407.407-1.068 0-1.476-.408-.407-1.069-.407-1.476 0Z",
+        "brand": null,
+        "techs": [
+          "Shadcn UI"
+        ]
+      },
+      {
+        "name": "Bootstrap",
+        "d": "M11.77 11.24H9.956V8.202h2.152c1.17 0 1.834.522 1.834 1.466 0 1.008-.773 1.572-2.174 1.572zm.324 1.206H9.957v3.348h2.231c1.459 0 2.232-.585 2.232-1.685s-.795-1.663-2.326-1.663zM24 11.39v1.218c-1.128.108-1.817.944-2.226 2.268-.407 1.319-.463 2.937-.42 4.186.045 1.3-.968 2.5-2.337 2.5H4.985c-1.37 0-2.383-1.2-2.337-2.5.043-1.249-.013-2.867-.42-4.186-.41-1.324-1.1-2.16-2.228-2.268V11.39c1.128-.108 1.819-.944 2.227-2.268.408-1.319.464-2.937.42-4.186-.045-1.3.968-2.5 2.338-2.5h14.032c1.37 0 2.382 1.2 2.337 2.5-.043 1.249.013 2.867.42 4.186.409 1.324 1.098 2.16 2.226 2.268zm-7.927 2.817c0-1.354-.953-2.333-2.368-2.488v-.057c1.04-.169 1.856-1.135 1.856-2.213 0-1.537-1.213-2.538-3.062-2.538h-4.16v10.172h4.181c2.218 0 3.553-1.086 3.553-2.876z",
+        "brand": "#7952B3",
+        "techs": [
+          "Bootstrap"
+        ]
+      },
+      {
+        "name": "TanStack Query",
+        "d": "M12 0c6.627 0 9.166 4.102 9.166 12S18.626 24 12 24s-9.166-4.096-9.166-12c0-7.898 2.54-12 9.166-12m3.031 17.485c-.861 0-1.33.234-1.708.423-.327.164-.582.292-1.148.292-.567 0-.822-.128-1.148-.292-.378-.189-.848-.423-1.71-.423-.86 0-1.33.234-1.708.423-.327.164-.581.292-1.148.292v1.251c.862 0 1.331-.234 1.709-.423.326-.163.581-.292 1.148-.292s.821.129 1.148.292c.378.189.847.423 1.709.423.861 0 1.33-.234 1.709-.423.326-.163.58-.292 1.147-.292s.822.129 1.148.292c.378.189.848.423 1.71.423v-1.25c-.565 0-.822-.13-1.149-.293-.377-.189-.847-.423-1.709-.423m.41-12.536c.65-.586 0-1.648-.813-1.328-.45.18-.873.438-1.251.779a4.2 4.2 0 0 0-1.202 1.94 4.2 4.2 0 0 0-1.203-1.94 4.3 4.3 0 0 0-1.25-.779c-.814-.32-1.463.742-.814 1.328l2.385 2.153a4.86 4.86 0 0 0-2.731-.839c-.552 0-1.082.09-1.58.26-.836.284-.604 1.532.275 1.532h3.326a4.2 4.2 0 0 0-2.012.988 4 4 0 0 0-.9 1.165c-.403.776.588 1.529 1.237.948l2.686-2.42-.2 6.656c0 .08-.047.158-.107.223a5 5 0 0 1-.257-.123c-.378-.189-.848-.423-1.71-.423-.861 0-1.33.234-1.708.423-.327.164-.581.292-1.148.292v1.251c.861 0 1.33-.234 1.709-.423.326-.164.58-.292 1.148-.292.566 0 .821.128 1.148.292.377.189.847.423 1.708.423.862 0 1.332-.234 1.71-.423.326-.164.58-.292 1.147-.292s.822.128 1.148.292c.378.189.848.423 1.71.423v-1.25c-.565 0-.822-.13-1.149-.293v-.005c-.378-.19-.847-.424-1.709-.424-.861 0-1.33.235-1.709.424-.097.045-.189.094-.283.131a.34.34 0 0 1-.12-.232l-.2-6.69 2.722 2.457c.65.587 1.64-.166 1.236-.948a4.11 4.11 0 0 0-2.911-2.153h3.326c.882 0 1.108-1.245.275-1.531a4.88 4.88 0 0 0-4.311.578l2.385-2.152z",
+        "brand": "#FF4154",
+        "techs": [
+          "TanStack Query"
+        ]
+      },
+      {
+        "name": "Supabase",
+        "d": "M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z",
+        "brand": "#3FCF8E",
+        "techs": [
+          "Supabase"
+        ]
+      },
+      {
+        "name": "Vercel",
+        "d": "M24 22.525H0l12-21.05 12 21.05z",
+        "brand": null,
+        "techs": [
+          "Vercel"
+        ]
+      },
+      {
+        "name": "PostgreSQL",
+        "d": "M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z",
+        "brand": "#4169E1",
+        "techs": [
+          "PostgreSQL"
+        ]
+      }
+    ]
+  };
+  const brandStyle = (x) => (x.brand ? ` style="--brand:${x.brand}"` : "");
+  const SCREEN_FN = { home, projects, project, timeline, about, record };
+
+  /* ═════════════ Render ═════════════ */
+  const app = document.getElementById("app"), frame = document.getElementById("frame"), bar = document.getElementById("studyBar");
+  let io;
+  const observe = () => {
+    io?.disconnect();
+    io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.setAttribute("data-revealed", ""); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
+    app.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+  };
+  /* Study plumbing: internal links get an href so they can be reached by keyboard; site paths (/CV_TiagoGil.pdf)
+     point at the copies in assets/ */
+  const linkify = (root) => {
+    root.querySelectorAll("a[data-go]:not([href])").forEach((a) => a.setAttribute("href", "#" + a.dataset.go));
+    root.querySelectorAll("a[data-scroll]:not([href])").forEach((a) => a.setAttribute("href", "#" + a.dataset.scroll));
+    root.querySelectorAll("a[data-top]:not([href])").forEach((a) => a.setAttribute("href", "#top"));
+    root.querySelectorAll('a[href^="/"]').forEach((a) => a.setAttribute("href", "assets" + a.getAttribute("href")));
+  };
+  const toastEl = Object.assign(document.createElement("div"), { className: "study-toast" });
+  toastEl.setAttribute("role", "status");
+  document.body.appendChild(toastEl);
+  let toastTimer;
+  const toast = (msg) => { toastEl.textContent = msg; toastEl.classList.add("on"); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove("on"), 2400); };
+  const save = () => {
+    ["frame", "theme", "lang", "screen", "project", "record", "marks", "motion"].forEach((k) => store.set(k, S[k]));
+    history.replaceState(null, "", location.pathname + "#" + [S.screen, S.frame, S.menu ? "menu" : ""].filter(Boolean).join("."));
+  };
+  const setBarHeight = () => document.documentElement.style.setProperty("--sb-h", bar.offsetHeight + "px");
+  const render = () => {
+    frame.className = "frame" + (S.frame === "mobile" ? " is-mobile" : "");
+    Object.assign(app.dataset, { theme: S.theme, marks: S.marks, motion: S.motion });
+    app.lang = S.lang;
+    app.innerHTML = header() + `<main class="page">${SCREEN_FN[S.screen]()}</main>` + footer() + menu();
+    linkify(app);
+    document.documentElement.style.setProperty("--app-w", app.offsetWidth + "px");
+    observe();
+    renderBar();
+    setBarHeight();
+    save();
+  };
+  const renderBar = () => {
+    bar.querySelectorAll("[data-set]").forEach((b) => b.setAttribute("aria-pressed", String(S[b.dataset.set] === b.dataset.val)));
+    document.getElementById("screenSeg").innerHTML = '<span class="sb-lab">Screen</span>' + SCREENS.map(([k, l]) => `<button type="button" data-screen="${k}" aria-pressed="${S.screen === k}">${l}</button>`).join("");
+    const ctx = document.getElementById("ctxSeg");
+    if (S.screen === "project") { ctx.hidden = false; ctx.innerHTML = '<span class="sb-lab">Scenario</span>' + SCENARIOS.map(([k, l]) => `<button type="button" data-ctx-project="${k}" aria-pressed="${S.project === k}">${l}</button>`).join(""); }
+    else if (S.frame === "mobile") { ctx.hidden = false; ctx.innerHTML = `<span class="sb-lab">Menu</span><button type="button" data-ctx-menu aria-pressed="${S.menu}">${S.menu ? "Open" : "Closed"}</button>`; }
+    else { ctx.hidden = true; ctx.innerHTML = ""; }
+  };
+  const go = (target) => {
+    const [kind, val] = target.split(":");
+    S.menu = false;
+    if (kind === "screen") S.screen = val;
+    if (kind === "project") { S.screen = "project"; S.project = val; }
+    if (kind === "record") { S.screen = "record"; S.record = val; }
+    render();
+    window.scrollTo({ top: 0 });
+  };
+
+  bar.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.set) { S[b.dataset.set] = b.dataset.val; if (b.dataset.set === "frame" && S.frame === "desktop") S.menu = false; render(); }
+    else if (b.dataset.screen) { S.screen = b.dataset.screen; S.menu = false; render(); window.scrollTo({ top: 0 }); }
+    else if (b.dataset.ctxProject) { S.project = b.dataset.ctxProject; render(); }
+    else if (b.hasAttribute("data-ctx-menu")) { S.menu = !S.menu; render(); }
+    else if (b.id === "replay") { window.scrollTo({ top: 0 }); app.innerHTML = ""; requestAnimationFrame(render); }
+  });
+
+  app.addEventListener("click", (e) => {
+    const a = e.target.closest("[data-go],[data-lang],[data-theme-toggle],[data-menu],[data-ptype],[data-tcat],[data-tsort],[data-tfilters],[data-fclose],[data-fapply],[data-fclear],[data-tchip],[data-scroll],[data-top],.copy-btn,a[href]");
+    if (!a) return;
+    if (a.dataset.go) { e.preventDefault(); go(a.dataset.go); return; }
+    if (a.dataset.lang) { S.lang = a.dataset.lang; render(); return; }
+    if (a.hasAttribute("data-theme-toggle")) { S.theme = S.theme === "dark" ? "light" : "dark"; render(); return; }
+    if (a.hasAttribute("data-menu")) { S.menu = !S.menu; render(); return; }
+    if (a.dataset.ptype) { S.ptype = a.dataset.ptype; render(); return; }
+    if (a.dataset.tcat) { S.tcat = a.dataset.tcat; render(); return; }
+    if (a.hasAttribute("data-tsort")) { S.tsort = S.tsort === "oldest" ? "newest" : "oldest"; render(); return; }
+    if (a.hasAttribute("data-tfilters")) { F = draftFrom(S); refreshModal(); document.getElementById("tlFilters").showModal(); return; }
+    if (a.hasAttribute("data-fclose")) { document.getElementById("tlFilters").close(); return; }
+    if (a.hasAttribute("data-fapply")) { Object.assign(S, draftFrom(F || S)); F = null; document.getElementById("tlFilters").close(); refreshTimeline(); return; }
+    if (a.hasAttribute("data-fclear")) { F = draftFrom({ ttechs: [], ttypes: [], tnow: [] }); refreshModal(); return; }
+    if (a.dataset.tchip) { const k = a.dataset.tchip, v = a.dataset.v; F ||= draftFrom(S); F[k] = F[k].includes(v) ? F[k].filter((x) => x !== v) : [...F[k], v]; refreshModal(); return; }
+    if (a.dataset.scroll) { e.preventDefault(); document.getElementById(a.dataset.scroll)?.scrollIntoView({ behavior: S.motion === "off" ? "auto" : "smooth" }); return; }
+    if (a.hasAttribute("data-top")) { e.preventDefault(); window.scrollTo({ top: 0, behavior: S.motion === "off" ? "auto" : "smooth" }); return; }
+    if (a.classList.contains("copy-btn")) {
+      navigator.clipboard?.writeText(PF.person.email).catch(() => {});
+      a.innerHTML = `${icon("check")}${C("copied")}`;
+      setTimeout(() => { if (a.isConnected) a.innerHTML = `${icon("copy")}${T("contact.copy")}`; }, 1800);
+      return;
+    }
+    if (a.getAttribute("href")?.startsWith("mailto:")) { e.preventDefault(); toast("On the live site this opens your email app."); return; }
+    if (!a.getAttribute("href")) e.preventDefault();
+  });
+  app.addEventListener("mousedown", (e) => { if (e.target.id === "tlFilters") e.target.close(); });
+  /* ✕, Escape and the backdrop all end in "close": drop the draft (close doesn't bubble, so listen in capture) */
+  app.addEventListener("close", (e) => { if (e.target.id === "tlFilters") { F = null; refreshModal(); } }, true);
+  app.addEventListener("input", (e) => {
+    if (e.target.id !== "tlSearch") return;
+    S.tq = e.target.value;
+    refreshTimeline();
+  });
+  window.addEventListener("keydown", (e) => {
+    if (e.key !== "/" || e.metaKey || e.ctrlKey) return;
+    const input = document.getElementById("tlSearch");
+    if (!input || e.target.closest?.("input,textarea")) return;
+    e.preventDefault(); input.focus();
+  });
+  window.addEventListener("resize", setBarHeight);
+  window.addEventListener("hashchange", () => { readHash(); render(); window.scrollTo({ top: 0 }); });
+
+  render();
+  /* ?filters=open opens the Timeline's filters on load (for sharing and screenshots) */
+  if (q.get("filters") === "open") { F = draftFrom(S); document.getElementById("tlFilters")?.showModal(); }
+})();
+</script>
+</body>
+</html>

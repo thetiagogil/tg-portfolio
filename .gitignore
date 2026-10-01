@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated responsive images (npm run images)
+public/generated
+
+# Personal Claude Code settings
+.claude/settings.local.json
