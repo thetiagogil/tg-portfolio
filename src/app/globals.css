@@ -1,11 +1,29 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/base.css";
+@import "../styles/components.css";
 
-/* Design tokens arrive in Phase 3 (docs/DESIGN.md §2). */
+/* Tokens exposed to Tailwind utilities (bg-paper, text-ink-2, border-line, font-mono…). Breakpoints are Tailwind's
+   defaults, which match the design: sm 40rem, md 48rem, lg 64rem. */
 @theme inline {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-}
-
-body {
-  font-family: var(--font-sans);
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-band: var(--band);
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-on-accent: var(--on-accent);
+  --color-hover: var(--hover);
+  --ease-settle: var(--settle);
 }

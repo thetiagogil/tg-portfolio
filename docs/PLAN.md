@@ -10,7 +10,7 @@ Status (update as phases finish):
 | 0. Context and tools | Done (2026-10-01) |
 | 1. Scaffold | Done (2026-10-01): Next.js 16.3, React 19.2, Tailwind 4.3, Vitest 5, Playwright 1.63 (installed Chrome) |
 | 2. Content model and migration | Done (2026-10-01): 23 entries, profile, 174 interface strings per language; 15 tests |
-| 3. Foundation | Not started |
+| 3. Foundation | Done (2026-10-01): tokens, type, grid, bands, motion; `/` and `/pt` root layouts; header, phone menu, footer, theme and language switches; 404; image loader; 22 end-to-end checks |
 | 4. Pages | Not started |
 | 5. Timeline | Not started |
 | 6. Polish | Not started |

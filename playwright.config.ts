@@ -6,7 +6,12 @@ export default defineConfig({
   testDir: "e2e",
   fullyParallel: true,
   reporter: "list",
-  use: { baseURL: "http://localhost:4000", channel: "chrome" },
+  // Reduced motion: checks (contrast especially) see the final state, not a fade halfway through.
+  use: {
+    baseURL: "http://localhost:4000",
+    channel: "chrome",
+    reducedMotion: "reduce",
+  },
   projects: [
     { name: "desktop", use: { viewport: { width: 1280, height: 900 } } },
     {

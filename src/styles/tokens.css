@@ -1,0 +1,98 @@
+/* Design tokens (docs/DESIGN.md §2). Light by default; dark follows the system unless the visitor picked a theme
+   (data-theme on <html>, set before paint by the inline script in RootShell). */
+:root {
+  --paper: oklch(0.974 0.004 85);
+  --paper-2: oklch(0.952 0.005 85);
+  --paper-3: oklch(0.925 0.006 85);
+  --band: oklch(0.945 0.006 85);
+  --ink: oklch(0.2 0.012 262);
+  --ink-2: oklch(0.41 0.012 262);
+  --ink-3: oklch(0.52 0.01 262);
+  --line: oklch(0.2 0.012 262 / 0.13);
+  --line-2: oklch(0.2 0.012 262 / 0.26);
+  --accent: oklch(0.56 0.19 33);
+  --accent-ink: oklch(0.52 0.18 33);
+  --on-accent: oklch(0.985 0.003 85);
+  /* The colour of the band an element sits on: anything that knocks out a line behind it paints --bg. */
+  --bg: var(--paper);
+  /* Hover washes: 4% ink over transparent, so they work on every band. */
+  --hover: color-mix(in oklab, var(--ink) 4%, transparent);
+
+  --header-h: 4rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --grid-gap: 1.5rem;
+  /* List rows pad their content, like table cells (lines and hover plates stay flush with the column). */
+  --row-pad: 12px;
+  --settle: cubic-bezier(0.22, 1, 0.36, 1);
+  --drawing: cubic-bezier(0.65, 0, 0.35, 1);
+  color-scheme: light;
+}
+
+@media (width >= 48rem) {
+  :root {
+    --row-pad: 16px;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: oklch(0.175 0.008 262);
+  --paper-2: oklch(0.205 0.009 262);
+  --paper-3: oklch(0.24 0.01 262);
+  --band: oklch(0.21 0.009 262);
+  --ink: oklch(0.95 0.005 85);
+  --ink-2: oklch(0.78 0.008 85);
+  --ink-3: oklch(0.64 0.008 85);
+  --line: oklch(0.95 0.005 85 / 0.12);
+  --line-2: oklch(0.95 0.005 85 / 0.24);
+  --accent: oklch(0.7 0.17 40);
+  --accent-ink: oklch(0.74 0.15 42);
+  --on-accent: oklch(0.175 0.008 262);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: oklch(0.175 0.008 262);
+    --paper-2: oklch(0.205 0.009 262);
+    --paper-3: oklch(0.24 0.01 262);
+    --band: oklch(0.21 0.009 262);
+    --ink: oklch(0.95 0.005 85);
+    --ink-2: oklch(0.78 0.008 85);
+    --ink-3: oklch(0.64 0.008 85);
+    --line: oklch(0.95 0.005 85 / 0.12);
+    --line-2: oklch(0.95 0.005 85 / 0.24);
+    --accent: oklch(0.7 0.17 40);
+    --accent-ink: oklch(0.74 0.15 42);
+    --on-accent: oklch(0.175 0.008 262);
+    color-scheme: dark;
+  }
+}
+
+/* The footer is graphite in both themes: it scopes the dark tokens. In dark mode its paper is deeper than the page. */
+.site-footer {
+  --paper: oklch(0.2 0.012 262);
+  --paper-2: oklch(0.235 0.012 262);
+  --paper-3: oklch(0.27 0.012 262);
+  --ink: oklch(0.95 0.005 85);
+  --ink-2: oklch(0.78 0.008 85);
+  --ink-3: oklch(0.64 0.008 85);
+  --line: oklch(0.95 0.005 85 / 0.12);
+  --line-2: oklch(0.95 0.005 85 / 0.24);
+  --accent: oklch(0.7 0.17 40);
+  --accent-ink: oklch(0.74 0.15 42);
+  --on-accent: oklch(0.175 0.008 262);
+  --bg: var(--paper);
+  color-scheme: dark;
+}
+:root[data-theme="dark"] .site-footer {
+  --paper: oklch(0.135 0.008 262);
+  --paper-2: oklch(0.165 0.009 262);
+  box-shadow: inset 0 1px 0 var(--line);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .site-footer {
+    --paper: oklch(0.135 0.008 262);
+    --paper-2: oklch(0.165 0.009 262);
+    box-shadow: inset 0 1px 0 var(--line);
+  }
+}

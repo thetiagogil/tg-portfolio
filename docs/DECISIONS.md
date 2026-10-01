@@ -16,6 +16,8 @@ is in `docs/DESIGN.md`; this file is the history behind it.
 - **Vercel:** in the About panel but on no entry yet; the owner will check which projects are deployed there (the
   live links of Easyqa, Onesbryne, Trackio, Echoes and Rankex are on vercel.app).
 - **Content evaluation:** the owner wants to review all content before launch (Phase 7).
+- **404 copy:** still "This sheet isn't in the set." / "Esta folha não faz parte do conjunto.", a drawing metaphor
+  like the ones removed elsewhere. Proposed: "This page doesn't exist." / "Esta página não existe."
 
 ## Log
 
@@ -297,3 +299,9 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   the study's approved copy and the role-name fixes applied. The home link's screen-reader label lost its em dash
   ("Tiago Gil, home"), so the site has none. Noted for the content review: the PT Aquasis overview says "ligação de
   ecrã frontend" (should be "ecrãs").
+- **2026-10-01**: Foundation built. English and Portuguese have separate root layouts (`app/(en)`, `app/(pt)/pt`), so
+  each page has the right `lang`; the 404 is Next's `global-not-found` (one static page for both languages, English
+  first with the Portuguese below). Theme: follows the system until the visitor picks; the choice is applied before
+  the first paint (no flash). Styling split: tokens in Tailwind's theme; the study's component CSS kept as classes in
+  `src/styles/`; Tailwind utilities for one-off layout. End-to-end tests run with reduced motion so accessibility checks
+  measure final colours, not a fade in progress.

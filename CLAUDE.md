@@ -25,6 +25,14 @@ Next.js (App Router, `output: "export"`, static files only), React, TypeScript (
 Geist Mono via `next/font`, Vitest, Playwright + axe. No UI library: native `<dialog>` for modals. Hosted on
 Cloudflare (Workers static assets) at thetiagogil.com.
 
+## Styling
+
+Tokens live in `src/styles/tokens.css` and are exposed to Tailwind in `src/app/globals.css` (`bg-paper`, `text-ink-2`,
+`border-line`…). Components with real detail (header, footer, buttons, links, bands, the arrow nudge, page and section
+heads) keep the study's CSS as classes in `src/styles/components.css`; type and layout classes (`title`, `lead`, `read`,
+`an`, `wrap`, `page-grid`, `band`) are in `src/styles/base.css`. Use Tailwind utilities for one-off layout and
+spacing. Breakpoints are Tailwind's defaults, which match the design (sm 40rem, md 48rem, lg 64rem).
+
 ## Structure (target)
 
 ```
@@ -46,7 +54,9 @@ docs/           project docs and the study
 `npm run dev` · `build` (static site in `out/`) · `preview` (serves `out/` on port 4000) · `lint` · `typecheck` · `test`
 (Vitest, `src/**/*.test.ts`) · `test:e2e` (Playwright + axe against `out/`, in the installed Chrome; build first) ·
 `images` (WebP sizes from `assets/` into `public/images/`, runs before dev and build) · `verify` (all checks; run it
-before saying something works). Previews: `.claude/launch.json` has `dev` (port 3000) and `study` (the study on port 4410).
+before saying something works).
+Screenshots with real phone emulation: `node scripts/screenshot.mjs <url> <out.png> [width] [height] [light|dark] [full]`
+(headless Chrome's own window can't go below ~500px, so don't use it for phone captures). Previews: `.claude/launch.json` has `dev` (port 3000) and `study` (the study on port 4410).
 
 ## Hard rules
 
