@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { HTML_LANG, langOf, localize, sharedPath } from "@/lib/i18n";
 import { LANGS } from "@/content/types";
 
+const LANG_NAMES = { en: "English", pt: "Português" } as const;
+
 /** "en / pt": links to the same page in each language. */
 export function LangSwitch({ label }: { label: string }) {
   const pathname = usePathname();
@@ -26,6 +28,7 @@ export function LangSwitch({ label }: { label: string }) {
             aria-current={lang === current ? "true" : undefined}
           >
             {lang}
+            <span className="sr-only"> {LANG_NAMES[lang]}</span>
           </Link>
         </span>
       ))}

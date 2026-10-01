@@ -189,6 +189,8 @@ export const pt: Record<UiKey, string> = {
   "timeline.present": "Presente",
   "timeline.projectTypes": "Tipo de projeto",
   "timeline.recordLabel": "Registo completo",
+  "timeline.resultCount": "{n} resultados",
+  "timeline.resultCount.one": "1 resultado",
   "timeline.searchLabel": "Pesquisar no percurso",
   "timeline.searchPlaceholder": "Pesquisar: React, cliente, 2024…",
   "timeline.showResult": "Mostrar 1 resultado",

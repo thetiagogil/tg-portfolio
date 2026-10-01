@@ -24,7 +24,7 @@ export function Button({
       href={href}
       className={cn(
         "btn",
-        variant === "outline" && "outline",
+        variant === "outline" && "btn-outline",
         size === "sm" && "sm",
         className,
       )}

@@ -104,12 +104,12 @@
     background: var(--accent);
     color: var(--on-accent);
   }
-  .btn.outline {
+  .btn-outline {
     background: transparent;
     color: var(--ink);
     box-shadow: inset 0 0 0 1px var(--line-2);
   }
-  .btn.outline:hover {
+  .btn-outline:hover {
     box-shadow: inset 0 0 0 1px var(--ink);
   }
   .btn.sm {
@@ -523,5 +523,15 @@
     padding-top: 6px;
     color: var(--ink);
     font-weight: 400;
+  }
+}
+
+/* Small text links get a taller tap area without changing their look. */
+@layer components {
+  .crumb a,
+  .footer-base .tl-link,
+  .fclear {
+    padding-block: 6px;
+    margin-block: -6px;
   }
 }

@@ -24,7 +24,7 @@ export function ProjectCard({
   return (
     <article className="card group">
       <Sheet>
-        <ProjectMedia project={project} lang={lang} sizes={sizes} />
+        <ProjectMedia project={project} lang={lang} sizes={sizes} decorative />
       </Sheet>
       <p className="an meta card-meta">
         <span>{year(project.dateStart)}</span>

@@ -13,7 +13,7 @@ Status (update as phases finish):
 | 3. Foundation | Done (2026-10-01): tokens, type, grid, bands, motion; `/` and `/pt` root layouts; header, phone menu, footer, theme and language switches; 404; image loader; 22 end-to-end checks |
 | 4. Pages | Done (2026-10-01): Home, Projects, 14 project pages with the image viewer, About, 6 role and degree pages, in both languages (48 pages); compared with the study at desktop and phone |
 | 5. Timeline | Done (2026-10-01): chart, list on one line, tabs, search (`/`), sort, filters modal; the view lives in the URL |
-| 6. Polish | Not started |
+| 6. Polish | Done (2026-10-01): sitemap, robots, favicon, link previews, analytics (needs the token), accessibility audit fixed, Lighthouse 94–98 / 100 / 100 / 100 |
 | 7. Review and launch | Not started |
 
 Approved by the owner on 2026-10-01 (framework, styling, languages, hosting, structure, extras: analytics, a 404

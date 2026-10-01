@@ -30,6 +30,7 @@ test("tabs, search and sort narrow and reorder the list, and the URL keeps them"
   await page.getByRole("searchbox").fill("pokémon");
   await expect(entries(page)).toHaveCount(1);
   await expect(page).toHaveURL(/cat=projects/);
+  await expect(page.getByRole("status")).toHaveText("1 result");
   await expect(page).toHaveURL(/q=pok/);
   await page.getByRole("searchbox").fill("");
   await page.getByRole("button", { name: "Newest, show oldest first" }).click();
@@ -89,4 +90,16 @@ test("the filters modal edits a draft, applies it only on Show, and discards it 
   await modal.getByRole("button", { name: "Clear filters" }).click();
   await modal.getByRole("button", { name: "Show 23 results" }).click();
   await expect(entries(page)).toHaveCount(23);
+});
+
+test("outline buttons keep their thin border and a full focus ring", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "desktop is enough");
+  await page.goto("/");
+  const cv = page.locator(".hero-lead .btn-outline");
+  await expect(cv).toHaveCSS("outline-style", "none");
+  await cv.focus();
+  await expect(cv).toHaveCSS("outline-width", "2px");
 });

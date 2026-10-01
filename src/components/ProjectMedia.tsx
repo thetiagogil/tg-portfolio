@@ -10,6 +10,7 @@ export function ProjectMedia({
   index = 0,
   sizes,
   priority = false,
+  decorative = false,
 }: {
   project: Project;
   lang: Lang;
@@ -17,6 +18,8 @@ export function ProjectMedia({
   /** How wide the image shows, for picking the right file. */
   sizes: string;
   priority?: boolean;
+  /** Cards: the title link beside the image names the project, so the image needs no alt text of its own. */
+  decorative?: boolean;
 }) {
   const t = getT(lang);
   const src = project.images[index];
@@ -36,11 +39,15 @@ export function ProjectMedia({
   return (
     <Image
       src={`projects/${src}`}
-      alt={fill(t("project.imageNumbered"), {
-        n: index + 1,
-        total: project.images.length,
-        title: project.title,
-      })}
+      alt={
+        decorative
+          ? ""
+          : fill(t("project.imageNumbered"), {
+              n: index + 1,
+              total: project.images.length,
+              title: project.title,
+            })
+      }
       fill
       sizes={sizes}
       priority={priority}

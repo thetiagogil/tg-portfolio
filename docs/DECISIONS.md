@@ -15,7 +15,12 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   Leave them, or fade the right edge?
 - **Vercel:** in the About panel but on no entry yet; the owner will check which projects are deployed there (the
   live links of Easyqa, Onesbryne, Trackio, Echoes and Rankex are on vercel.app).
-- **Content evaluation:** the owner wants to review all content before launch (Phase 7).
+- **Content evaluation:** the owner wants to review all content before launch (Phase 7). Includes **image alt
+  text**: project screenshots are described only as "Screenshot 1 of 4 of Voydex"; each needs a real description
+  (at least the first per project). Cards use empty alt (the title link beside them names the project).
+- **Accessibility, accepted for now:** the Timeline's "/" shortcut is a single-key shortcut with no off switch (it is
+  ignored while typing; WCAG 2.1.4); icon buttons are 36px as in the study (above the 24px minimum); links that open
+  a new tab don't announce it (advisory).
 
 ## Log
 
@@ -325,3 +330,9 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   practices and SEO 100; performance 94–98 (Home and About are held at 94 by the headline's rise-in, kept by
   design). Fixes from it: chart markers are mouse shortcuts out of the keyboard order (the list has every entry with
   a full-size link); the sort button's spoken name includes its visible label; a 960px image size was added.
+- **2026-10-01**: Accessibility audit (whole site, both themes, both widths, dialogs open): nothing blocking. Fixed:
+  focused Timeline entries could hide under the two sticky bars (scroll room now covers both; 0 of 23 hidden when
+  focused); the Timeline list was a live region (now one status line, "14 results"); the outline button clashed with
+  Tailwind's `outline` utility (renamed `btn-outline`; it drew an ink outline and a thin focus ring); the search box
+  had no accent focus ring; language links now say "English" / "Português" to screen readers; small text links
+  (breadcrumb, Back to top, Clear filters) have a taller tap area; card thumbnails have empty alt text.

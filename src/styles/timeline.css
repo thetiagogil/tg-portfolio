@@ -805,3 +805,19 @@
     }
   }
 }
+
+@layer components {
+  .search:focus-within {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  /* The Timeline has two sticky bars (header + toolbar): leave room for both when focus scrolls an entry in. */
+  html:has(.fbar) {
+    scroll-padding-top: calc(var(--header-h) + 8rem);
+  }
+  @media (width >= 64rem) {
+    html:has(.fbar) {
+      scroll-padding-top: calc(var(--header-h) + 5rem);
+    }
+  }
+}

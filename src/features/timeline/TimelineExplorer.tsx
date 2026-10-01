@@ -101,7 +101,9 @@ export function TimelineExplorer({
   const [draft, setDraft] = useState<Filters | null>(null);
   const applied = filterCount(view);
   const tabCounts = counts(items, view);
-  const groupsByYear = byYear(visible(items, view));
+  const shown = visible(items, view);
+  const resultCount = shown.length;
+  const groupsByYear = byYear(shown);
 
   return (
     <>
@@ -172,7 +174,17 @@ export function TimelineExplorer({
         </div>
       </div>
 
-      <div aria-live="polite">
+      <p className="sr-only" role="status">
+        {fill(
+          t(
+            resultCount === 1
+              ? "timeline.resultCount.one"
+              : "timeline.resultCount",
+          ),
+          { n: resultCount },
+        )}
+      </p>
+      <div>
         {groupsByYear.length === 0 ? (
           <div className="empty hatch">
             <p>{t("timeline.noResults")}</p>

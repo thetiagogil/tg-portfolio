@@ -186,6 +186,8 @@ export const en = {
   "timeline.present": "Present",
   "timeline.projectTypes": "Project type",
   "timeline.recordLabel": "Full record",
+  "timeline.resultCount": "{n} results",
+  "timeline.resultCount.one": "1 result",
   "timeline.searchLabel": "Search the timeline",
   "timeline.searchPlaceholder": "Search: React, client, 2024…",
   "timeline.showResult": "Show 1 result",
