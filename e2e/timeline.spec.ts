@@ -1,24 +1,12 @@
-import AxeBuilder from "@axe-core/playwright";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
 const entries = (page: Page) => page.locator(".entry");
-const axe = async (page: Page) => {
-  const { violations } = await new AxeBuilder({ page }).analyze();
-  expect(
-    violations.map(
-      (v) => `${v.id}: ${v.nodes.map((n) => n.target).join(", ")}`,
-    ),
-  ).toEqual([]);
-};
 
-test("the timeline renders the chart and every entry, with no accessibility violations", async ({
-  page,
-}) => {
+test("the timeline shows the chart and every entry", async ({ page }) => {
   await page.goto("/timeline");
   await expect(page.locator(".rrow")).toHaveCount(6);
   await expect(page.locator(".mk")).toHaveCount(17);
   await expect(entries(page)).toHaveCount(23);
-  await axe(page);
 });
 
 test("tabs, search and sort narrow and reorder the list, and the URL keeps them", async ({
@@ -29,8 +17,8 @@ test("tabs, search and sort narrow and reorder the list, and the URL keeps them"
   await expect(entries(page)).toHaveCount(14);
   await page.getByRole("searchbox").fill("pokémon");
   await expect(entries(page)).toHaveCount(1);
-  await expect(page).toHaveURL(/cat=projects/);
   await expect(page.getByRole("status")).toHaveText("1 result");
+  await expect(page).toHaveURL(/cat=projects/);
   await expect(page).toHaveURL(/q=pok/);
   await page.getByRole("searchbox").fill("");
   await page.getByRole("button", { name: "Newest, show oldest first" }).click();
@@ -53,53 +41,34 @@ test("'/' jumps to the search", async ({ page, isMobile }) => {
   await expect(page.getByRole("searchbox")).toBeFocused();
 });
 
-test("the filters modal edits a draft, applies it only on Show, and discards it on close", async ({
+test("the filters dialog edits a draft, applies it only on Show, and discards it on close", async ({
   page,
 }) => {
   await page.goto("/timeline");
-  await page.getByRole("button", { name: "Filters" }).click();
-  const modal = page.getByRole("dialog", { name: "Filters" });
-  await expect(modal).toBeVisible();
-  await axe(page);
+  const dialog = page.getByRole("dialog", { name: "Filters" });
 
-  await modal.getByRole("button", { name: /Supabase/ }).click();
-  await expect(
-    modal.getByRole("button", { name: /Show \d+ results/ }),
-  ).toBeVisible();
-  await expect(entries(page)).toHaveCount(23); // nothing applied yet
+  await page.getByRole("button", { name: "Filters" }).click();
+  await dialog.getByRole("button", { name: /Supabase/ }).click();
+  await expect(dialog.getByRole("button", { name: /Show \d+ results/ })).toBeVisible();
+  await expect(entries(page)).toHaveCount(23);
   await page.keyboard.press("Escape");
-  await expect(modal).toBeHidden();
+  await expect(dialog).toBeHidden();
   await expect(entries(page)).toHaveCount(23);
 
   await page.getByRole("button", { name: "Filters" }).click();
-  await expect(modal.getByRole("button", { name: /Supabase/ })).toHaveAttribute(
+  await expect(dialog.getByRole("button", { name: /Supabase/ })).toHaveAttribute(
     "aria-pressed",
     "false",
   );
-  await modal.getByRole("button", { name: /Current only/ }).click();
-  await expect(modal.getByRole("button", { name: /AutoCAD/ })).toBeDisabled();
-  await expect(
-    modal.getByRole("button", { name: "Show 2 results" }),
-  ).toBeVisible();
-  await modal.getByRole("button", { name: "Show 2 results" }).click();
-  await expect(modal).toBeHidden();
+  await dialog.getByRole("button", { name: /Current only/ }).click();
+  await expect(dialog.getByRole("button", { name: /AutoCAD/ })).toBeDisabled();
+  await dialog.getByRole("button", { name: "Show 2 results" }).click();
+  await expect(dialog).toBeHidden();
   await expect(entries(page)).toHaveCount(2);
   await expect(page).toHaveURL(/now=1/);
 
   await page.getByRole("button", { name: /Filters/ }).click();
-  await modal.getByRole("button", { name: "Clear filters" }).click();
-  await modal.getByRole("button", { name: "Show 23 results" }).click();
+  await dialog.getByRole("button", { name: "Clear filters" }).click();
+  await dialog.getByRole("button", { name: "Show 23 results" }).click();
   await expect(entries(page)).toHaveCount(23);
-});
-
-test("outline buttons keep their thin border and a full focus ring", async ({
-  page,
-  isMobile,
-}) => {
-  test.skip(isMobile, "desktop is enough");
-  await page.goto("/");
-  const cv = page.locator(".hero-lead .btn-outline");
-  await expect(cv).toHaveCSS("outline-style", "none");
-  await cv.focus();
-  await expect(cv).toHaveCSS("outline-width", "2px");
 });

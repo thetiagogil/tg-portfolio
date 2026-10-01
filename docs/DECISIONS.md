@@ -336,3 +336,15 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   Tailwind's `outline` utility (renamed `btn-outline`; it drew an ink outline and a thin focus ring); the search box
   had no accent focus ring; language links now say "English" / "Português" to screen readers; small text links
   (breadcrumb, Back to top, Clear filters) have a taller tap area; card thumbnails have empty alt text.
+- **2026-10-01**: Cleanup before review, asked by the owner ("the code feels a bit loose and too AI coded"). Folders
+  by role: `components/ui` (generic), `components/layout` (the shell), `components/entries` (things that show
+  entries); logic and CSS used by one page moved into that page's folder (`features/timeline/filters.ts`,
+  `timeline.css`); `styles/` keeps only tokens and base. The house style is written down in `docs/CODE.md` and
+  partly enforced by lint (sorted imports, function components, `type` over `interface`, type imports, no nested
+  ternaries); Prettier's line width went from 80 to 100. Repeated code became one piece each: contact links,
+  breadcrumb, entry-page parts, headline lines (`Rise`), durations and end dates (`duration`, `endLabel`), text
+  placeholders (`t(key, values)`). Fixed inline styles became classes. Removed: 35 unused interface strings (keys
+  used on About but named `home.*` were renamed `about.*`; shared ones are `common.*`), unused CSS (`.display`,
+  `.links`, `.faint`, `.stack-chip`, `.sec-eyebrow`), and the separate Prettier config file. End-to-end tests are
+  grouped by area (accessibility, site, pages, timeline) and now also scan the open image viewer and phone menu.
+  Every page was compared before and after at desktop and phone (105 captures): no visible change.

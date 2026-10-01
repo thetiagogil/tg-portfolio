@@ -1,168 +1,48 @@
-# Rebuild plan: thetiagogil.com
+# Plan: thetiagogil.com
 
-A full rebuild of the portfolio from the Direction Study. New scaffold, fresh install, new structure, content
-rebuilt into a new model. The study (`index.html`) and `REDESIGN.md` are the spec; this plan is the order of work.
+The portfolio was rebuilt from the Direction Study (`docs/study/`) on the `rebuild` branch: new scaffold, fresh
+install, new structure, content rebuilt into a new model. This file tracks what's done and what's left before launch.
+Nothing is pushed, merged or deployed without the owner's go-ahead.
 
-Status (update as phases finish):
+## Status
 
 | Phase | Status |
 | --- | --- |
-| 0. Context and tools | Done (2026-10-01) |
+| 0. Context and tools | Done (2026-10-01): `CLAUDE.md`, `docs/`, agents and skills in `.claude/` |
 | 1. Scaffold | Done (2026-10-01): Next.js 16.3, React 19.2, Tailwind 4.3, Vitest 5, Playwright 1.63 (installed Chrome) |
-| 2. Content model and migration | Done (2026-10-01): 23 entries, profile, 174 interface strings per language; 15 tests |
-| 3. Foundation | Done (2026-10-01): tokens, type, grid, bands, motion; `/` and `/pt` root layouts; header, phone menu, footer, theme and language switches; 404; image loader; 22 end-to-end checks |
-| 4. Pages | Done (2026-10-01): Home, Projects, 14 project pages with the image viewer, About, 6 role and degree pages, in both languages (48 pages); compared with the study at desktop and phone |
-| 5. Timeline | Done (2026-10-01): chart, list on one line, tabs, search (`/`), sort, filters modal; the view lives in the URL |
+| 2. Content model and migration | Done (2026-10-01): 23 entries and the profile, one file each; stack trimmed with no overlap |
+| 3. Foundation | Done (2026-10-01): tokens, type, grid, bands, motion; `/` and `/pt` layouts; header, menu, footer, theme and language switches; 404; image loader |
+| 4. Pages | Done (2026-10-01): Home, Projects, 14 project pages with the image viewer, About, 6 role and degree pages, both languages |
+| 5. Timeline | Done (2026-10-01): chart, list, tabs, search (`/`), sort, filters dialog; the view lives in the URL |
 | 6. Polish | Done (2026-10-01): sitemap, robots, favicon, link previews, analytics (needs the token), accessibility audit fixed, Lighthouse 94–98 / 100 / 100 / 100 |
+| Cleanup | Done (2026-10-01): folders by role, CSS next to its components, the house style in `docs/CODE.md` (lint enforces part of it), dead code, CSS and interface text removed, tests reorganised by area |
 | 7. Review and launch | Not started |
 
-Approved by the owner on 2026-10-01 (framework, styling, languages, hosting, structure, extras: analytics, a 404
-page and the full-screen image viewer; no printable CV page).
-
----
-
-## Decisions already made
+## Decisions
 
 | Topic | Decision |
 | --- | --- |
 | Framework | Next.js (App Router), **static export**: real HTML for every page, no server |
-| Styling | Tailwind 4, with the study's tokens as theme variables; the Timeline chart keeps a small CSS file |
-| UI library | **None.** About eight small components of our own; the native `<dialog>` for the filters modal and the image viewer |
-| Languages | English at `/`, Portuguese at `/pt/...`, same paths; the toggle goes to the same page in the other language |
-| Hosting | **Cloudflare only** (Workers static assets), domain **thetiagogil.com** stays on Cloudflare |
-| Analytics | Cloudflare Web Analytics (free, no cookies, no banner) |
-| Repo | Private. Rebuild on the `rebuild` branch (from `main`); the redesign work is kept in commit `e676ff7` on `redesign` |
-| Commits | Title line only. No body, no co-author lines. Nothing is pushed or merged without asking |
-
-## Still to decide (small; recommendations stand unless the owner says otherwise, confirm at the step)
-
-1. **URLs for role and degree pages:** `/experience/aquasis` and `/education/faul` (recommended: clear and
-   shareable) or `/timeline/aquasis`.
-2. **The two study switches become fixed choices:** image marks **on** (crop marks on hover) and motion **calm**
-   (gentle reveals, nothing for people who ask for reduced motion). Recommended as proposed.
-3. ~~Filters in the URL~~ Done: `/timeline?cat=projects&q=react&stack=nextjs&type=client&now=1&sort=oldest`.
-4. **Stack trim** per entry (see Phase 2): a table to approve.
-5. **Content evaluation** (the pass the owner wants to do later): scheduled in Phase 7, before launch.
-
----
-
-## Phase 0: Context and tools (before any code)
-
-So every future session, and every agent, starts with the right context.
-
-- New branch `rebuild` from `main`.
-- `CLAUDE.md` at the root: what the project is, stack, commands, folder map, hard rules, links to the docs.
-- `docs/`
-  - `DESIGN.md`: the design system from the study (tokens, bands, grid, rules, hover, type sizes, motion).
-  - `CONTENT.md`: the content model and writing rules in both languages; how to add an entry.
-  - `OWNER.md`: positioning, voice (with approved and rejected copy), language rules, design taste, how the owner
-    likes to work.
-  - `DECISIONS.md`: the decision log carried over from `REDESIGN.md`.
-  - `PLAN.md`: this plan, kept up to date.
-  - `study/`: the study (`index.html`, its data and images, its editable source in `study/src/` with `build.py`),
-    plus the original `REDESIGN.md` and `REVIEW.md`.
-- `.claude/`
-  - `settings.json`: pre-approved safe commands (lint, typecheck, test, build, read-only git).
-  - `launch.json`: the Next.js dev server for previews.
-  - `agents/`: **design-reviewer** (compares pages with the study, read-only), **content-editor** (writes EN/PT
-    content, content files only), **a11y-auditor** (read-only), **qa-runner** (runs every check, read-only).
-  - `skills/`: `/verify`, `/new-entry`, `/compare-study`.
-
-**Done when:** a fresh session can answer "what are the rules for Portuguese role names?" or "how do I add a
-project?" from the repo alone.
-
-## Phase 1: Scaffold
-
-- Remove the old app on the branch (Vite, React Router, Radix, Embla, lucide, old `src/`). Keep `public/` assets
-  and the image script.
-- Fresh Next.js + TypeScript (strict) + Tailwind 4 + ESLint + Prettier. `output: "export"`, images unoptimized
-  (sizes are pre-generated by the `sharp` script, ported).
-- Fonts: Geist and Geist Mono via `next/font`.
-- Tests: Vitest (unit), Playwright + axe (page smoke tests and accessibility).
-- Scripts: `dev`, `build`, `lint`, `typecheck`, `test`, `test:e2e`, `images`, `verify` (all of them).
-
-**Done when:** an empty page builds to static files, and `npm run verify` passes.
-
-## Phase 2: Content model and migration
-
-- Folder:
-  ```
-  content/
-    profile.ts             name, links, CV, location, bio (en/pt)
-    stack.ts               every tool once: name, group, logo, brand colour, "main" flag
-    projects/<slug>.ts     one file per entry, English and Portuguese side by side
-    experience/<slug>.ts
-    education/<slug>.ts
-    certifications/<slug>.ts
-    ui/en.ts, ui/pt.ts     interface text; pt must have every en key (checked by TypeScript)
-  ```
-- New fields from the study: project type (client / personal / learning), Scope `{ title, text }`, short chart
-  labels, "current", stack groups.
-- All the study's copy changes applied (REDESIGN.md §7 and the decision log): hero, About, Scope, role names never
-  translated, "early work", and so on.
-- `lib/dates.ts` rewritten: UTC everywhere, the pt-PT month bug fixed ("jan 2025", never "01/2025").
-- **Stack trim:** a table of each entry's current stack and a proposed trim (3–6 defining tools; drop HTML/CSS when
-  React is listed, ways of working like Agile or Jira, Microsoft Office, Postman). **Owner approves the table.**
-- Validation tests: both languages present, valid dates, every tool exists in `stack.ts`, every image and PDF
-  exists.
-
-**Done when:** all ~90 old content files are replaced by the new ones, and the validation tests pass.
-
-## Phase 3: Foundation
-
-- Tokens in Tailwind's theme (light and dark), base styles, container queries, the 12-column grid, bands.
-- Theme: follows the system, toggle in the header, no flash on load.
-- Languages: `/` and `/pt` routes (thin route files that render each feature page with a language),
-  `lang` and `hreflang` set per page.
-- Layout: header, footer, bands, section heads.
-- Components: Button, Chip, Icon (arrows that nudge the way they point), Band, SectionHead, Dialog, Lightbox,
-  Checkbox option.
-
-**Done when:** an empty page shows the real header and footer in both themes and languages, matching the study.
-
-## Phase 4: Pages
-
-- **Home:** hero, three selected projects, where I've worked (with the year scale), contact.
-- **Projects:** newest first, tabs Client / Personal / Learning with hints, cards with status in the meta line.
-- **Project page:** header with links, facts, hero image, brief with the stack row, collection, figures with the
-  **full-screen image viewer** (arrows, keyboard, swipe, counter), Previous / Next.
-- **About:** intro, bio, facts, story, How I work (four columns, vertical lines), the 12-tool stack panel.
-- **Role and degree pages:** title with the organisation link, duration, overview at reading size with the stack
-  row, Scope (titled, two columns), Products / Highlights (one column), Previous / Next.
-- **404** in the site's style.
-
-**Done when:** every page matches its study screen on desktop and phone, in both themes and languages.
-
-## Phase 5: Timeline
-
-- Chart: broken scale, lanes, markers, short labels, Transition and Today.
-- List: years with tighter spacing, one continuous line, one-line date ranges.
-- Tabs, search, sort.
-- Filters modal: draft until "Show N results"; Current only → Project type → Stack (grouped); options that would
-  give nothing are disabled; filters mirrored in the URL (if approved).
-
-**Done when:** every filter behaviour from the study works, with the same counts.
-
-## Phase 6: Polish
-
-- Motion: calm reveals; nothing moves for people who ask for reduced motion.
-- Accessibility pass (a11y-auditor): keyboard, focus, contrast, semantics, image alt text.
-- SEO: metadata per page, canonical URLs, `hreflang`, `sitemap.xml`, `robots.txt`.
-- Link previews: a default image (name, role, monogram) and one per project from its first screenshot.
-- Favicon: the TG monogram as SVG (adapts to dark mode), PNG for iPhones, a small fallback.
-- Analytics: Cloudflare Web Analytics.
-- Performance: Lighthouse 95+ on every page type.
+| Styling | Tailwind 4 with the study's tokens; the study's component CSS kept as classes, next to each component |
+| UI library | **None.** Small components of our own; the native `<dialog>` for the menu, the filters and the image viewer |
+| Languages | English at `/`, Portuguese at `/pt/...`, same paths; the switch goes to the same page in the other language |
+| URLs | Role and degree pages at `/experience/<slug>` and `/education/<slug>` |
+| Hosting | **Cloudflare only** (Workers static assets); the domain **thetiagogil.com** stays on Cloudflare. Vercel: the owner will check later |
+| Analytics | Cloudflare Web Analytics (free, no cookies, no banner), on when `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` is set |
+| Extras | A 404 page, the full-screen image viewer, analytics; no printable CV page |
+| Repo | Private. Work on `rebuild` (from `main`); the redesign snapshot is commit `e676ff7` on `redesign` |
+| Commits | Title line only. No body, no co-author lines |
 
 ## Phase 7: Review and launch
 
-- design-reviewer: every page against the study. qa-runner: all checks. a11y-auditor: final pass.
-- **Content evaluation with the owner**, in both languages.
-- Cloudflare config (Workers static assets), a preview deploy for the owner to review.
-- **With the owner's go-ahead:** merge to `main`, deploy to thetiagogil.com, tidy old branches.
+1. **Reviews:** design-reviewer (every page against the study), qa-runner (all checks), a11y-auditor (final pass).
+2. **Content evaluation with the owner**, in both languages, including:
+   - real alt text for the project screenshots (at least the first of each project);
+   - the open questions in `docs/DECISIONS.md` (em dashes, the PT Aquasis "ecrã" → "ecrãs").
+3. **Cloudflare:** Workers static-assets config, a preview deploy for the owner to review; the analytics token.
+4. **With the owner's go-ahead:** merge to `main`, deploy to thetiagogil.com, tidy old branches.
 
----
+## How work is checked
 
-## How each phase is checked
-
-Every phase ends with `npm run verify` and, for anything visible, the page in the browser compared with the study.
-Small commits per step, title line only. The owner reviews at the end of Phases 0, 2 (stack table), 4, 5 and 7.
+`npm run verify` (typecheck, lint, format, unit tests, build, end-to-end and accessibility) and, for anything
+visible, the page compared with the study at desktop and phone, light and dark, in both languages.

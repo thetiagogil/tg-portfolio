@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
-import { RootShell, rootMetadata } from "@/components/site/RootShell";
+import { RootShell } from "@/components/layout/RootShell";
+import { rootMetadata, SITE_VIEWPORT } from "@/lib/metadata";
 
-export { viewport } from "@/components/site/RootShell";
 export const metadata = rootMetadata("en");
+export const viewport = SITE_VIEWPORT;
 
 export default function Layout({ children }: { children: ReactNode }) {
   return <RootShell lang="en">{children}</RootShell>;

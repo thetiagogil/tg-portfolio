@@ -11,7 +11,7 @@ description: Adds a new project, role, degree or certification to the portfolio 
 2. Delegate the writing to the **content-editor** agent with those answers. It reads `docs/OWNER.md` and
    `docs/CONTENT.md`, creates `src/content/<collection>/<slug>.ts` from an existing entry of the same kind, and
    writes both languages. Any missing fact becomes a question, never a guess.
-3. Add images under `public/` and run `npm run images`.
+3. Add screenshots under `assets/projects/<slug>/` (PDFs under `public/`) and run `npm run images`.
 4. Run the **verify** skill.
 5. Show Tiago the new page (desktop and phone, both languages) with screenshots, and the text in both languages for
    approval. Log the addition in `docs/DECISIONS.md` only if it changed a rule or the design.

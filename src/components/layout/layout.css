@@ -1,0 +1,284 @@
+/* The site shell: monogram, header, phone menu, theme toggle and footer (docs/DESIGN.md §5). */
+@layer components {
+  /* The TG monogram */
+  .mono-mark {
+    width: 32px;
+    height: 32px;
+    flex: none;
+    overflow: visible;
+  }
+  .mono-mark circle {
+    fill: transparent;
+    stroke: currentColor;
+    transition:
+      fill 0.5s,
+      stroke 0.5s;
+  }
+  .mono-mark g {
+    stroke: currentColor;
+    transition: stroke 0.5s;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand:hover .mono-mark circle {
+    fill: var(--accent);
+    stroke: var(--accent);
+  }
+  .brand:hover .mono-mark g {
+    stroke: var(--on-accent);
+  }
+  .brand-name {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  /* Skip link */
+  .skip {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 60;
+    padding: 10px 14px;
+    background: var(--ink);
+    color: var(--paper);
+    translate: 0 -200%;
+  }
+  .skip:focus {
+    translate: none;
+  }
+
+  /* Header */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in oklab, var(--paper) 82%, transparent);
+    backdrop-filter: blur(12px) saturate(1.5);
+  }
+  .site-header-in {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: var(--header-h);
+  }
+  .nav {
+    margin-left: auto;
+    display: none;
+    gap: 32px;
+  }
+  .nav a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: var(--header-h);
+    font-size: 15px;
+    color: var(--ink-2);
+    transition: color 0.3s;
+  }
+  .nav a:hover,
+  .nav a[aria-current] {
+    color: var(--ink);
+  }
+  .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--settle);
+  }
+  .nav a:hover::after,
+  .nav a[aria-current]::after {
+    transform: scaleX(1);
+  }
+  .header-tools {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .lang {
+    display: none;
+    align-items: center;
+  }
+
+  /* Lowercase like the study (its buttons didn't inherit the mono label's capitals). */
+  .lang a {
+    text-transform: none;
+    display: grid;
+    place-items: center;
+    height: 36px;
+    min-width: 32px;
+    padding: 0 4px;
+    color: var(--ink-3);
+    transition: color 0.3s;
+  }
+  .lang a[aria-current],
+  .lang a:hover {
+    color: var(--ink);
+  }
+  .lang .sl {
+    color: color-mix(in oklab, var(--ink-3) 50%, transparent);
+  }
+  .header-contact {
+    display: none !important;
+    margin-left: 12px;
+  }
+  .menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 8px;
+    margin-left: 4px;
+  }
+  @media (width >= 40rem) {
+    .lang {
+      display: flex;
+    }
+  }
+  @media (width >= 48rem) {
+    .nav {
+      display: flex;
+    }
+    .header-tools {
+      margin-left: 8px;
+    }
+    .menu-btn {
+      display: none;
+    }
+  }
+  @media (width >= 64rem) {
+    .header-contact {
+      display: inline-flex !important;
+    }
+  }
+
+  /* Theme toggle: both icons are rendered; CSS shows the right one, so the server HTML never mismatches. */
+  .theme-toggle .when-light {
+    display: grid;
+  }
+  .theme-toggle .when-dark {
+    display: none;
+  }
+  :root[data-theme="dark"] .theme-toggle .when-dark {
+    display: grid;
+  }
+  :root[data-theme="dark"] .theme-toggle .when-light {
+    display: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .when-dark {
+      display: grid;
+    }
+    :root:not([data-theme="light"]) .theme-toggle .when-light {
+      display: none;
+    }
+  }
+
+  /* Phone menu: a full-screen dialog */
+  .menu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--paper);
+    color: var(--ink);
+    overflow: auto;
+  }
+  .menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+    border-bottom: 1px solid var(--line);
+  }
+  .menu-list {
+    margin-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .menu-list li {
+    border-bottom: 1px solid var(--line);
+  }
+  .menu-list a {
+    display: block;
+    padding: 20px 0;
+  }
+  .menu-list a[aria-current] {
+    color: var(--accent-ink);
+  }
+  .menu .lang {
+    display: flex;
+  }
+
+  /* Footer (graphite: tokens scoped in tokens.css) */
+  .site-footer {
+    position: relative;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .footer-top {
+    row-gap: 48px;
+    padding: 64px 0;
+  }
+  @media (width >= 48rem) {
+    .footer-top {
+      padding: 80px 0;
+    }
+  }
+  .footer-brand .mono-mark {
+    width: 40px;
+    height: 40px;
+  }
+  .footer-note {
+    margin-top: 24px;
+    max-width: 36ch;
+    color: var(--ink-2);
+  }
+  .footer-label {
+    font-weight: 400;
+    color: var(--ink-3);
+  }
+  .footer-links {
+    margin-top: 16px;
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+  }
+  .footer-links a {
+    overflow-wrap: anywhere;
+  }
+  .footer-base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 28px 0 32px;
+    border-top: 1px solid var(--line);
+    font-size: 0.875rem;
+    color: var(--ink-3);
+  }
+  .footer-links li {
+    display: flex;
+    align-items: center;
+    min-height: 28px;
+  }
+  /* The menu's own close button shows at every width (the header's menu button hides from tablets up). */
+  .menu .menu-close {
+    display: flex;
+  }
+}

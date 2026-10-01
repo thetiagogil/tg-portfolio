@@ -7,8 +7,12 @@ export type Lang = (typeof LANGS)[number];
 /** A value in both languages. */
 export type L<T = string> = Record<Lang, T>;
 
-/** "2025-01-01". Read and formatted in UTC. */
+/** "2025-01-01", read and formatted in UTC. */
 export type ISODate = `${number}-${number}-${number}`;
+
+/** The four collections, in the order the Timeline lists them. */
+export const CATEGORIES = ["experience", "projects", "education", "certifications"] as const;
+export type Category = (typeof CATEGORIES)[number];
 
 /** A link from inside a paragraph to another entry's page. */
 export type EntryRef = `${"projects" | "experience" | "education"}/${string}`;
@@ -16,14 +20,16 @@ export type EntryRef = `${"projects" | "experience" | "education"}/${string}`;
 /** A paragraph: plain text, with optional links to other entries. */
 export type Paragraph = (string | { text: string; to: EntryRef })[];
 
-export type ProjectType = "client" | "personal" | "learning";
+/** Who a project was for. */
+export const PROJECT_TYPES = ["client", "personal", "learning"] as const;
+export type ProjectType = (typeof PROJECT_TYPES)[number];
+
 export type ProjectStatus = "completed" | "in progress" | "planned";
 
-export interface Project {
+export type Project = {
   slug: string;
   /** Product names aren't translated. */
   title: string;
-  /** Who it was for. */
   type: ProjectType;
   status: ProjectStatus;
   dateStart: ISODate;
@@ -32,7 +38,7 @@ export interface Project {
   featured?: boolean;
   techs: ToolId[];
   links?: { site?: string; repo?: string };
-  /** Paths inside `assets/projects/` (e.g. "voydex/voydex-1.png"); the first is the cover and the link preview. */
+  /** Paths inside `assets/projects/` ("voydex/voydex-1.png"); the first is the cover and the link preview. */
   images: string[];
   /** One line on cards: "Pokémon game companion". */
   subtitle: L;
@@ -40,23 +46,23 @@ export interface Project {
   summary: L;
   /** The project page's brief (large text, keep it short). */
   brief: L<Paragraph[]>;
-  /** Grouped sub-entries, e.g. the portfolio sites. */
+  /** Grouped sub-entries, such as the portfolio sites. */
   collection?: { label: string; href: string; techs: ToolId[] }[];
-}
+};
 
-export interface ScopePoint {
+export type ScopePoint = {
   title: L;
   text: L;
-}
+};
 
-export interface Product {
+export type Product = {
   label: L;
   description: L;
   href?: string;
   techs?: ToolId[];
-}
+};
 
-interface RecordBase {
+type RecordBase = {
   slug: string;
   /** Role titles are never translated; degree names are. */
   title: L;
@@ -80,17 +86,15 @@ interface RecordBase {
   projects?: string[];
   /** Shorter labels for the Timeline chart, when the full ones don't fit. */
   chart?: { label: L; role: L; labelNarrow?: string };
-}
+};
 
-export interface Role extends RecordBase {
-  kind: "experience";
-}
+export type Role = RecordBase & { kind: "experience" };
+export type Degree = RecordBase & { kind: "education" };
 
-export interface Degree extends RecordBase {
-  kind: "education";
-}
+/** A role or a degree: the Timeline entries with a page of their own. */
+export type RecordEntry = Role | Degree;
 
-export interface Certification {
+export type Certification = {
   slug: string;
   title: string;
   org: string;
@@ -98,9 +102,9 @@ export interface Certification {
   dateStart: ISODate;
   techs: ToolId[];
   summary: L;
-}
+};
 
-export interface Profile {
+export type Profile = {
   name: string;
   email: string;
   location: L;
@@ -109,4 +113,4 @@ export interface Profile {
   cv: string;
   /** File name in assets/portrait/. */
   portrait: string;
-}
+};

@@ -1,18 +1,21 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
 @import "../styles/base.css";
-@import "../styles/components.css";
-@import "../styles/pages.css";
-@import "../styles/timeline.css";
+@import "../components/ui/ui.css";
+@import "../components/layout/layout.css";
+@import "../components/entries/entries.css";
+@import "../features/home/home.css";
+@import "../features/projects/projects.css";
+@import "../features/records/records.css";
+@import "../features/about/about.css";
+@import "../features/timeline/timeline.css";
 
 /* Tokens exposed to Tailwind utilities (bg-paper, text-ink-2, border-line, font-mono…). Breakpoints are Tailwind's
    defaults, which match the design: sm 40rem, md 48rem, lg 64rem. */
 @theme inline {
   --font-sans:
-    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    sans-serif;
-  --font-mono:
-    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   --color-paper: var(--paper);
   --color-paper-2: var(--paper-2);
   --color-paper-3: var(--paper-3);

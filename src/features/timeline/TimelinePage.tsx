@@ -1,12 +1,16 @@
-import { Band } from "@/components/Band";
-import { PageHead } from "@/components/PageHead";
+import { Band } from "@/components/ui/Band";
+import { PageHead } from "@/components/ui/PageHead";
 import type { Lang } from "@/content/types";
 import { getT } from "@/lib/i18n";
-import { timelineItems, toolGroups } from "@/lib/timeline";
+import { stackGroups, timelineItems } from "./items";
 import { TimelineChart } from "./TimelineChart";
 import { TimelineExplorer } from "./TimelineExplorer";
 
-export function TimelinePage({ lang }: { lang: Lang }) {
+type TimelinePageProps = {
+  lang: Lang;
+};
+
+export function TimelinePage({ lang }: TimelinePageProps) {
   const t = getT(lang);
   const items = timelineItems(lang);
   return (
@@ -24,11 +28,7 @@ export function TimelinePage({ lang }: { lang: Lang }) {
       </Band>
       <Band>
         <div className="wrap">
-          <TimelineExplorer
-            items={items}
-            groups={toolGroups(items)}
-            lang={lang}
-          />
+          <TimelineExplorer items={items} stack={stackGroups(items)} lang={lang} />
         </div>
       </Band>
     </>

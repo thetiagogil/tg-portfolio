@@ -1,7 +1,7 @@
 # thetiagogil.com
 
 Tiago Gil's portfolio: a frontend developer with a background in architecture. Bilingual (English and European
-Portuguese). Being rebuilt from scratch on the `rebuild` branch; the plan and its status are in `docs/PLAN.md`.
+Portuguese). Rebuilt from scratch on the `rebuild` branch; what's left before launch is in `docs/PLAN.md`.
 
 ## Read first
 
@@ -13,6 +13,7 @@ before writing Next.js code (static export, fonts, metadata, routing). `AGENTS.m
 | File | When |
 | --- | --- |
 | `docs/OWNER.md` | Before writing copy, proposing design, or any larger task. How Tiago likes to work. |
+| `docs/CODE.md` | Before writing or reviewing code. Where things go and the house style. |
 | `docs/DESIGN.md` | Before touching anything visual. The design system (tokens, type, layout, components, pages). |
 | `docs/CONTENT.md` | Before touching content. The model and the writing rules for both languages. |
 | `docs/PLAN.md` | Before starting work. The phases, their status, what needs Tiago's approval. |
@@ -25,36 +26,35 @@ Next.js (App Router, `output: "export"`, static files only), React, TypeScript (
 Geist Mono via `next/font`, Vitest, Playwright + axe. No UI library: native `<dialog>` for modals. Hosted on
 Cloudflare (Workers static assets) at thetiagogil.com.
 
-## Styling
+## Structure and style
 
-Tokens live in `src/styles/tokens.css` and are exposed to Tailwind in `src/app/globals.css` (`bg-paper`, `text-ink-2`,
-`border-line`…). Components with real detail (header, footer, buttons, links, bands, the arrow nudge, page and section
-heads) keep the study's CSS as classes in `src/styles/components.css`; type and layout classes (`title`, `lead`, `read`,
-`an`, `wrap`, `page-grid`, `band`) are in `src/styles/base.css`. Use Tailwind utilities for one-off layout and
-spacing. Breakpoints are Tailwind's defaults, which match the design (sm 40rem, md 48rem, lg 64rem).
-
-## Structure (target)
+The folder map and the house style are in `docs/CODE.md`. In short:
 
 ```
 src/
-  app/          routes only, thin files; English at /, Portuguese mirrored under /pt with the same paths
-  features/     one folder per page: home, projects, timeline, about, records (role and degree pages)
-  components/   shared UI: Button, Chip, Band, SectionHead, Icon, Dialog, Lightbox
-  content/      the data, one file per entry with en and pt side by side (see docs/CONTENT.md)
-  lib/          dates (UTC), i18n, content queries, SEO
-  styles/       tokens, base styles, chart.css
-assets/        source images (screenshots, portrait), kept in git, never shipped as-is
-public/        PDFs and the CV; `public/images/` is generated (git-ignored)
-e2e/           Playwright tests
+  app/          routes only; English at /, Portuguese mirrored under /pt with the same paths
+  features/     one folder per page (home, projects, records, about, timeline): the page, its parts, its CSS
+  components/   ui/ (generic), layout/ (the site shell), entries/ (cards, status, pager, image viewer…)
+  content/      the data, one file per entry with en and pt side by side; ui/en.ts and ui/pt.ts
+  lib/          dates (UTC), i18n, entry paths, metadata, link previews, the chart scale
+  styles/       tokens.css and base.css
+assets/         source images (screenshots, portrait), kept in git, never shipped as-is
+public/         PDFs and the CV; `public/images/` is generated (git-ignored)
+e2e/            Playwright tests by area: a11y, site, pages, timeline
 docs/           project docs and the study
 ```
 
+Tokens live in `src/styles/tokens.css` and are exposed to Tailwind in `src/app/globals.css` (`bg-paper`,
+`text-ink-2`, `border-line`…). CSS sits next to what it styles, inside `@layer components`; Tailwind utilities are
+for one-off layout and spacing. Breakpoints are Tailwind's defaults, which match the design (sm 40rem, md 48rem,
+lg 64rem).
+
 ## Commands
 
-`npm run dev` · `build` (static site in `out/`) · `preview` (serves `out/` on port 4000) · `lint` · `typecheck` · `test`
-(Vitest, `src/**/*.test.ts`) · `test:e2e` (Playwright + axe against `out/`, in the installed Chrome; build first) ·
-`images` (WebP sizes from `assets/` into `public/images/`, runs before dev and build) · `verify` (all checks; run it
-before saying something works).
+`npm run dev` · `build` (static site in `out/`) · `preview` (serves `out/` on port 4000) · `lint` · `format` /
+`format:check` · `typecheck` · `test` (Vitest, `src/**/*.test.ts`) · `test:e2e` (Playwright + axe against `out/`, in
+the installed Chrome; build first) · `images` (WebP sizes from `assets/` into `public/images/`, runs before dev and
+build) · `icons` (favicons from `src/app/icon.svg`) · `verify` (all checks; run it before saying something works).
 Screenshots with real phone emulation: `node scripts/screenshot.mjs <url> <out.png> [width] [height] [light|dark] [full]`
 (headless Chrome's own window can't go below ~500px, so don't use it for phone captures). Previews: `.claude/launch.json` has `dev` (port 3000) and `study` (the study on port 4410).
 
@@ -63,6 +63,8 @@ Screenshots with real phone emulation: `node scripts/screenshot.mjs <url> <out.p
 - **Git:** commit messages are the title line only, conventional style (`feat: add timeline filters`). No body, no
   co-author or attribution lines. Never push, merge, deploy or delete branches without asking.
 - **Answer Tiago's questions before acting.** Give one recommendation and an honest verdict; no menus of options.
+- **Code follows `docs/CODE.md`:** where things go, function declarations, named props types, no render helpers or
+  nested ternaries, text only from `src/content`. `npm run lint` checks part of it.
 - **Visual changes follow the study.** If something isn't in the study, try it there first and log the decision.
 - **Role names are never translated:** Frontend Developer, Full-Stack Developer. Spelling: *Frontend* (one word),
   *Full-Stack* (hyphen).
@@ -77,6 +79,7 @@ Screenshots with real phone emulation: `node scripts/screenshot.mjs <url> <out.p
 
 - Run `npm run verify`. For anything visible, open the page in the preview and compare it with the same screen in
   the study (desktop 1280 and phone 390, light and dark, English and Portuguese). Share a screenshot.
-- Agents in `.claude/agents/`: **qa-runner** (all checks), **design-reviewer** (page vs study and DESIGN.md),
-  **a11y-auditor** (keyboard, contrast, semantics), **content-editor** (writes content in both languages).
+- Agents in `.claude/agents/`: **qa-runner** (all checks), **code-reviewer** (changed code vs `docs/CODE.md`),
+  **design-reviewer** (page vs study and DESIGN.md), **a11y-auditor** (keyboard, contrast, semantics),
+  **content-editor** (writes content in both languages).
 - Skills: `/verify`, `/new-entry`, `/compare-study`. Code review: the built-in `/code-review`.

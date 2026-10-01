@@ -24,7 +24,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npx serve out -l 4000",
+    command: "npm run preview",
     url: "http://localhost:4000",
     reuseExistingServer: true,
   },

@@ -1,0 +1,162 @@
+/* Home: hero, "Where I've worked" and contact (docs/DESIGN.md §6). */
+@layer components {
+  /* Home */
+  .band.hero {
+    padding-top: 56px;
+  }
+  .hero-portrait .portrait {
+    aspect-ratio: 4 / 5;
+  }
+  @media (width >= 48rem) {
+    .band.hero {
+      padding-top: 72px;
+    }
+  }
+  @media (width >= 64rem) {
+    .band.hero {
+      padding-top: 80px;
+    }
+  }
+  .hero-grid {
+    row-gap: 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Headline, intro and buttons stay together as one group, centred against the portrait */
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+  }
+  .hero-title {
+    font-size: clamp(2.5rem, 1.1rem + 4.6vw, 5.25rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+  .hero-lead .lead {
+    max-width: 46ch;
+  }
+  .hero-lead .btns {
+    margin-top: 32px;
+  }
+  .exp-list {
+    border-top: 1px solid var(--line);
+  }
+  .exp-row {
+    position: relative;
+    align-items: center;
+    row-gap: 16px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    transition: background-color 0.3s;
+  }
+  .exp-row:hover {
+    background: var(--hover);
+  }
+  .exp-row:hover h3 {
+    color: var(--accent-ink);
+  }
+  @media (width >= 48rem) {
+    .exp-row {
+      padding: 0;
+    }
+  }
+  .exp-when {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  @media (width >= 48rem) {
+    .exp-when {
+      display: block;
+      padding: 28px 0;
+    }
+    .exp-role {
+      padding: 28px 0;
+    }
+  }
+  .exp-role h3 {
+    transition: color 0.3s;
+  }
+  .exp-role p {
+    margin-top: 4px;
+    color: var(--ink-2);
+  }
+  .track {
+    position: relative;
+    height: 48px;
+  }
+  @media (width >= 48rem) {
+    .track {
+      height: 100%;
+      min-height: 112px;
+    }
+  }
+  .track .yr {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+  .track .bar {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .scale {
+    position: relative;
+    height: 32px;
+  }
+  .scale span {
+    position: absolute;
+    top: 8px;
+    translate: -50% 0;
+    color: var(--ink-3);
+  }
+
+  /* Contact: the address large, the other ways to reach me in one line */
+  .reach-mail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+  }
+  .reach-mail .lk {
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+  .reach-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin-top: 32px;
+  }
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 12px;
+    font-size: 0.8125rem;
+    color: var(--ink-2);
+    box-shadow: inset 0 0 0 1px var(--line-2);
+  }
+  .copy-btn:hover {
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink);
+  }
+
+  /* List rows keep their lines and hover plates flush with the column and pad their content by --row-pad, so a
+     hovered row's text and arrows never touch the plate's edges. */
+  .exp-row,
+  .scale-row {
+    padding-inline: var(--row-pad);
+  }
+}

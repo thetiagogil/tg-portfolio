@@ -1,9 +1,5 @@
-node_modules
-.next
-out
-coverage
-test-results
-playwright-report
-public/images
+# Hand-formatted at 120 columns
+*.md
+
 docs/study
 package-lock.json

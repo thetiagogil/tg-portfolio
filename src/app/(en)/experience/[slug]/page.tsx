@@ -1,12 +1,16 @@
 import { notFound } from "next/navigation";
 import { roleBySlug, roles } from "@/content";
 import { RecordPage } from "@/features/records/RecordPage";
-import { recordMetadata } from "@/lib/pages";
+import { recordMetadata } from "@/lib/metadata";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
-export const generateStaticParams = () => roles.map((r) => ({ slug: r.slug }));
+
+export function generateStaticParams() {
+  return roles.map(({ slug }) => ({ slug }));
+}
+
 export async function generateMetadata({ params }: Props) {
   const record = roleBySlug((await params).slug);
   return record ? recordMetadata("en", record) : {};

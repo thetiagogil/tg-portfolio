@@ -1,7 +1,8 @@
 import { ProjectsPage } from "@/features/projects/ProjectsPage";
-import { projectsMetadata } from "@/lib/pages";
+import { sectionMetadata } from "@/lib/metadata";
 
-export const metadata = projectsMetadata("en");
+export const metadata = sectionMetadata("en", "projects", "projects.intro");
+
 export default function Page() {
   return <ProjectsPage lang="en" />;
 }

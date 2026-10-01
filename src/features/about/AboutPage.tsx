@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLink } from "@/components/ArrowLink";
-import { Band } from "@/components/Band";
-import { PageHead } from "@/components/PageHead";
-import { SectionHead } from "@/components/SectionHead";
-import { TOOL_ICONS } from "@/components/tool-icons";
+import type { CSSProperties, ReactNode } from "react";
+import { ArrowLink } from "@/components/ui/ArrowLink";
+import { Band } from "@/components/ui/Band";
+import { PageHead } from "@/components/ui/PageHead";
+import { SectionHead } from "@/components/ui/SectionHead";
 import {
   currentRole,
   degreeBySlug,
@@ -14,18 +14,16 @@ import {
   roles,
   TOOLS,
 } from "@/content";
-import type { Degree, Lang, Role } from "@/content/types";
+import type { Lang, RecordEntry } from "@/content/types";
 import { year } from "@/lib/dates";
 import { recordHref } from "@/lib/entries";
-import type { UiKey } from "@/lib/i18n";
 import { getT, localize } from "@/lib/i18n";
-import type { CSSProperties } from "react";
+import { TOOL_ICONS } from "./tool-icons";
 
-// How I work: four principles, each with a line icon.
-const PRINCIPLES: {
-  key: "design" | "structure" | "access" | "longevity";
-  icon: React.ReactNode;
-}[] = [
+type Principle = "design" | "structure" | "access" | "longevity";
+
+/** "How I work": four principles, each with a line icon (24-unit box, like the site's icons). */
+const PRINCIPLES: { key: Principle; icon: ReactNode }[] = [
   {
     key: "design",
     icon: (
@@ -63,177 +61,190 @@ const PRINCIPLES: {
   },
 ];
 
-export function AboutPage({ lang }: { lang: Lang }) {
+type AboutPageProps = {
+  lang: Lang;
+};
+
+export function AboutPage({ lang }: AboutPageProps) {
+  return (
+    <>
+      <Intro lang={lang} />
+      <Story lang={lang} />
+      <Principles lang={lang} />
+      <Toolbox lang={lang} />
+    </>
+  );
+}
+
+function Intro({ lang }: { lang: Lang }) {
   const t = getT(lang);
   const faul = degreeBySlug("faul")!;
   const ironhack = degreeBySlug("ironhack")!;
-  const architect = roleBySlug("crespassos")!;
-  const software = roles.filter((r) => r.slug !== "crespassos").reverse();
-  const current = currentRole!;
 
-  const span = (list: (Role | Degree)[]) => {
-    const start = Math.min(...list.map((x) => year(x.dateStart)));
-    if (list.some((x) => x.dateEnd === null))
-      return `${start} – ${t("timeline.present")}`;
-    const end = Math.max(...list.map((x) => year(x.dateEnd ?? x.dateStart)));
-    return start === end ? `${start}` : `${start} – ${end}`;
-  };
-  const chapters: { key: string; items: (Role | Degree)[]; body: string }[] = [
-    { key: "school", items: [faul], body: faul.summary[lang] },
-    { key: "practice", items: [architect], body: architect.summary[lang] },
-    { key: "transition", items: [ironhack], body: ironhack.summary[lang] },
-    { key: "software", items: software, body: t("about.story.software.body") },
+  return (
+    <Band>
+      <PageHead eyebrow={t("nav.about")} title={t("about.title")} intro={t("about.intro")} />
+      <section className="wrap page-grid a-intro">
+        <figure className="col-span-full sm:col-span-3 md:col-span-3 lg:col-span-4" data-reveal>
+          <div className="portrait">
+            <Image
+              src={`portrait/${profile.portrait}`}
+              alt={t("common.portraitAlt")}
+              fill
+              sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 36vw, 100vw"
+            />
+          </div>
+        </figure>
+        <div className="bio col-span-full md:col-span-5 lg:col-span-7 lg:col-start-6" data-reveal>
+          {t("about.bio")
+            .split(/\n{2,}/)
+            .map((paragraph) => (
+              <p key={paragraph} className="read">
+                {paragraph}
+              </p>
+            ))}
+          <dl className="specs">
+            <Fact label={t("about.facts.based")}>{profile.location[lang]}</Fact>
+            <Fact label={t("about.facts.current")}>
+              <Link className="lk" href={recordHref(lang, currentRole)}>
+                {currentRole.title[lang]}, {currentRole.org[lang]}
+              </Link>
+            </Fact>
+            <Fact label={t("about.facts.degree")}>{faul.title[lang]}</Fact>
+            <Fact label={t("about.facts.frontendSince")}>{year(ironhack.dateStart)}</Fact>
+          </dl>
+        </div>
+      </section>
+    </Band>
+  );
+}
+
+function Fact({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <dt className="an">{label}</dt>
+      <dd>{children}</dd>
+    </div>
+  );
+}
+
+type Chapter = {
+  key: "school" | "practice" | "transition" | "software";
+  records: RecordEntry[];
+  body: string;
+};
+
+/** "How I got into frontend": school, practice, the switch, then software, each with its years and links. */
+function Story({ lang }: { lang: Lang }) {
+  const t = getT(lang);
+  const faul = degreeBySlug("faul")!;
+  const architect = roleBySlug("crespassos")!;
+  const ironhack = degreeBySlug("ironhack")!;
+  const softwareRoles = roles.filter((role) => role !== architect).reverse();
+  const chapters: Chapter[] = [
+    { key: "school", records: [faul], body: faul.summary[lang] },
+    { key: "practice", records: [architect], body: architect.summary[lang] },
+    { key: "transition", records: [ironhack], body: ironhack.summary[lang] },
+    { key: "software", records: softwareRoles, body: t("about.story.software.body") },
   ];
 
   return (
-    <>
-      <Band>
-        <PageHead
-          eyebrow={t("nav.about")}
-          title={t("about.title")}
-          intro={t("about.intro")}
+    <Band>
+      <div className="wrap">
+        <SectionHead
+          title={t("about.story.title")}
+          action={
+            <ArrowLink href={localize(lang, "/timeline")}>{t("common.fullTimeline")}</ArrowLink>
+          }
         />
-        <section className="wrap page-grid a-intro">
-          <figure
-            className="col-span-full sm:col-span-3 md:col-span-3 lg:col-span-4"
-            data-reveal
-          >
-            <div className="portrait">
-              <Image
-                src={`portrait/${profile.portrait}`}
-                alt={t("home.hero.portraitAlt")}
-                fill
-                sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 36vw, 100vw"
-              />
-            </div>
-          </figure>
-          <div
-            className="bio col-span-full md:col-span-5 lg:col-span-7 lg:col-start-6"
-            data-reveal
-          >
-            {t("about.bio")
-              .split(/\n{2,}/)
-              .map((para) => (
-                <p key={para} className="read">
-                  {para}
-                </p>
-              ))}
-            <dl className="specs">
-              <div>
-                <dt className="an">{t("home.hero.facts.based")}</dt>
-                <dd>{profile.location[lang]}</dd>
-              </div>
-              <div>
-                <dt className="an">{t("home.hero.facts.current")}</dt>
-                <dd>
-                  <Link className="lk" href={recordHref(lang, current)}>
-                    {current.title[lang]}, {current.org[lang]}
-                  </Link>
-                </dd>
-              </div>
-              <div>
-                <dt className="an">{t("about.facts.degree")}</dt>
-                <dd>{faul.title[lang]}</dd>
-              </div>
-              <div>
-                <dt className="an">{t("about.facts.frontendSince")}</dt>
-                <dd>{year(ironhack.dateStart)}</dd>
-              </div>
-            </dl>
-          </div>
-        </section>
-      </Band>
-
-      <Band>
-        <div className="wrap">
-          <SectionHead
-            title={t("about.story.title")}
-            action={
-              <ArrowLink href={localize(lang, "/timeline")}>
-                {t("home.experience.timeline")}
-              </ArrowLink>
-            }
-          />
-          <ol className="story sec-body">
-            {chapters.map((c) => (
-              <li key={c.key} className="page-grid" data-reveal>
-                <p className="an col-span-full lg:col-span-3">
-                  {span(c.items)}
-                </p>
-                <h3 className="subheading col-span-full md:col-span-3 lg:col-span-4">
-                  {t(`about.story.${c.key}.title` as UiKey)}
-                </h3>
-                <div className="col-span-full md:col-span-5 lg:col-span-5">
-                  <p>{c.body}</p>
-                  <div className="rel">
-                    {c.items.map((it) => (
-                      <ArrowLink key={it.slug} href={recordHref(lang, it)}>
-                        {it.org[lang]}
-                      </ArrowLink>
-                    ))}
-                  </div>
+        <ol className="story sec-body">
+          {chapters.map((chapter) => (
+            <li key={chapter.key} className="page-grid" data-reveal>
+              <p className="an col-span-full lg:col-span-3">{years(chapter.records, lang)}</p>
+              <h3 className="subheading col-span-full md:col-span-3 lg:col-span-4">
+                {t(`about.story.${chapter.key}.title`)}
+              </h3>
+              <div className="col-span-full md:col-span-5 lg:col-span-5">
+                <p>{chapter.body}</p>
+                <div className="rel">
+                  {chapter.records.map((record) => (
+                    <ArrowLink key={record.slug} href={recordHref(lang, record)}>
+                      {record.org[lang]}
+                    </ArrowLink>
+                  ))}
                 </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </Band>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </Band>
+  );
+}
 
-      <Band>
-        <div className="wrap">
-          <SectionHead
-            title={t("home.method.title")}
-            intro={t("home.method.intro")}
-          />
-          <ol className="principles sec-body">
-            {PRINCIPLES.map((pr) => (
-              <li key={pr.key} className="principle" data-reveal>
-                <span className="principle-ico">
-                  <svg className="ico" viewBox="0 0 24 24" aria-hidden="true">
-                    {pr.icon}
-                  </svg>
-                </span>
-                <h3 className="principle-title">
-                  {t(`home.method.${pr.key}.title`)}
-                </h3>
-                <p>{t(`home.method.${pr.key}.body`)}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </Band>
+/** "2014 – 2020", "2023", or "2023 – Present" while one of them is still running. */
+function years(records: RecordEntry[], lang: Lang): string {
+  const start = Math.min(...records.map((record) => year(record.dateStart)));
+  if (records.some((record) => record.dateEnd === null))
+    return `${start} – ${getT(lang)("common.present")}`;
+  const end = Math.max(...records.map((record) => year(record.dateEnd ?? record.dateStart)));
+  return start === end ? `${start}` : `${start} – ${end}`;
+}
 
-      <Band>
-        <div className="wrap">
-          <SectionHead title={t("about.toolbox.title")} />
-          <div className="sec-body">
-            <ul className="stack-panel">
-              {MAIN_STACK.map((id) => {
-                const tool = TOOLS[id] as { name: string; brand?: string };
-                return (
-                  <li
-                    key={id}
-                    className="stack-cell"
-                    style={
-                      tool.brand
-                        ? ({ "--brand": tool.brand } as CSSProperties)
-                        : undefined
-                    }
-                    data-reveal
-                  >
-                    <span className="stack-ico">
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d={TOOL_ICONS[id]} />
-                      </svg>
-                    </span>
-                    <span className="name">{tool.name}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+function Principles({ lang }: { lang: Lang }) {
+  const t = getT(lang);
+  return (
+    <Band>
+      <div className="wrap">
+        <SectionHead title={t("about.method.title")} intro={t("about.method.intro")} />
+        <ol className="principles sec-body">
+          {PRINCIPLES.map((principle) => (
+            <li key={principle.key} className="principle" data-reveal>
+              <span className="principle-ico">
+                <svg className="ico" viewBox="0 0 24 24" aria-hidden="true">
+                  {principle.icon}
+                </svg>
+              </span>
+              <h3 className="principle-title">{t(`about.method.${principle.key}.title`)}</h3>
+              <p>{t(`about.method.${principle.key}.body`)}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </Band>
+  );
+}
+
+/** "What I work with": the main stack as logo cells, each in its brand colour on hover. */
+function Toolbox({ lang }: { lang: Lang }) {
+  const t = getT(lang);
+  return (
+    <Band>
+      <div className="wrap">
+        <SectionHead title={t("about.toolbox.title")} />
+        <div className="sec-body">
+          <ul className="stack-panel">
+            {MAIN_STACK.map((id) => {
+              const { name, brand } = TOOLS[id];
+              return (
+                <li
+                  key={id}
+                  className="stack-cell"
+                  style={brand ? ({ "--brand": brand } as CSSProperties) : undefined}
+                  data-reveal
+                >
+                  <span className="stack-ico">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d={TOOL_ICONS[id]} />
+                    </svg>
+                  </span>
+                  <span className="name">{name}</span>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-      </Band>
-    </>
+      </div>
+    </Band>
   );
 }

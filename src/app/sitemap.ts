@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 import { degrees, projects, roles } from "@/content";
 import { projectPath, recordPath } from "@/lib/entries";
 import { HTML_LANG, localize } from "@/lib/i18n";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL } from "@/lib/metadata";
 
-// Built with the site: every page in English, each pointing to its Portuguese version (and back).
+// Built with the site: every page in both languages, each pointing to the other.
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -17,14 +17,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...[...roles, ...degrees].map(recordPath),
   ];
   const lastModified = new Date();
+
   return paths.flatMap((path) => {
     const languages = {
-      [HTML_LANG.en]: `${SITE_URL}${localize("en", path) === "/" ? "" : localize("en", path)}`,
-      [HTML_LANG.pt]: `${SITE_URL}${localize("pt", path)}`,
+      [HTML_LANG.en]: absoluteUrl(localize("en", path)),
+      [HTML_LANG.pt]: absoluteUrl(localize("pt", path)),
     };
-    return [
-      { url: languages[HTML_LANG.en], lastModified, alternates: { languages } },
-      { url: languages[HTML_LANG.pt], lastModified, alternates: { languages } },
-    ];
+    return Object.values(languages).map((url) => ({
+      url,
+      lastModified,
+      alternates: { languages },
+    }));
   });
+}
+
+function absoluteUrl(path: string): string {
+  return path === "/" ? SITE_URL : `${SITE_URL}${path}`;
 }

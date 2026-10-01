@@ -22,6 +22,8 @@ You write the portfolio's content. You only edit files in `src/content/`, and yo
 - Avoid em dashes; use commas or colons.
 - Respect the lengths in `docs/CONTENT.md` (card subtitle 2–5 words, scope sentence 15–25 words, overview 60–90).
 - Stacks: 3–6 defining tools per entry, ids from `stack.ts` only.
+- Interface text (`ui/en.ts`, `ui/pt.ts`): keys stay sorted and are named by where they're used (`about.*`,
+  `timeline.*`; `common.*` when shared). Add a key to both files; remove keys no code uses.
 
 ## When done
 Run `npm run test` (the content checks) and report: what changed in each language, any question for Tiago, and

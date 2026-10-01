@@ -3,19 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "predev": "npm run images",
     "dev": "next dev",
-    "prebuild": "npm run images",
+    "predev": "npm run images",
     "build": "next build",
+    "prebuild": "npm run images",
     "preview": "serve out -l 4000",
+    "images": "node scripts/build-images.mjs",
+    "icons": "node scripts/build-icons.mjs",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "test:e2e": "playwright test",
-    "images": "node scripts/build-images.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "verify": "npm run typecheck && npm run lint && npm run test && npm run build && npm run test:e2e"
+    "verify": "npm run typecheck && npm run lint && npm run format:check && npm run test && npm run build && npm run test:e2e"
   },
   "dependencies": {
     "geist": "^1.7.2",
@@ -39,5 +40,11 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^5.0.3"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }

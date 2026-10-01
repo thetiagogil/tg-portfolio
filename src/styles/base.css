@@ -45,11 +45,6 @@
 
 @layer components {
   /* Type scale. Fluid sizes scale with the viewport. Text widths use em, not ch (in Geist ch is the wide "0"). */
-  .display {
-    font-size: clamp(2.75rem, 0.9rem + 6.4vw, 6.5rem);
-    line-height: 0.94;
-    letter-spacing: -0.048em;
-  }
   .title {
     font-size: clamp(2.5rem, 1.2rem + 4.4vw, 5.25rem);
     line-height: 0.96;

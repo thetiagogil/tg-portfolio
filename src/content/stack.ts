@@ -1,17 +1,18 @@
 // Every tool, once. Entries reference tools by id; the About panel, the filter groups and every chip read from here.
 
-export type ToolGroup = "frontend" | "backend" | "tools" | "architecture";
+export const TOOL_GROUPS = ["frontend", "backend", "tools", "architecture"] as const;
+export type ToolGroup = (typeof TOOL_GROUPS)[number];
 
-export interface Tool {
+export type Tool = {
   name: string;
   group: ToolGroup;
   /** Tool ids this one already brings with it (checked by a test). An entry lists only the top one (no overlap). */
   includes?: readonly string[];
   /** Brand colour for the logo on hover (About panel); absent for near-black brands, which keep the ink colour. */
   brand?: string;
-}
+};
 
-export const TOOLS = {
+const TOOL_LIST = {
   // Frontend
   react: {
     name: "React",
@@ -73,14 +74,8 @@ export const TOOLS = {
   photoshop: { name: "Adobe Photoshop", group: "architecture" },
 } as const satisfies Record<string, Tool>;
 
-export type ToolId = keyof typeof TOOLS;
-
-export const TOOL_GROUPS: readonly ToolGroup[] = [
-  "frontend",
-  "backend",
-  "tools",
-  "architecture",
-];
+export type ToolId = keyof typeof TOOL_LIST;
+export const TOOLS: Record<ToolId, Tool> = TOOL_LIST;
 
 /** The About panel: the owner's twelve, in the owner's order (three rows of four). */
 export const MAIN_STACK: readonly ToolId[] = [
@@ -98,13 +93,10 @@ export const MAIN_STACK: readonly ToolId[] = [
   "postgresql",
 ];
 
-export const toolName = (id: ToolId): string => TOOLS[id].name;
-
 /** Tools an entry lists that another listed tool already includes (should be empty). */
-export const overlaps = (techs: readonly ToolId[]): ToolId[] =>
-  techs.filter((t) =>
-    techs.some(
-      (other) =>
-        other !== t && ((TOOLS[other] as Tool).includes ?? []).includes(t),
-    ),
+export function overlaps(techs: readonly ToolId[]): ToolId[] {
+  const includes = (id: ToolId) => TOOLS[id].includes ?? [];
+  return techs.filter((tech) =>
+    techs.some((other) => other !== tech && includes(other).includes(tech)),
   );
+}

@@ -1,7 +1,8 @@
 import { AboutPage } from "@/features/about/AboutPage";
-import { aboutMetadata } from "@/lib/pages";
+import { sectionMetadata } from "@/lib/metadata";
 
-export const metadata = aboutMetadata("en");
+export const metadata = sectionMetadata("en", "about", "about.intro");
+
 export default function Page() {
   return <AboutPage lang="en" />;
 }

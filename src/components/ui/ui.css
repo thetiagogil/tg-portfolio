@@ -1,0 +1,324 @@
+/* Shared interface pieces: links, icons, buttons, chips, tabs, facts, page and section heads (docs/DESIGN.md §5). */
+@layer components {
+  /* Links */
+  .lk {
+    background-image:
+      linear-gradient(currentColor, currentColor), linear-gradient(var(--line-2), var(--line-2));
+    background-position:
+      0 100%,
+      0 100%;
+    background-repeat: no-repeat;
+    background-size:
+      0% 1px,
+      100% 1px;
+    padding-bottom: 0.125em;
+    transition:
+      background-size 0.5s var(--settle),
+      color 0.3s;
+  }
+  .lk:hover {
+    background-size:
+      100% 1px,
+      100% 1px;
+    color: var(--accent-ink);
+  }
+  .ld {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition:
+      background-size 0.5s var(--settle),
+      color 0.3s;
+  }
+  .ld:hover {
+    background-size: 100% 1px;
+  }
+  .tl-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .tl-link .ico {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Icons: 24-unit box, 1.5 stroke, square caps. Arrows nudge the way they point on hover; only the arrow (.mv)
+     moves, so the icon's box and the text beside it stay put. */
+  .ico {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: square;
+  }
+  .ico .mv {
+    transition: translate 0.35s var(--settle);
+  }
+  :is(a, button, .entry):hover .ico.i-right .mv {
+    translate: 3px 0;
+  }
+  :is(a, button, .entry):hover .ico.i-left .mv {
+    translate: -3px 0;
+  }
+  :is(a, button, .entry):hover .ico.i-down .mv {
+    translate: 0 3px;
+  }
+  :is(a, button, .entry):hover .ico.i-up .mv {
+    translate: 0 -3px;
+  }
+  :is(a, button, .entry):hover .ico.i-out .mv {
+    translate: 2.5px -2.5px;
+  }
+  :is(a, button, .entry):hover .ico.i-dl .mv {
+    translate: 0 2.5px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    max-width: 100%;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    text-align: left;
+    background: var(--ink);
+    color: var(--paper);
+    transition:
+      background-color 0.3s,
+      color 0.3s,
+      box-shadow 0.3s;
+  }
+  .btn:hover {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--line-2);
+  }
+  .btn-outline:hover {
+    box-shadow: inset 0 0 0 1px var(--ink);
+  }
+  .btn.sm {
+    min-height: 36px;
+    padding: 8px 14px;
+    font-size: 14px;
+    gap: 8px;
+  }
+  .btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    color: var(--ink-2);
+    transition: color 0.3s;
+  }
+  .icon-btn:hover {
+    color: var(--ink);
+  }
+  .icon-btn .ico {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Chips */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 10px;
+    font-size: 0.8125rem;
+    box-shadow: inset 0 0 0 1px var(--line-2);
+    color: var(--ink-2);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Page and section heads */
+  .page-head {
+    padding-top: 56px;
+  }
+  .page-head .eyebrow {
+    color: var(--ink-3);
+  }
+  .page-head h1 {
+    margin-top: 24px;
+    max-width: 18ch;
+  }
+  .page-head .intro {
+    margin-top: 28px;
+    max-width: 52ch;
+    color: var(--ink-2);
+  }
+  .crumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 56px;
+    color: var(--ink-3);
+  }
+  .crumb a:hover,
+  .crumb [aria-current] {
+    color: var(--ink);
+  }
+  @media (width >= 48rem) {
+    .page-head,
+    .crumb {
+      padding-top: 72px;
+    }
+  }
+  @media (width >= 64rem) {
+    .page-head,
+    .crumb {
+      padding-top: 80px;
+    }
+  }
+  .sec-head {
+    display: grid;
+    row-gap: 16px;
+  }
+  .sec-title h2 {
+    max-width: 22ch;
+  }
+  .sec-intro {
+    margin-top: 20px;
+    max-width: 50ch;
+    color: var(--ink-2);
+  }
+  .sec-action {
+    justify-self: start;
+  }
+  .sec-body {
+    margin-top: 48px;
+  }
+  @media (width >= 48rem) {
+    .sec-head {
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: var(--grid-gap);
+      align-items: end;
+    }
+    .sec-action {
+      justify-self: end;
+      padding-bottom: 8px;
+    }
+    .sec-body {
+      margin-top: 64px;
+    }
+  }
+
+  /* Small text links get a taller tap area without changing their look. */
+  .crumb a,
+  .footer-base .tl-link,
+  .fclear {
+    padding-block: 6px;
+    margin-block: -6px;
+  }
+
+  /* Hatching marks what isn't built yet */
+  .hatch {
+    background-image: repeating-linear-gradient(-45deg, var(--line-2) 0 1px, transparent 1px 7px);
+  }
+  .portrait {
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-2);
+    box-shadow: 0 0 0 1px var(--line);
+    aspect-ratio: 4 / 3;
+  }
+  @media (width >= 40rem) {
+    .portrait {
+      aspect-ratio: 4 / 5;
+    }
+  }
+  .portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 38%;
+  }
+  .specs {
+    display: grid;
+    column-gap: 24px;
+    border-top: 1px solid var(--line);
+    padding-top: 8px;
+  }
+  .specs > div {
+    padding: 6px 0 14px;
+  }
+  .specs dt {
+    color: var(--ink-3);
+  }
+  .specs dd {
+    margin-top: 6px;
+    font-size: 0.9375rem;
+    line-height: 1.35;
+  }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: -12px;
+  }
+  .tabs button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 12px;
+    flex: none;
+    font-size: 0.9375rem;
+    color: var(--ink-3);
+    transition: color 0.3s;
+  }
+  .tabs button:hover,
+  .tabs button.on {
+    color: var(--ink);
+  }
+  .tabs button .an {
+    color: var(--ink-3);
+  }
+  .tabs button.on .an {
+    color: var(--accent-ink);
+  }
+  .tabs button::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 0;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--settle);
+  }
+  .tabs button.on::after {
+    transform: scaleX(1);
+  }
+  .tabs button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+}

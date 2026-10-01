@@ -19,7 +19,8 @@ src/content/
   experience/<slug>.ts    one file per role
   education/<slug>.ts     one file per degree or course
   certifications/<slug>.ts
-  ui/en.ts                interface text
+  ui/en.ts                interface text, keys sorted and named by where they're used (`about.*`, `timeline.*`;
+                          `common.*` when shared); placeholders like "{n} of {total}" are filled by `t(key, values)`
   ui/pt.ts                same keys as en.ts (enforced by TypeScript)
   index.ts                typed collections, sorted, plus queries used by the pages
 ```
@@ -124,6 +125,6 @@ src/content/
 Use the `/new-entry` skill, or by hand:
 1. Create `src/content/<collection>/<slug>.ts` from an existing entry of the same kind.
 2. Fill both languages; follow §2 and `docs/OWNER.md`.
-3. Add images to `public/…` and run `npm run images`.
+3. Add screenshots to `assets/projects/<slug>/` (PDFs to `public/`) and run `npm run images`.
 4. Run `npm run verify` (the content tests check languages, dates, tools and files).
 5. Check the page in both languages and on a phone.

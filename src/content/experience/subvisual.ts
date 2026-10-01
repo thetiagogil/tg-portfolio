@@ -14,15 +14,7 @@ export const subvisual: Role = {
   link: "https://subvisual.com",
   dateStart: "2023-12-01",
   dateEnd: "2024-02-29",
-  techs: [
-    "react",
-    "typescript",
-    "joy",
-    "tanstackQuery",
-    "supabase",
-    "solidity",
-    "wagmi",
-  ],
+  techs: ["react", "typescript", "joy", "tanstackQuery", "supabase", "solidity", "wagmi"],
   summary: {
     en: "Full-stack developer apprenticeship focused on frontend development, full-stack workflows, agile teamwork, code reviews, and modern engineering practices.",
     pt: "Apprenticeship full-stack focado em frontend, workflows full-stack, trabalho ágil, code reviews e práticas modernas de engenharia.",

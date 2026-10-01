@@ -1,7 +1,8 @@
 import { TimelinePage } from "@/features/timeline/TimelinePage";
-import { timelineMetadata } from "@/lib/pages";
+import { sectionMetadata } from "@/lib/metadata";
 
-export const metadata = timelineMetadata("en");
+export const metadata = sectionMetadata("en", "timeline", "timeline.subtitle");
+
 export default function Page() {
   return <TimelinePage lang="en" />;
 }

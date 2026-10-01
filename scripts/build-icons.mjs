@@ -15,7 +15,9 @@ const png = (size, pad = 0) =>
 await writeFile("src/app/apple-icon.png", await png(180, 20));
 
 // ICO with PNG entries: 6-byte header, a 16-byte entry per image, then the PNG data.
-const images = await Promise.all([32, 16].map((s) => sharp(Buffer.from(svg), { density: 600 }).resize(s, s).png().toBuffer()));
+const images = await Promise.all(
+  [32, 16].map((s) => sharp(Buffer.from(svg), { density: 600 }).resize(s, s).png().toBuffer()),
+);
 const header = Buffer.alloc(6 + 16 * images.length);
 header.writeUInt16LE(0, 0);
 header.writeUInt16LE(1, 2);

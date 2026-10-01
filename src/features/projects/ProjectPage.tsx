@@ -1,217 +1,94 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
-import { Band } from "@/components/Band";
-import { Button } from "@/components/Button";
-import { Lightbox, LightboxTrigger } from "@/components/Lightbox";
-import { Pager } from "@/components/Pager";
-import { ProjectMedia } from "@/components/ProjectMedia";
-import { RichText } from "@/components/RichText";
-import { Sheet } from "@/components/Sheet";
-import { StackLine, StackRow } from "@/components/Stack";
-import { StatusMark } from "@/components/StatusMark";
-import { Icon } from "@/components/Icon";
-import { parentsOf } from "@/content";
+import type { ReactNode } from "react";
+import { Lightbox, LightboxTrigger } from "@/components/entries/Lightbox";
+import { Pager, type PagerLink } from "@/components/entries/Pager";
+import { Part } from "@/components/entries/Part";
+import { imageAlt, ProjectMedia } from "@/components/entries/ProjectMedia";
+import { RichText } from "@/components/entries/RichText";
+import { Sheet } from "@/components/entries/Sheet";
+import { StackLine, StackRow } from "@/components/entries/Stack";
+import { StatusMark } from "@/components/entries/StatusMark";
+import { Band } from "@/components/ui/Band";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { Button } from "@/components/ui/Button";
+import { Icon } from "@/components/ui/Icon";
+import { Rise } from "@/components/ui/Rise";
+import { recordsWithProject } from "@/content";
 import type { Lang, Project } from "@/content/types";
 import { monthYear } from "@/lib/dates";
 import { projectHref, projectNeighbours, recordHref } from "@/lib/entries";
-import { fill } from "@/lib/format";
 import { getT, localize } from "@/lib/i18n";
+import { delay } from "@/lib/motion";
 
-const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
-
-export function ProjectPage({
-  project: p,
-  lang,
-}: {
+type ProjectPageProps = {
   project: Project;
   lang: Lang;
-}) {
+};
+
+export function ProjectPage({ project, lang }: ProjectPageProps) {
   const t = getT(lang);
-  const { prev, next } = projectNeighbours(p.slug);
-  const parents = parentsOf(p.slug);
-  const total = p.images.length;
-  const alt = (i: number) =>
-    fill(t("project.imageNumbered"), { n: i + 1, total, title: p.title });
-  const enlarge = (i: number) => `${t("project.enlarge")}: ${alt(i)}`;
-  const pagerItem = (x: Project) => ({
-    href: projectHref(lang, x),
-    title: x.title,
-    sub: x.subtitle[lang],
+  const { prev, next } = projectNeighbours(project);
+  const pagerLink = (other: Project): PagerLink => ({
+    href: projectHref(lang, other),
+    title: other.title,
+    sub: other.subtitle[lang],
   });
-  const spec = (label: string, value: React.ReactNode) => (
-    <div>
-      <dt className="an">{label}</dt>
-      <dd>{value}</dd>
-    </div>
-  );
 
   return (
     <article>
       <Band>
-        <header className="wrap">
-          <nav className="an crumb fade" aria-label={t("a11y.breadcrumb")}>
-            <Link href={localize(lang, "/projects")}>{t("nav.projects")}</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">{p.title}</span>
-          </nav>
-          <div className="page-grid p-title">
-            <div className="col-span-full md:col-span-5 lg:col-span-8">
-              <h1 className="title">
-                <span className="rise-mask">
-                  <span className="rise" style={delay(60)}>
-                    {p.title}
-                  </span>
-                </span>
-              </h1>
-              <p className="lead sub fade" style={delay(220)}>
-                {p.subtitle[lang]}
-              </p>
-            </div>
-            {(p.links?.site || p.links?.repo) && (
-              <div
-                className="p-actions fade col-span-full md:col-span-3 lg:col-span-4"
-                style={delay(320)}
-              >
-                {p.links.site && (
-                  <Button href={p.links.site} icon="out">
-                    {t("project.visit")}
-                  </Button>
-                )}
-                {p.links.repo && (
-                  <Button href={p.links.repo} variant="outline" icon="out">
-                    {t("project.repo")}
-                  </Button>
-                )}
-              </div>
-            )}
-          </div>
-          <dl className="specs p-specs fade" style={delay(360)}>
-            {spec(t("project.started"), monthYear(p.dateStart, lang))}
-            {spec(
-              t("project.status"),
-              <StatusMark status={p.status} lang={lang} />,
-            )}
-            {spec(t("project.typeLabel"), t(`project.type.${p.type}`))}
-            {spec(
-              t("project.context"),
-              parents.length
-                ? parents.map((r, i) => (
-                    <span key={r.slug}>
-                      {i > 0 && " "}
-                      <Link className="lk" href={recordHref(lang, r)}>
-                        {r.org[lang]}
-                      </Link>
-                    </span>
-                  ))
-                : t("project.personal"),
-            )}
-          </dl>
-        </header>
+        <ProjectHeader project={project} lang={lang} />
         <figure className="wrap p-hero fade" style={delay(400)}>
-          {total ? (
-            <LightboxTrigger index={0} label={enlarge(0)}>
-              <Sheet>
-                <ProjectMedia
-                  project={p}
-                  lang={lang}
-                  priority
-                  sizes="(min-width: 90rem) 1344px, 100vw"
-                />
-              </Sheet>
-            </LightboxTrigger>
-          ) : (
-            <Sheet>
-              <ProjectMedia project={p} lang={lang} sizes="100vw" />
-            </Sheet>
-          )}
+          <ProjectImage project={project} index={0} lang={lang} />
         </figure>
       </Band>
 
       <Band>
-        <section className="wrap">
-          <div className="page-grid part p-brief" data-reveal>
-            <h2 className="an rail-label col-span-full lg:col-span-3">
-              {t("project.brief")}
-            </h2>
-            <div className="col-span-full md:col-span-8 lg:col-span-9">
-              <RichText
-                paragraphs={p.brief[lang]}
-                lang={lang}
-                className="lead"
-              />
-              <StackRow techs={p.techs} lang={lang} />
-            </div>
-          </div>
-        </section>
-        {p.collection && (
-          <section className="wrap">
-            <div className="page-grid part" data-reveal>
-              <h2 className="an rail-label col-span-full lg:col-span-3">
-                {t("project.collection")}
-              </h2>
-              <ul className="show col-span-full lg:col-span-9">
-                {p.collection.map((c) => (
-                  <li key={c.href}>
-                    <a
-                      className="in"
-                      href={c.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <div className="top">
-                        <h3 className="subheading">{c.label}</h3>
-                        <Icon name="out" />
-                      </div>
-                      <StackLine techs={c.techs} />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
+        <Part label={t("project.brief")} className="p-brief">
+          <RichText paragraphs={project.brief[lang]} lang={lang} className="lead" />
+          <StackRow techs={project.techs} lang={lang} />
+        </Part>
+        {project.collection && (
+          <Part label={t("project.collection")} width="grid">
+            <ul className="show">
+              {project.collection.map((site) => (
+                <li key={site.href}>
+                  <a className="in" href={site.href} target="_blank" rel="noreferrer">
+                    <div className="top">
+                      <h3 className="subheading">{site.label}</h3>
+                      <Icon name="out" />
+                    </div>
+                    <StackLine techs={site.techs} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Part>
         )}
-        {total > 1 && (
-          <section className="wrap">
-            <div className="page-grid part">
-              <h2 className="an rail-label col-span-full lg:col-span-3">
-                {t("project.figures")}
-              </h2>
-              <ul className="figs col-span-full lg:col-span-9">
-                {p.images.slice(1).map((src, i) => (
-                  <li key={src} data-reveal>
-                    <LightboxTrigger index={i + 1} label={enlarge(i + 1)}>
-                      <Sheet>
-                        <ProjectMedia
-                          project={p}
-                          lang={lang}
-                          index={i + 1}
-                          sizes="(min-width: 64rem) 75vw, 100vw"
-                        />
-                      </Sheet>
-                    </LightboxTrigger>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
+        {project.images.length > 1 && (
+          <Part label={t("project.figures")} width="grid" reveal={false}>
+            <ul className="figs">
+              {project.images.slice(1).map((src, i) => (
+                <li key={src} data-reveal>
+                  <ProjectImage project={project} index={i + 1} lang={lang} />
+                </li>
+              ))}
+            </ul>
+          </Part>
         )}
       </Band>
 
-      <Pager
-        prev={prev && pagerItem(prev)}
-        next={pagerItem(next)}
-        lang={lang}
-      />
+      <Pager prev={prev && pagerLink(prev)} next={pagerLink(next)} lang={lang} />
 
-      {total > 0 && (
+      {project.images.length > 0 && (
         <Lightbox
-          title={p.title}
-          images={p.images.map((src, i) => ({
+          title={project.title}
+          images={project.images.map((src, i) => ({
             src: `projects/${src}`,
-            alt: alt(i),
+            alt: imageAlt(project, i, lang),
           }))}
           labels={{
-            dialog: fill(t("lightbox.label"), { title: p.title }),
+            dialog: t("lightbox.label", { title: project.title }),
             close: t("nav.close"),
             previous: t("lightbox.previous"),
             next: t("lightbox.next"),
@@ -220,5 +97,113 @@ export function ProjectPage({
         />
       )}
     </article>
+  );
+}
+
+function ProjectHeader({ project, lang }: ProjectPageProps) {
+  const t = getT(lang);
+  const records = recordsWithProject(project.slug);
+  const { site, repo } = project.links ?? {};
+
+  return (
+    <header className="wrap">
+      <Breadcrumb
+        lang={lang}
+        parent={{ href: localize(lang, "/projects"), label: t("nav.projects") }}
+        current={project.title}
+      />
+      <div className="page-grid p-title">
+        <div className="col-span-full md:col-span-5 lg:col-span-8">
+          <h1 className="title">
+            <Rise delay={60}>{project.title}</Rise>
+          </h1>
+          <p className="lead sub fade" style={delay(220)}>
+            {project.subtitle[lang]}
+          </p>
+        </div>
+        {(site || repo) && (
+          <div
+            className="p-actions fade col-span-full md:col-span-3 lg:col-span-4"
+            style={delay(320)}
+          >
+            {site && (
+              <Button href={site} icon="out">
+                {t("project.visit")}
+              </Button>
+            )}
+            {repo && (
+              <Button href={repo} variant="outline" icon="out">
+                {t("project.repo")}
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+      <dl className="specs p-specs fade" style={delay(360)}>
+        <Spec label={t("project.started")}>{monthYear(project.dateStart, lang)}</Spec>
+        <Spec label={t("project.status")}>
+          <StatusMark status={project.status} lang={lang} />
+        </Spec>
+        <Spec label={t("project.typeLabel")}>{t(`project.type.${project.type}`)}</Spec>
+        <Spec label={t("project.context")}>
+          {records.length === 0
+            ? t("project.personal")
+            : records.map((record, i) => (
+                <span key={record.slug}>
+                  {i > 0 && " "}
+                  <Link className="lk" href={recordHref(lang, record)}>
+                    {record.org[lang]}
+                  </Link>
+                </span>
+              ))}
+        </Spec>
+      </dl>
+    </header>
+  );
+}
+
+function Spec({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <dt className="an">{label}</dt>
+      <dd>{children}</dd>
+    </div>
+  );
+}
+
+type ProjectImageProps = {
+  project: Project;
+  index: number;
+  lang: Lang;
+};
+
+/** A framed screenshot that opens the viewer; the hatched placeholder when the project has none. */
+function ProjectImage({ project, index, lang }: ProjectImageProps) {
+  const isCover = index === 0;
+  const sizes = isCover ? "(min-width: 90rem) 1344px, 100vw" : "(min-width: 64rem) 75vw, 100vw";
+
+  if (project.images.length === 0) {
+    return (
+      <Sheet>
+        <ProjectMedia project={project} lang={lang} sizes="100vw" />
+      </Sheet>
+    );
+  }
+
+  return (
+    <LightboxTrigger
+      index={index}
+      label={`${getT(lang)("project.enlarge")}: ${imageAlt(project, index, lang)}`}
+    >
+      <Sheet>
+        <ProjectMedia
+          project={project}
+          lang={lang}
+          index={index}
+          sizes={sizes}
+          priority={isCover}
+        />
+      </Sheet>
+    </LightboxTrigger>
   );
 }

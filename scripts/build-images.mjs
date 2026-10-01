@@ -59,6 +59,4 @@ const sources = await listImages(sourceRoot);
 let written = 0;
 for (const source of sources) written += await processImage(source);
 const seconds = ((performance.now() - startedAt) / 1000).toFixed(1);
-console.log(
-  `images: ${sources.length} sources, ${written} files written (${seconds}s)`,
-);
+console.log(`images: ${sources.length} sources, ${written} files written (${seconds}s)`);

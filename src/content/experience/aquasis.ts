@@ -14,14 +14,7 @@ export const aquasis: Role = {
   link: "https://aquasis.pt/",
   dateStart: "2025-01-01",
   dateEnd: null,
-  techs: [
-    "react",
-    "typescript",
-    "zustand",
-    "bootstrap",
-    "postgresql",
-    "dotnet",
-  ],
+  techs: ["react", "typescript", "zustand", "bootstrap", "postgresql", "dotnet"],
   summary: {
     en: "Frontend role on Aquaworks, Aquasis' water-system management platform, focused on product UI, new modules, refactoring, manual QA, and some .NET work.",
     pt: "Função frontend no Aquaworks, a plataforma de gestão de sistemas de água da Aquasis, focada em UI de produto, novos módulos, refactoring, testes manuais e algum trabalho com .NET.",

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Band } from "@/components/Band";
-import { Button } from "@/components/Button";
-import { RootShell, rootMetadata } from "@/components/site/RootShell";
+import { RootShell } from "@/components/layout/RootShell";
+import { Band } from "@/components/ui/Band";
+import { Button } from "@/components/ui/Button";
 import { getT } from "@/lib/i18n";
+import { rootMetadata, SITE_VIEWPORT } from "@/lib/metadata";
 
 // One static 404 for both languages (there's no server to pick one): the site's shell in English, with the same
 // message in Portuguese below.
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   title: "404",
   robots: { index: false },
 };
+export const viewport = SITE_VIEWPORT;
 
 export default function GlobalNotFound() {
   const en = getT("en");
@@ -29,9 +31,7 @@ export default function GlobalNotFound() {
           </div>
           <div lang="pt-PT" className="border-line mt-16 border-t pt-8">
             <p className="subheading">{pt("notFound.title")}</p>
-            <p className="text-ink-2 mt-3 max-w-[52ch]">
-              {pt("notFound.body")}
-            </p>
+            <p className="text-ink-2 mt-3 max-w-[52ch]">{pt("notFound.body")}</p>
             <div className="btns mt-6">
               <Button href="/pt" variant="outline" size="sm" icon="right">
                 {pt("notFound.home")}

@@ -1,13 +1,16 @@
 import { notFound } from "next/navigation";
 import { projectBySlug, projects } from "@/content";
 import { ProjectPage } from "@/features/projects/ProjectPage";
-import { projectMetadata } from "@/lib/pages";
+import { projectMetadata } from "@/lib/metadata";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
-export const generateStaticParams = () =>
-  projects.map((p) => ({ slug: p.slug }));
+
+export function generateStaticParams() {
+  return projects.map(({ slug }) => ({ slug }));
+}
+
 export async function generateMetadata({ params }: Props) {
   const project = projectBySlug((await params).slug);
   return project ? projectMetadata("en", project) : {};

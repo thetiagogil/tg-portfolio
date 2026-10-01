@@ -1,0 +1,100 @@
+/* Role and degree pages (docs/DESIGN.md §6). */
+@layer components {
+  .r-org {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 24px;
+  }
+  .r-org .tl-link {
+    font-weight: inherit;
+  }
+  .r-org .r-doc {
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+  }
+  .r-org a {
+    transition: color 0.3s;
+  }
+  .r-org a:hover {
+    color: var(--accent-ink);
+  }
+
+  /* Records */
+  .r-title {
+    margin-top: 24px;
+    row-gap: 40px;
+  }
+  .r-title .sub {
+    margin-top: 20px;
+    color: var(--ink-2);
+  }
+  .dur .an {
+    color: var(--ink-3);
+  }
+  .dur .dim {
+    margin-top: 32px;
+  }
+  .dur .ends {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 12px;
+    color: var(--ink-2);
+  }
+  .record-part p {
+    max-width: 62ch;
+  }
+  .record-part p.read {
+    max-width: 34em;
+  }
+
+  /* Scope: a short title and a sentence per point, two columns (the layout Products had), no bullets or rules */
+  .scope {
+    display: grid;
+    gap: 32px 48px;
+  }
+  @media (width >= 48rem) {
+    .scope {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .scope p {
+    margin-top: 8px;
+    color: var(--ink-2);
+    max-width: 40em;
+  }
+
+  /* Products / Highlights (role and degree pages): no box or rules; one column, one product under another, at
+   reading width (Scope keeps the two columns). Linked items: the name carries ↗ or ↓; hover turns it red. */
+  .prods {
+    display: grid;
+    gap: 32px;
+    max-width: 34em;
+  }
+  .prods li > a {
+    display: block;
+  }
+  .prods h3 {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    transition: color 0.3s;
+  }
+  .prods h3 .ico {
+    width: 14px;
+    height: 14px;
+    color: var(--ink-3);
+  }
+  .prods a:hover h3 {
+    color: var(--accent-ink);
+  }
+  .prods p {
+    margin-top: 8px;
+    color: var(--ink-2);
+    max-width: 40em;
+  }
+  .prods .stack {
+    margin-top: 12px;
+  }
+}

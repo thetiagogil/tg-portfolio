@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { ISODate } from "@/content/types";
 import {
   dayMonthYear,
+  endLabel,
   formatDuration,
   monthYear,
   monthsBetween,
@@ -9,8 +10,6 @@ import {
   toDate,
   year,
 } from "./dates";
-
-const EN = { year: "yr", years: "yrs", month: "mo", months: "mos" };
 
 describe("dates", () => {
   it("formats month and year in both languages, never as numbers", () => {
@@ -20,9 +19,9 @@ describe("dates", () => {
     expect(monthYear("2026-09-01", "pt")).toBe("set 2026");
     expect(monthYear("2022-09-01", "en")).toBe("Sep 2022");
     for (let m = 1; m <= 12; m++)
-      expect(
-        monthYear(`2025-${String(m).padStart(2, "0")}-01` as ISODate, "en"),
-      ).toMatch(/^[A-Z][a-z]{2} 2025$/);
+      expect(monthYear(`2025-${String(m).padStart(2, "0")}-01` as ISODate, "en")).toMatch(
+        /^[A-Z][a-z]{2} 2025$/,
+      );
     for (let m = 1; m <= 12; m++) {
       const iso = `2025-${String(m).padStart(2, "0")}-01` as ISODate;
       expect(monthYear(iso, "pt")).toMatch(/^[a-zç]{3,4} 2025$/);
@@ -48,10 +47,16 @@ describe("dates", () => {
   });
 
   it("formats durations", () => {
-    expect(formatDuration(21, EN)).toBe("1 yr 9 mos");
-    expect(formatDuration(12, EN)).toBe("1 yr");
-    expect(formatDuration(3, EN)).toBe("3 mos");
-    expect(formatDuration(1, EN)).toBe("1 mo");
-    expect(formatDuration(95, EN)).toBe("7 yrs 11 mos");
+    expect(formatDuration(21, "en")).toBe("1 yr 9 mos");
+    expect(formatDuration(12, "en")).toBe("1 yr");
+    expect(formatDuration(3, "en")).toBe("3 mos");
+    expect(formatDuration(1, "en")).toBe("1 mo");
+    expect(formatDuration(95, "en")).toBe("7 yrs 11 mos");
+    expect(formatDuration(21, "pt")).toMatch(/^1 ano 9 meses$/);
+  });
+
+  it("labels an open end as present", () => {
+    expect(endLabel(null, "en")).toBe("Present");
+    expect(endLabel("2023-08-01", "pt")).toBe("ago 2023");
   });
 });

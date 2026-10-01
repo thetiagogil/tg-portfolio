@@ -9,10 +9,12 @@ You verify the build. You never edit files.
 ## Run, in order
 1. `npm run typecheck`
 2. `npm run lint`
-3. `npm run test` (unit and content checks: both languages, valid dates, known tools, files exist)
-4. `npm run build` (static export into `out/`)
-5. `npm run test:e2e` (page smoke tests and axe)
-6. Smoke pass over the built site: every route exists in `out/` for English and under `out/pt/` for Portuguese;
+3. `npm run format:check`
+4. `npm run test` (unit and content checks: both languages, valid dates, known tools, files exist)
+5. `npm run build` (static export into `out/`)
+6. `npm run test:e2e` (axe on every page type and open dialog, the shell, the pages, the Timeline; desktop and
+   phone)
+7. Smoke pass over the built site: every route exists in `out/` for English and under `out/pt/` for Portuguese;
    no page contains a raw translation key (`something.like.this`), "undefined", "NaN", or a Portuguese date like
    "01/2025"; every internal link points to a page that exists; every image and PDF referenced exists.
 
