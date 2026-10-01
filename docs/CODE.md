@@ -28,6 +28,10 @@ e2e/                      Playwright tests, one file per area, plus helpers.ts
 scripts/                  build scripts (images, icons) and the screenshot tool
 ```
 
+- **Every file and folder name is kebab-case**, the way Next names its own files (`page.tsx`, `layout.tsx`):
+  `site-header.tsx`, `use-timeline-view.ts`, `image-loader.ts`, `timeline.css`. What a file exports keeps its own
+  case: `site-header.tsx` exports `SiteHeader`, `use-timeline-view.ts` exports `useTimelineView`. One rule for
+  everything, and no imports that work on a Mac (case-insensitive) but break on the Linux build.
 - **A component used by one page lives in that page's folder.** It moves to `components/` only when a second page
   needs it: `ui/` if it knows nothing about the content, `entries/` if it does, `layout/` if it's part of the shell.
 - **Logic used by one page** lives in that page's folder too (`features/timeline/filters.ts`). It moves to `lib/`
@@ -45,7 +49,7 @@ import Link from "next/link"; // 1. packages
 import { Band } from "@/components/ui/Band"; // 2. the app, through "@/"
 import type { Lang } from "@/content/types";
 import { getT } from "@/lib/i18n";
-import { ProjectGrid } from "./ProjectGrid"; // 3. the same folder
+import { ProjectGrid } from "./project-grid"; // 3. the same folder
 
 // The props type, named after the component.
 type ProjectsPageProps = {
@@ -65,8 +69,9 @@ function Section() {}
 ```
 
 - **Imports** are grouped (packages, `@/…`, `./…`) and sorted, with no blank lines between groups. **lint**
-- **One exported component per file**, named like the file. Small variants of the same thing may share a file
-  (`StackLine` and `StackRow` in `Stack.tsx`; `Lightbox` and `LightboxTrigger`).
+- **One exported component per file**, named like the file (`project-card.tsx` → `ProjectCard`). Small variants
+  of the same thing may share a file (`StackLine` and `StackRow` in `stack.tsx`; `Lightbox` and
+  `LightboxTrigger`).
 - **Pages are composed of named sections:** `HomePage` renders `<Hero />`, `<SelectedWork />`,
   `<WorkHistory />`, `<Contact />`, each a function below it. A section longer than about 80 lines, or used by
   another page, gets its own file.

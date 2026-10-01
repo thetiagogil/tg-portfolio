@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Icon } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/icon";
 import { profile } from "@/content";
 import type { Lang } from "@/content/types";
 import { dayMonthYear } from "@/lib/dates";
 import { getT, localize } from "@/lib/i18n";
-import { ContactLinks } from "./ContactLinks";
-import { MonoMark } from "./MonoMark";
+import { ContactLinks } from "./contact-links";
+import { MonoMark } from "./mono-mark";
 import { HOME, NAV } from "./nav";
 
 type SiteFooterProps = {

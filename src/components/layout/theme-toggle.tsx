@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/icon";
 
 type ThemeToggleProps = {
   labels: { toDark: string; toLight: string };

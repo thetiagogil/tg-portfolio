@@ -1,4 +1,4 @@
-import { ArrowLink } from "@/components/ui/ArrowLink";
+import { ArrowLink } from "@/components/ui/arrow-link";
 import { profile } from "@/content";
 import type { Lang } from "@/content/types";
 import { getT } from "@/lib/i18n";

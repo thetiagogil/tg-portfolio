@@ -1,10 +1,10 @@
-import { Band } from "@/components/ui/Band";
-import { PageHead } from "@/components/ui/PageHead";
+import { Band } from "@/components/ui/band";
+import { PageHead } from "@/components/ui/page-head";
 import type { Lang } from "@/content/types";
 import { getT } from "@/lib/i18n";
 import { stackGroups, timelineItems } from "./items";
-import { TimelineChart } from "./TimelineChart";
-import { TimelineExplorer } from "./TimelineExplorer";
+import { TimelineChart } from "./timeline-chart";
+import { TimelineExplorer } from "./timeline-explorer";
 
 type TimelinePageProps = {
   lang: Lang;

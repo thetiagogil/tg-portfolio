@@ -3,16 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Dialog } from "@/components/ui/Dialog";
-import { Icon } from "@/components/ui/Icon";
+import { Dialog } from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
 import { profile } from "@/content";
 import type { Lang } from "@/content/types";
 import { getT, localize, sharedPath } from "@/lib/i18n";
-import { ContactLinks } from "./ContactLinks";
-import { LangSwitch } from "./LangSwitch";
-import { MonoMark } from "./MonoMark";
+import { ContactLinks } from "./contact-links";
+import { LangSwitch } from "./lang-switch";
+import { MonoMark } from "./mono-mark";
 import { HOME, isCurrent, NAV } from "./nav";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from "./theme-toggle";
 
 type SiteHeaderProps = {
   lang: Lang;

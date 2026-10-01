@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { Icon, type IconName } from "./Icon";
-import { SmartLink } from "./SmartLink";
+import { Icon, type IconName } from "./icon";
+import { SmartLink } from "./smart-link";
 
 type ButtonProps = {
   href: string;

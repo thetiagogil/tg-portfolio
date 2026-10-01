@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { RootShell } from "@/components/layout/RootShell";
-import { Band } from "@/components/ui/Band";
-import { Button } from "@/components/ui/Button";
+import { RootShell } from "@/components/layout/root-shell";
+import { Band } from "@/components/ui/band";
+import { Button } from "@/components/ui/button";
 import { getT } from "@/lib/i18n";
 import { rootMetadata, SITE_VIEWPORT } from "@/lib/metadata";
 

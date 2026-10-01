@@ -4,9 +4,9 @@ import type { ReactNode } from "react";
 import "@/app/globals.css";
 import type { Lang } from "@/content/types";
 import { getT, HTML_LANG } from "@/lib/i18n";
-import { RevealObserver } from "./RevealObserver";
-import { SiteFooter } from "./SiteFooter";
-import { SiteHeader } from "./SiteHeader";
+import { RevealObserver } from "./reveal-observer";
+import { SiteFooter } from "./site-footer";
+import { SiteHeader } from "./site-header";
 
 // Runs before the first paint: applies a remembered theme (no flash) and marks that JavaScript runs, so the
 // reveal-on-scroll only hides content when it can show it again.

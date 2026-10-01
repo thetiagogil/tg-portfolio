@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Glyph } from "@/components/entries/Glyph";
-import { StackLine } from "@/components/entries/Stack";
-import { StatusMark } from "@/components/entries/StatusMark";
-import { Icon } from "@/components/ui/Icon";
+import { Glyph } from "@/components/entries/glyph";
+import { StackLine } from "@/components/entries/stack";
+import { StatusMark } from "@/components/entries/status-mark";
+import { Icon } from "@/components/ui/icon";
 import type { Lang } from "@/content/types";
 import type { TimelineItem } from "./filters";
 

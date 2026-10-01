@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Icon } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/icon";
 import { CATEGORIES, type Lang } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { getT } from "@/lib/i18n";
@@ -13,10 +13,10 @@ import {
   type TimelineItem,
   visible,
 } from "./filters";
-import { FiltersDialog } from "./FiltersDialog";
+import { FiltersDialog } from "./filters-dialog";
 import type { StackGroup } from "./items";
-import { TimelineEntry } from "./TimelineEntry";
-import { useTimelineView } from "./useTimelineView";
+import { TimelineEntry } from "./timeline-entry";
+import { useTimelineView } from "./use-timeline-view";
 
 type TimelineExplorerProps = {
   items: TimelineItem[];

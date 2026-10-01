@@ -1,4 +1,4 @@
-import { HomePage } from "@/features/home/HomePage";
+import { HomePage } from "@/features/home/home-page";
 import { homeMetadata } from "@/lib/metadata";
 
 export const metadata = homeMetadata("en");

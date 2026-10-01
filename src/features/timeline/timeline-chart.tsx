@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { Dim } from "@/components/entries/Dim";
-import { Glyph } from "@/components/entries/Glyph";
+import { Dim } from "@/components/entries/dim";
+import { Glyph } from "@/components/entries/glyph";
 import { certifications, degreeBySlug, degrees, projects, roles } from "@/content";
 import type { Category, ISODate, Lang, RecordEntry } from "@/content/types";
 import { monthYear, toDate } from "@/lib/dates";

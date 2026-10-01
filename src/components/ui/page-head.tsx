@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { delay } from "@/lib/motion";
-import { Rise } from "./Rise";
+import { Rise } from "./rise";
 
 type PageHeadProps = {
   eyebrow: ReactNode;

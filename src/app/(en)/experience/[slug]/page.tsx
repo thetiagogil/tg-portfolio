@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { roleBySlug, roles } from "@/content";
-import { RecordPage } from "@/features/records/RecordPage";
+import { RecordPage } from "@/features/records/record-page";
 import { recordMetadata } from "@/lib/metadata";
 
 type Props = { params: Promise<{ slug: string }> };

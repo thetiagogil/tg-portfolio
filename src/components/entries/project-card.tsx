@@ -3,9 +3,9 @@ import type { Lang, Project } from "@/content/types";
 import { year } from "@/lib/dates";
 import { projectHref } from "@/lib/entries";
 import { getT } from "@/lib/i18n";
-import { ProjectMedia } from "./ProjectMedia";
-import { Sheet } from "./Sheet";
-import { StatusMark } from "./StatusMark";
+import { ProjectMedia } from "./project-media";
+import { Sheet } from "./sheet";
+import { StatusMark } from "./status-mark";
 
 type ProjectCardProps = {
   project: Project;

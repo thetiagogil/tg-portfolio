@@ -1,4 +1,4 @@
-import { Chips } from "@/components/ui/Chips";
+import { Chips } from "@/components/ui/chips";
 import { TOOLS } from "@/content";
 import type { ToolId } from "@/content/stack";
 import type { Lang } from "@/content/types";

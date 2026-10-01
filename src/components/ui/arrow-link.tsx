@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { Icon, type IconName } from "./Icon";
-import { SmartLink } from "./SmartLink";
+import { Icon, type IconName } from "./icon";
+import { SmartLink } from "./smart-link";
 
 type ArrowLinkProps = {
   href: string;

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { ArrowLink } from "@/components/ui/ArrowLink";
-import { Band } from "@/components/ui/Band";
-import { PageHead } from "@/components/ui/PageHead";
-import { SectionHead } from "@/components/ui/SectionHead";
+import { ArrowLink } from "@/components/ui/arrow-link";
+import { Band } from "@/components/ui/band";
+import { PageHead } from "@/components/ui/page-head";
+import { SectionHead } from "@/components/ui/section-head";
 import {
   currentRole,
   degreeBySlug,

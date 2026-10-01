@@ -4,7 +4,8 @@ Why the site looks and reads the way it does. Newest entries at the bottom. Add 
 owner makes (date, what was asked, what changed, and why), so the reasoning survives. The current state of the design
 is in `docs/DESIGN.md`; this file is the history behind it.
 
-- Entries up to 2026-10-01 come from the Direction Study (`docs/study/REDESIGN.md`, kept unchanged as the original).
+- Entries up to 2026-10-01 come from the Direction Study's log (the original `docs/study/REDESIGN.md` and
+  `REVIEW.md` were removed on 2026-10-01; they're in git history).
 - Pronoun note: older entries say "he" for the owner; new entries say "the owner" or "Tiago".
 
 ## Open questions
@@ -52,7 +53,7 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   removed; mono capitals kept for data only; contact reduced to the address and three links; the project page shows
   four facts. The Hero grid switch went with the grid. Home is about 40% shorter. Timeline and "Where I've worked"
   unchanged.
-- **2026-09-29**: Owner: "a lot better, a lot more readable". Whole-app review (`REVIEW.md`): 24 pages × 2 frames × 2
+- **2026-09-29**: Owner: "a lot better, a lot more readable". Whole-app review (the study's `REVIEW.md`, now in git history): 24 pages × 2 frames × 2
   themes × 2 languages. Fixed dead links (CV, thesis, certification markers), missing files, keyboard access, Copy
   email, Portuguese dates, a phone overflow, the jump to Selected work, and spacing that differed between pages
   (page tops unified at 80 / 72 / 56, breadcrumb 24 above the title, equal link rows, a two-column toolbox on phones).
@@ -348,3 +349,7 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   `.links`, `.faint`, `.stack-chip`, `.sec-eyebrow`), and the separate Prettier config file. End-to-end tests are
   grouped by area (accessibility, site, pages, timeline) and now also scan the open image viewer and phone menu.
   Every page was compared before and after at desktop and phone (105 captures): no visible change.
+- **2026-10-01**: File names are kebab-case everywhere (`site-header.tsx`, `use-timeline-view.ts`), as Next names
+  its own files; components keep PascalCase names in code. The owner's choice: one rule for every file, and no
+  case-only mismatches between macOS and the Linux build. The study's original notes (`REDESIGN.md`, `REVIEW.md`)
+  were deleted; everything in them lives on in `DESIGN.md` and this log.

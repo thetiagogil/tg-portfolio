@@ -1,4 +1,4 @@
-import { ProjectsPage } from "@/features/projects/ProjectsPage";
+import { ProjectsPage } from "@/features/projects/projects-page";
 import { sectionMetadata } from "@/lib/metadata";
 
 export const metadata = sectionMetadata("en", "projects", "projects.intro");

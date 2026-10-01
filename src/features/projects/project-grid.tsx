@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ProjectCard } from "@/components/entries/ProjectCard";
+import { ProjectCard } from "@/components/entries/project-card";
 import { type Lang, type Project, PROJECT_TYPES, type ProjectType } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { getT } from "@/lib/i18n";

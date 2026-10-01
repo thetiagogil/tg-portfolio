@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Icon } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/icon";
 import type { Lang } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { getT } from "@/lib/i18n";

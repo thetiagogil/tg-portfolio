@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { RootShell } from "@/components/layout/RootShell";
+import { RootShell } from "@/components/layout/root-shell";
 import { rootMetadata, SITE_VIEWPORT } from "@/lib/metadata";
 
 export const metadata = rootMetadata("en");

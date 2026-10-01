@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { projectBySlug, projects } from "@/content";
-import { ProjectPage } from "@/features/projects/ProjectPage";
+import { ProjectPage } from "@/features/projects/project-page";
 import { projectMetadata } from "@/lib/metadata";
 
 type Props = { params: Promise<{ slug: string }> };
