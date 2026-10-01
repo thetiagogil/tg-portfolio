@@ -13,7 +13,8 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   only one left was the home link's screen-reader label. Default: avoid; confirm with the owner.
 - **Sideways scrolling on phones:** the Timeline chart (~670px wide) and the tab rows scroll sideways with no hint.
   Leave them, or fade the right edge?
-- **Stack trim per entry:** a table for the owner to approve in Phase 2.
+- **Vercel:** in the About panel but on no entry yet; the owner will check which projects are deployed there (the
+  live links of Easyqa, Onesbryne, Trackio, Echoes and Rankex are on vercel.app).
 - **Content evaluation:** the owner wants to review all content before launch (Phase 7).
 
 ## Log
@@ -286,3 +287,13 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   qa-runner; skills: verify, new-entry, compare-study). The owner's profile is a document every agent reads, not an
   agent of its own. Repo is private.
 - **2026-10-01**: Commits are the title line only: no body, no co-author or attribution lines.
+- **2026-10-01**: Stacks (owner): keep the design tool (UI library) on every entry; no overlap between a tool and what
+  it's built on (Next.js ⊃ React, React ⊃ HTML/CSS, shadcn/ui ⊃ Tailwind + Radix, Supabase ⊃ PostgreSQL): an entry
+  lists only the top one, enforced by a test via `includes` in `stack.ts`. Filters match only listed tools (Next.js
+  projects never show React). Removed: Microsoft Office (CR Espassos), Postman (React Native certificate), PostgreSQL
+  wherever Supabase is listed, Tailwind on Voydex and Rankex (shadcn/ui), React on the Talent Protocol role (Next.js;
+  its React products keep React on their own stack line). "Shadcn UI" is now "shadcn/ui". Vercel deferred.
+- **2026-10-01**: Content migrated to one file per entry (`src/content/`), English and Portuguese side by side, with
+  the study's approved copy and the role-name fixes applied. The home link's screen-reader label lost its em dash
+  ("Tiago Gil, home"), so the site has none. Noted for the content review: the PT Aquasis overview says "ligação de
+  ecrã frontend" (should be "ecrãs").

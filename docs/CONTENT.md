@@ -3,10 +3,9 @@
 How the site's content is organised, and the rules for writing it in English and Portuguese (pt-PT). For the owner's
 voice, positioning and approved or rejected copy, read `docs/OWNER.md` first.
 
-> **Status:** the model below is the target for Phase 2 of `docs/PLAN.md`. Until it lands, the approved copy lives in
-> the study source `docs/study/src/study-src.html`: `HERO`, `COPY_OVERRIDES` (en / pt), `COPY` (study-only
-> strings), `SCOPE` (titled scope points), `CHART_LABELS` and `TECH_GROUPS`. The study's `data/content.js` is a frozen
-> export of the old content; don't edit it.
+> The approved copy from the study (hero, overrides, titled Scope, chart labels) is already in the content. The
+> study's `data/content.js` is a frozen export of the old content; don't edit it. `src/content/content.test.ts` checks
+> everything below; run `npm run test` after any edit.
 
 ---
 
@@ -29,8 +28,10 @@ src/content/
   file, never in separate trees.
 - **Dates** are ISO strings (`"2025-01-01"`), read and formatted in **UTC**. `dateEnd: null` means "present";
   `dateEnd` absent means a single date.
-- **Tools** are referenced by id from `stack.ts`. An entry can't list a tool that isn't defined there.
-- **Images and PDFs** live in `public/` and are referenced by path; a test checks every one exists.
+- **Tools** are referenced by id from `stack.ts` (`nextjs`, `shadcn`, `tanstackQuery`…). An entry can't list a tool
+  that isn't defined there.
+- **Images:** source files live in `assets/projects/<folder>/` and are referenced as `"voydex/voydex-1.png"`; the
+  WebP sizes are generated into `public/images/`. **PDFs** live in `public/`. A test checks every file exists.
 
 ### Projects
 
@@ -44,8 +45,8 @@ src/content/
 | `brief` (en / pt) | 1–2 sentences, `lead` size |
 | `techs` | 3–6 defining tools |
 | `links` | `site?`, `repo?` |
-| `images` | First image is the cover and the link preview |
-| `collection?` | Grouped entries (e.g. the portfolio collection), each with a label, link, description |
+| `images` | Paths inside `assets/projects/`; the first is the cover and the link preview |
+| `collection?` | Grouped entries (the portfolio sites), each with a label, link and stack |
 
 ### Roles (experience) and degrees (education)
 
@@ -108,8 +109,14 @@ src/content/
 - `stack.ts` is the single list of tools. It feeds the About panel (the twelve with `main: true`, in the owner's
   order: React, Next.js, TypeScript, JavaScript, Material UI, Tailwind CSS, shadcn/ui, Bootstrap, TanStack Query,
   Supabase, Vercel, PostgreSQL), the filter groups and every chip.
-- Each entry lists the **3–6 tools that define it**. Leave out what's implied (HTML and CSS when React is listed)
-  and what isn't stack (Agile, Lean, Kanban, Jira, Microsoft Office, Postman); ways of working belong in Scope.
+- Each entry lists the **tools that define it** (up to 7), always including its UI library or design system (Joy UI,
+  Material UI, Radix UI, shadcn/ui, Bootstrap, Tailwind CSS).
+- **No overlap.** A tool can declare what it already includes (`includes` in `stack.ts`): Next.js includes React,
+  React includes HTML and CSS, shadcn/ui includes Tailwind CSS and Radix UI, Supabase includes PostgreSQL. An entry
+  lists only the top one; a test fails if it lists both. Filters match only what's listed (a Next.js project doesn't
+  appear under React).
+- Not stack: Microsoft Office, Postman. Ways of working (Agile, Lean, Kanban, Jira) appear only on the Agile
+  certificate, whose subject they are; elsewhere they belong in Scope.
 - Names: use each tool's own spelling (Next.js, shadcn/ui, TanStack Query, PostgreSQL).
 
 ## 4. Adding an entry
