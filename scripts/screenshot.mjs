@@ -28,6 +28,8 @@ const page = await browser.newPage({
   reducedMotion: "reduce",
 });
 await page.goto(url, { waitUntil: "networkidle" });
+// Wait for the web fonts: the fallback font is wider and can cut labels that fit.
+await page.evaluate(() => document.fonts.ready);
 if (click) {
   await page.click(click);
   await page.waitForTimeout(300);

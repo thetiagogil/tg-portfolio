@@ -12,7 +12,7 @@ Status (update as phases finish):
 | 2. Content model and migration | Done (2026-10-01): 23 entries, profile, 174 interface strings per language; 15 tests |
 | 3. Foundation | Done (2026-10-01): tokens, type, grid, bands, motion; `/` and `/pt` root layouts; header, phone menu, footer, theme and language switches; 404; image loader; 22 end-to-end checks |
 | 4. Pages | Done (2026-10-01): Home, Projects, 14 project pages with the image viewer, About, 6 role and degree pages, in both languages (48 pages); compared with the study at desktop and phone |
-| 5. Timeline | Not started |
+| 5. Timeline | Done (2026-10-01): chart, list on one line, tabs, search (`/`), sort, filters modal; the view lives in the URL |
 | 6. Polish | Not started |
 | 7. Review and launch | Not started |
 
@@ -40,8 +40,7 @@ page and the full-screen image viewer; no printable CV page).
    shareable) or `/timeline/aquasis`.
 2. **The two study switches become fixed choices:** image marks **on** (crop marks on hover) and motion **calm**
    (gentle reveals, nothing for people who ask for reduced motion). Recommended as proposed.
-3. **Filters in the URL** (`/timeline?stack=react&type=client`), so a filtered Timeline can be shared.
-   Recommended: yes.
+3. ~~Filters in the URL~~ Done: `/timeline?cat=projects&q=react&stack=nextjs&type=client&now=1&sort=oldest`.
 4. **Stack trim** per entry (see Phase 2): a table to approve.
 5. **Content evaluation** (the pass the owner wants to do later): scheduled in Phase 7, before launch.
 

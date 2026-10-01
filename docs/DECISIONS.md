@@ -310,3 +310,8 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   title and mono counter on top, arrows at the bottom. Image alt text: "Screenshot 2 of 4 of Voydex" (both languages).
 - **2026-10-01**: 404 and error copy without the drawing-sheet metaphor (owner): "This page doesn't exist." / "Esta
   página não existe."; "Something went wrong." / "Algo correu mal.". A content test now fails on "sheet" / "folha".
+- **2026-10-01**: Timeline built (Phase 5). The view lives in the URL (`?cat=projects&q=react&stack=nextjs,supabase&
+  type=client&now=1&sort=oldest`) so a filtered Timeline can be shared and Back works. "Show N results" now counts
+  within the current category tab too (the study's count ignored the tab), so the number always matches the list.
+  The chart's "Transition" and "Today" labels are grey, as the study renders them (its accent class was overridden).
+  The "/" key hint is hidden on phones and touch screens (no keyboard), giving the search box its room.
