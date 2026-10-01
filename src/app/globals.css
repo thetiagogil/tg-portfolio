@@ -2,6 +2,7 @@
 @import "../styles/tokens.css";
 @import "../styles/base.css";
 @import "../styles/components.css";
+@import "../styles/pages.css";
 
 /* Tokens exposed to Tailwind utilities (bg-paper, text-ink-2, border-line, font-mono…). Breakpoints are Tailwind's
    defaults, which match the design: sm 40rem, md 48rem, lg 64rem. */

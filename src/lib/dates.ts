@@ -2,7 +2,8 @@
 // (otherwise "2025-01-01" shows as Dec 2024 west of GMT).
 import type { ISODate, Lang } from "@/content/types";
 
-const LOCALE: Record<Lang, string> = { en: "en-GB", pt: "pt-PT" };
+// en-US for English months: en-GB writes September as "Sept"; the design uses three letters ("Sep").
+const LOCALE: Record<Lang, string> = { en: "en-US", pt: "pt-PT" };
 
 export const toDate = (iso: ISODate): Date => new Date(`${iso}T00:00:00Z`);
 

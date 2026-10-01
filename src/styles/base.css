@@ -135,6 +135,10 @@
   .band:first-child {
     padding-top: 0;
   }
+  /* The first thing inside a band starts at the band's padding, with no extra margin. */
+  .band > .wrap:first-child > :first-child {
+    margin-top: 0;
+  }
   @media (width >= 48rem) {
     .band {
       padding-block: 96px;

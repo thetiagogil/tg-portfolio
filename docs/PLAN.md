@@ -11,7 +11,7 @@ Status (update as phases finish):
 | 1. Scaffold | Done (2026-10-01): Next.js 16.3, React 19.2, Tailwind 4.3, Vitest 5, Playwright 1.63 (installed Chrome) |
 | 2. Content model and migration | Done (2026-10-01): 23 entries, profile, 174 interface strings per language; 15 tests |
 | 3. Foundation | Done (2026-10-01): tokens, type, grid, bands, motion; `/` and `/pt` root layouts; header, phone menu, footer, theme and language switches; 404; image loader; 22 end-to-end checks |
-| 4. Pages | Not started |
+| 4. Pages | Done (2026-10-01): Home, Projects, 14 project pages with the image viewer, About, 6 role and degree pages, in both languages (48 pages); compared with the study at desktop and phone |
 | 5. Timeline | Not started |
 | 6. Polish | Not started |
 | 7. Review and launch | Not started |

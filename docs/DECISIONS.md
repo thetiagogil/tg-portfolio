@@ -305,3 +305,8 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   the first paint (no flash). Styling split: tokens in Tailwind's theme; the study's component CSS kept as classes in
   `src/styles/`; Tailwind utilities for one-off layout. End-to-end tests run with reduced motion so accessibility checks
   measure final colours, not a fade in progress.
+- **2026-10-01**: Pages built (Phase 4) and compared with the study at desktop and phone. Fixes found on the way:
+  English months use en-US names ("Sep", not en-GB's "Sept"); the footer's Index and Contact columns stack under
+  40rem (side by side they broke the email address); project cards on Projects use an `h2` (the cards are that page's
+  top level), `h3` elsewhere. The full-screen image viewer was designed here (not in the study): paper background,
+  title and mono counter on top, arrows at the bottom. Image alt text: "Screenshot 2 of 4 of Voydex" (both languages).

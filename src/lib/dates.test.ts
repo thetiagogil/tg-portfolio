@@ -18,6 +18,11 @@ describe("dates", () => {
     expect(monthYear("2025-01-01", "pt")).toBe("jan 2025");
     expect(monthYear("2024-02-01", "pt")).toBe("fev 2024");
     expect(monthYear("2026-09-01", "pt")).toBe("set 2026");
+    expect(monthYear("2022-09-01", "en")).toBe("Sep 2022");
+    for (let m = 1; m <= 12; m++)
+      expect(
+        monthYear(`2025-${String(m).padStart(2, "0")}-01` as ISODate, "en"),
+      ).toMatch(/^[A-Z][a-z]{2} 2025$/);
     for (let m = 1; m <= 12; m++) {
       const iso = `2025-${String(m).padStart(2, "0")}-01` as ISODate;
       expect(monthYear(iso, "pt")).toMatch(/^[a-zç]{3,4} 2025$/);

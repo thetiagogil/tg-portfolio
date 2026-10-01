@@ -28,7 +28,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
             <p className="footer-note">{t("footer.note")}</p>
           </div>
           <nav
-            className="col-span-2 md:col-span-2 lg:col-span-3"
+            className="col-span-full sm:col-span-2 md:col-span-2 lg:col-span-3"
             aria-label={t("footer.index")}
           >
             <h2 className="an footer-label">{t("footer.index")}</h2>
@@ -42,7 +42,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
               ))}
             </ul>
           </nav>
-          <div className="col-span-2 md:col-span-2 lg:col-span-3">
+          <div className="col-span-full sm:col-span-2 md:col-span-2 lg:col-span-3">
             <h2 className="an footer-label">{t("footer.contact")}</h2>
             <ul className="footer-links">
               <li>

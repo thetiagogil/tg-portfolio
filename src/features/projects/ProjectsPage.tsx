@@ -1,9 +1,10 @@
 import { Band } from "@/components/Band";
 import { PageHead } from "@/components/PageHead";
+import { projects } from "@/content";
 import type { Lang } from "@/content/types";
 import { getT } from "@/lib/i18n";
+import { ProjectGrid } from "./ProjectGrid";
 
-// Phase 3 placeholder: the page header is final; the rest of the page comes in Phase 4.
 export function ProjectsPage({ lang }: { lang: Lang }) {
   const t = getT(lang);
   return (
@@ -16,7 +17,9 @@ export function ProjectsPage({ lang }: { lang: Lang }) {
         />
       </Band>
       <Band>
-        <div className="wrap" />
+        <div className="wrap">
+          <ProjectGrid projects={projects} lang={lang} />
+        </div>
       </Band>
     </>
   );
