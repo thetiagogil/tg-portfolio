@@ -16,8 +16,6 @@ is in `docs/DESIGN.md`; this file is the history behind it.
 - **Vercel:** in the About panel but on no entry yet; the owner will check which projects are deployed there (the
   live links of Easyqa, Onesbryne, Trackio, Echoes and Rankex are on vercel.app).
 - **Content evaluation:** the owner wants to review all content before launch (Phase 7).
-- **404 copy:** still "This sheet isn't in the set." / "Esta folha não faz parte do conjunto.", a drawing metaphor
-  like the ones removed elsewhere. Proposed: "This page doesn't exist." / "Esta página não existe."
 
 ## Log
 
@@ -310,3 +308,5 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   40rem (side by side they broke the email address); project cards on Projects use an `h2` (the cards are that page's
   top level), `h3` elsewhere. The full-screen image viewer was designed here (not in the study): paper background,
   title and mono counter on top, arrows at the bottom. Image alt text: "Screenshot 2 of 4 of Voydex" (both languages).
+- **2026-10-01**: 404 and error copy without the drawing-sheet metaphor (owner): "This page doesn't exist." / "Esta
+  página não existe."; "Something went wrong." / "Algo correu mal.". A content test now fails on "sheet" / "folha".

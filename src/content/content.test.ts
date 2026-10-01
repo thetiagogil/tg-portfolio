@@ -187,6 +187,10 @@ describe("content", () => {
     expect(broken(/—/), "em dashes").toEqual([]);
     expect(broken(/\b\d{2}\/\d{4}\b/), "numeric month dates").toEqual([]);
     expect(broken(/bootcamp apps/i), "'bootcamp apps'").toEqual([]);
+    expect(
+      broken(/\bsheets?\b|\bfolhas?\b/i),
+      "drawing-sheet metaphors",
+    ).toEqual([]);
   });
 
   it("has every interface text in Portuguese", () => {
