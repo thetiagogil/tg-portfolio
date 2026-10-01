@@ -14,6 +14,11 @@ import { SiteHeader } from "./SiteHeader";
 // reveal-on-scroll only hides content when it can show it again.
 const BOOT = `(function(){var d=document.documentElement;d.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")d.dataset.theme=t}catch(e){}})()`;
 
+// Cloudflare Web Analytics (cookieless). Set NEXT_PUBLIC_CF_ANALYTICS_TOKEN when building to turn it on; without it
+// no analytics script is included. (If the domain is proxied by Cloudflare, it can also be switched on in the
+// dashboard with no code at all.)
+const ANALYTICS_TOKEN = process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN;
+
 export const rootMetadata = (lang: Lang): Metadata => ({
   metadataBase: new URL(SITE_URL),
   title: { default: "Tiago Gil", template: "%s · Tiago Gil" },
@@ -22,8 +27,8 @@ export const rootMetadata = (lang: Lang): Metadata => ({
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f5f1" },
-    { media: "(prefers-color-scheme: dark)", color: "#14161b" },
+    { media: "(prefers-color-scheme: light)", color: "#f8f6f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f1114" },
   ],
 };
 
@@ -57,6 +62,13 @@ export function RootShell({
         </main>
         <SiteFooter lang={lang} />
         <RevealObserver />
+        {ANALYTICS_TOKEN && (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: ANALYTICS_TOKEN })}
+          />
+        )}
       </body>
     </html>
   );

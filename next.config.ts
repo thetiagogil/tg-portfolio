@@ -4,10 +4,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "export",
   images: {
-    // Images are pre-sized by `npm run images` (640 / 1280 / 1920 WebP); the loader picks the right file.
+    // Images are pre-sized by `npm run images` (640 / 960 / 1280 / 1920 WebP); the loader picks the right file.
     loader: "custom",
     loaderFile: "./src/lib/image-loader.ts",
-    deviceSizes: [640, 1280, 1920],
+    deviceSizes: [640, 960, 1280, 1920],
     imageSizes: [320],
   },
   experimental: {

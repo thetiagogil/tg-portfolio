@@ -32,7 +32,7 @@ test("tabs, search and sort narrow and reorder the list, and the URL keeps them"
   await expect(page).toHaveURL(/cat=projects/);
   await expect(page).toHaveURL(/q=pok/);
   await page.getByRole("searchbox").fill("");
-  await page.getByRole("button", { name: "Show oldest first" }).click();
+  await page.getByRole("button", { name: "Newest, show oldest first" }).click();
   await expect(entries(page).first()).toContainText("Giraffes vs Sea");
   await page.reload();
   await expect(entries(page)).toHaveCount(14);

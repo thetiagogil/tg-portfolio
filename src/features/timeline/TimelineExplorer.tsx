@@ -158,11 +158,7 @@ export function TimelineExplorer({
             <button
               type="button"
               className="tool-btn"
-              aria-label={t(
-                view.sort === "oldest"
-                  ? "timeline.sortNewest"
-                  : "timeline.sortOldest",
-              )}
+              aria-label={`${t(view.sort === "oldest" ? "timeline.oldest" : "timeline.newest")}, ${t(view.sort === "oldest" ? "timeline.sortNewest" : "timeline.sortOldest").toLowerCase()}`}
               onClick={() =>
                 setView({ sort: view.sort === "oldest" ? "newest" : "oldest" })
               }

@@ -1,6 +1,6 @@
 // next/image loader for the static export: images are pre-sized by scripts/build-images.mjs into public/images/
 // as "<name>-<width>.webp". `src` is the path inside assets/, e.g. "projects/voydex/voydex-1.png".
-const WIDTHS = [640, 1280, 1920]; // keep in sync with scripts/build-images.mjs
+const WIDTHS = [640, 960, 1280, 1920]; // keep in sync with scripts/build-images.mjs
 
 export default function imageLoader({
   src,

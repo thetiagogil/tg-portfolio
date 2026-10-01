@@ -10,7 +10,7 @@ const sourceRoot = path.join(root, "assets");
 const outputRoot = path.join(root, "public/images");
 
 // Keep in sync with the image loader (Phase 3).
-const WIDTHS = [640, 1280, 1920];
+const WIDTHS = [640, 960, 1280, 1920];
 const QUALITY = 80;
 
 const isNewer = async (source, target) => {

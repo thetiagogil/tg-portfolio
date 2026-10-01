@@ -10,6 +10,7 @@ export const pageMetadata = ({
   path,
   title,
   description,
+  image,
 }: {
   lang: Lang;
   /** The shared path, e.g. "/projects". */
@@ -17,6 +18,8 @@ export const pageMetadata = ({
   /** Omit on Home to use the site name alone. */
   title?: string;
   description: string;
+  /** The link-preview image path (see lib/og.tsx). */
+  image: string;
 }): Metadata => ({
   ...(title ? { title } : {}),
   description,
@@ -35,5 +38,9 @@ export const pageMetadata = ({
     url: localize(lang, path),
     ...(title ? { title } : {}),
     description,
+    images: [
+      { url: image, width: 1200, height: 630, alt: title ?? "Tiago Gil" },
+    ],
   },
+  twitter: { card: "summary_large_image", images: [image] },
 });

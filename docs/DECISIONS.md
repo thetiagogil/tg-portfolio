@@ -315,3 +315,13 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   within the current category tab too (the study's count ignored the tab), so the number always matches the list.
   The chart's "Transition" and "Today" labels are grey, as the study renders them (its accent class was overridden).
   The "/" key hint is hidden on phones and touch screens (no keyboard), giving the search box its room.
+- **2026-10-01**: Polish (Phase 6). Sitemap (every page, both languages, with alternates) and robots.txt. Favicon from
+  the TG monogram (SVG that switches to light-on-dark in dark mode, a 180px PNG for iPhones, favicon.ico). Link
+  previews built with the site as real PNG files with stable names (`/og/en.png`, `/og/voydex-pt.png`): the site's
+  card (monogram, headline, stack, city) for most pages, each project's own (title, subtitle, first screenshot or the
+  hatched panel). Next's `opengraph-image` convention was dropped: inner pages lost the image (a page's own preview
+  settings replace the inherited ones) and the files had no extension. Cloudflare Web Analytics is included only
+  when `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` is set at build time. Lighthouse (mobile, throttled): accessibility, best
+  practices and SEO 100; performance 94–98 (Home and About are held at 94 by the headline's rise-in, kept by
+  design). Fixes from it: chart markers are mouse shortcuts out of the keyboard order (the list has every entry with
+  a full-size link); the sort button's spoken name includes its visible label; a 960px image size was added.

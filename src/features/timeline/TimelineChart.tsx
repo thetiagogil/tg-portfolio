@@ -18,7 +18,8 @@ import { pct, scaleOf, utc } from "@/lib/scale";
 const oldestFirst = <T extends { dateStart: string }>(list: T[]) =>
   [...list].sort((a, b) => Date.parse(a.dateStart) - Date.parse(b.dateStart));
 
-/** Markers that start too close together go on separate lanes. */
+/** Markers that start too close together go on separate lanes. Markers are a mouse shortcut with a hover tip: every
+    project and certificate is also in the list below with a full-size link, so they stay out of the keyboard order. */
 const pack = <T,>(list: { item: T; pos: number }[]) => {
   const ends: number[] = [];
   return list.map(({ item, pos }) => {
@@ -203,7 +204,8 @@ export function TimelineChart({ lang }: { lang: Lang }) {
                       className="mk"
                       href={projectHref(lang, p)}
                       style={{ left: pct(pos), top: 11 + lane * 16 }}
-                      aria-label={p.title}
+                      tabIndex={-1}
+                      aria-hidden="true"
                     >
                       <Glyph category="projects" status={p.status} />
                       {tip(p.title, monthYear(p.dateStart, lang))}
@@ -233,7 +235,8 @@ export function TimelineChart({ lang }: { lang: Lang }) {
                       target="_blank"
                       rel="noreferrer"
                       style={{ left: pct(pos), top: 11 + lane * 16 }}
-                      aria-label={c.title}
+                      tabIndex={-1}
+                      aria-hidden="true"
                     >
                       <Glyph category="certifications" />
                       {tip(c.title, monthYear(c.dateStart, lang))}
@@ -260,10 +263,7 @@ export function TimelineChart({ lang }: { lang: Lang }) {
                       {tick.year}
                     </span>
                   ))}
-                <span
-                  className="an low"
-                  style={{ left: pct(tr) }}
-                >
+                <span className="an low" style={{ left: pct(tr) }}>
                   {t("timeline.chart.transition")}
                 </span>
                 <span className="an low" style={{ left: pct(today) }}>
