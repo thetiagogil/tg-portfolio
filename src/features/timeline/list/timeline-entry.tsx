@@ -28,7 +28,7 @@ export function TimelineEntry({ item, lang }: TimelineEntryProps) {
         className="relative col-start-1 row-[1/span_3] flex justify-center before:absolute before:inset-y-0 before:left-1/2 before:w-px before:-translate-x-1/2 before:bg-line-2 lg:col-[3/span_1] lg:row-start-1"
         aria-hidden="true"
       >
-        <span className="relative mt-7 grid size-5 place-items-center bg-bg transition-colors duration-300 group-hover/entry:bg-[color-mix(in_oklab,var(--ink)_4%,var(--bg))] lg:mt-[30px]">
+        <span className="relative mt-7 grid size-5 place-items-center bg-bg transition-colors duration-300 group-hover/entry:bg-[color-mix(in_oklab,var(--ink)_4%,var(--bg))] lg:mt-7.5">
           <Glyph
             category={item.category}
             status={item.status}

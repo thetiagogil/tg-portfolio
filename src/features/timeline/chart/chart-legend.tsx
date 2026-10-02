@@ -7,7 +7,7 @@ type ChartLegendProps = {
   lang: Lang;
 };
 
-const SWATCH = "inline-block h-2 w-[18px] flex-none text-ink-2";
+const SWATCH = "inline-block h-2 w-4.5 flex-none text-ink-2";
 
 export function ChartLegend({ lang }: ChartLegendProps) {
   const t = getT(lang);

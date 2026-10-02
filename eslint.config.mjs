@@ -39,7 +39,7 @@ export default defineConfig([
   // on save and with `npm run lint -- --fix`.
   {
     plugins: { "better-tailwindcss": betterTailwind },
-    settings: { "better-tailwindcss": { entryPoint: "src/app/globals.css" } },
+    settings: { "better-tailwindcss": { entryPoint: "src/app/globals.css", rootFontSize: 16 } },
     rules: {
       "better-tailwindcss/enforce-canonical-classes": "error",
       "better-tailwindcss/no-duplicate-classes": "error",

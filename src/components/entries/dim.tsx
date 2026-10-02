@@ -8,8 +8,8 @@ type DimProps = {
 };
 
 const LINE = "absolute top-1/2 w-px bg-current";
-const EXTENSION = cn(LINE, "h-[17px] -translate-1/2 opacity-45");
-const TICK = cn(LINE, "h-[11px] -translate-1/2 rotate-45");
+const EXTENSION = cn(LINE, "h-4.25 -translate-1/2 opacity-45");
+const TICK = cn(LINE, "h-2.75 -translate-1/2 rotate-45");
 
 export function Dim({ label, open = false, className, labelClassName }: DimProps) {
   return (

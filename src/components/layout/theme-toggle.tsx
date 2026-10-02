@@ -25,11 +25,11 @@ export function ThemeToggle({ labels }: ThemeToggleProps) {
     <button type="button" className={ICON_BUTTON} onClick={toggle} data-theme-toggle>
       {/* Both icons are rendered and the CSS shows the right one, so the server HTML matches any theme. */}
       <span className="grid dark:hidden">
-        <Icon name="moon" className="size-[18px]" />
+        <Icon name="moon" className="size-4.5" />
         <span className="sr-only">{labels.toDark}</span>
       </span>
       <span className="hidden dark:grid">
-        <Icon name="sun" className="size-[18px]" />
+        <Icon name="sun" className="size-4.5" />
         <span className="sr-only">{labels.toLight}</span>
       </span>
     </button>

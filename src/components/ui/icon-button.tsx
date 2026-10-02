@@ -13,7 +13,7 @@ export const ICON_BUTTON =
 export function IconButton({ icon, label, className, ...props }: IconButtonProps) {
   return (
     <button type="button" className={cn(ICON_BUTTON, className)} {...props}>
-      <Icon name={icon} className="size-[18px]" />
+      <Icon name={icon} className="size-4.5" />
       <span className="sr-only">{label}</span>
     </button>
   );

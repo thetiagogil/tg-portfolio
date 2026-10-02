@@ -28,7 +28,7 @@ export function StackLine({ techs, className }: StackLineProps) {
       {techs.map((id) => (
         <li
           key={id}
-          className="flex items-center gap-2 not-first:before:size-[3px] not-first:before:bg-line-2"
+          className="flex items-center gap-2 not-first:before:size-0.75 not-first:before:bg-line-2"
         >
           {TOOLS[id].name}
         </li>
