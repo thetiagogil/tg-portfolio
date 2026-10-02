@@ -51,3 +51,11 @@ test("the open phone menu has no accessibility violations", async ({ page, isMob
   await expect(page.getByRole("dialog", { name: "Menu" })).toBeVisible();
   await expectAccessible(page);
 });
+
+test("the open contact dialog has no accessibility violations", async ({ page, isMobile }) => {
+  test.skip(isMobile, "the Contact button shows on desktops; phones use the menu");
+  await page.goto("/projects/voydex");
+  await page.getByRole("banner").getByRole("button", { name: "Contact" }).click();
+  await expect(page.getByRole("dialog", { name: "Let's talk." })).toBeVisible();
+  await expectAccessible(page);
+});

@@ -363,3 +363,9 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   page at desktop and phone (105 captures) and 28 hover and focus states match. Two differences are fixes: the outline
   button turned solid red on hover (a side effect of the earlier `btn-outline` rename; it now turns its border ink,
   as `DESIGN.md` says), and a selector that drew a stray line under each tool name on the Portfolios page.
+- **2026-10-02**: The header's Contact button opens a contact dialog on every page instead of a `mailto:` link, which
+  opens a mail app many visitors don't use (webmail, work machines). The owner asked whether it should be a dropdown
+  (email or LinkedIn); a dialog with the Home contact block was chosen instead: the address with Copy email, GitHub,
+  LinkedIn and the CV, so the visitor picks there and stays on the page. Mocked in the study first (`?contact=open`).
+  It shares one card with the filters dialog. Building it showed both dialogs sat in the top-left corner since the
+  move to Tailwind (its reset removes the browser's centring); both are centred again, and a test checks it.

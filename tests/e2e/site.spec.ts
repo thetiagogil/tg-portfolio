@@ -103,3 +103,27 @@ test("every internal link on every page points to something that exists", async 
   expect(broken).toEqual([]);
   expect(seen.size).toBeGreaterThan(40);
 });
+
+test("the Contact button opens the contact details in a dialog, on any page", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "the Contact button shows on desktops; phones use the menu");
+  await page.goto("/timeline");
+  const dialog = page.getByRole("dialog", { name: "Let's talk." });
+
+  await page.getByRole("banner").getByRole("button", { name: "Contact" }).click();
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("link", { name: /@/ })).toBeVisible();
+  await expect(dialog.getByRole("link", { name: /LinkedIn/ })).toBeVisible();
+
+  // Centred, not stuck in a corner (Tailwind's reset removes the browser's margin: auto on dialogs).
+  const box = (await dialog.boundingBox())!;
+  const viewport = page.viewportSize()!;
+
+  expect(Math.abs(box.x + box.width / 2 - viewport.width / 2)).toBeLessThan(2);
+
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(page).toHaveURL(/\/timeline$/);
+});

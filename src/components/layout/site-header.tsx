@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { buttonClass } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { profile } from "@/content";
 import type { Lang } from "@/content/types";
+import { cn } from "@/lib/cn";
 import { getT, localize, sharedPath } from "@/lib/i18n";
 import { Brand } from "./brand";
+import { ContactDialog } from "./contact-dialog";
 import { LangSwitch } from "./lang-switch";
 import { isCurrent, NAV } from "./nav";
 import { SiteMenu } from "./site-menu";
@@ -20,6 +21,7 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ lang }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
 
   const t = getT(lang);
   const shared = sharedPath(usePathname());
@@ -54,9 +56,14 @@ export function SiteHeader({ lang }: SiteHeaderProps) {
         <div className="ml-auto flex items-center gap-1 md:ml-2">
           <LangSwitch label={t("language.label")} className="hidden sm:flex" />
           <ThemeToggle labels={{ toDark: t("theme.toDark"), toLight: t("theme.toLight") }} />
-          <Button href={`mailto:${profile.email}`} size="sm" className="ml-3 hidden lg:inline-flex">
+          <button
+            type="button"
+            className={cn(buttonClass({ size: "sm" }), "ml-3 hidden lg:inline-flex")}
+            aria-haspopup="dialog"
+            onClick={() => setContactOpen(true)}
+          >
             {t("nav.contact")}
-          </Button>
+          </button>
           <button
             type="button"
             className="an ml-1 flex h-9 items-center gap-2 px-2 md:hidden"
@@ -70,6 +77,7 @@ export function SiteHeader({ lang }: SiteHeaderProps) {
         </div>
       </div>
 
+      <ContactDialog open={contactOpen} onClose={() => setContactOpen(false)} lang={lang} />
       <SiteMenu open={menuOpen} onClose={() => setMenuOpen(false)} shared={shared} lang={lang} />
     </header>
   );

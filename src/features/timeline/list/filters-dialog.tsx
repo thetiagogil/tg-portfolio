@@ -2,8 +2,7 @@
 
 import type { ReactNode } from "react";
 import { buttonClass } from "@/components/ui/button";
-import { Dialog } from "@/components/ui/dialog";
-import { IconButton } from "@/components/ui/icon-button";
+import { DialogCard } from "@/components/ui/dialog-card";
 import { type Lang, PROJECT_TYPES } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { getT } from "@/lib/i18n";
@@ -51,24 +50,14 @@ export function FiltersDialog({
   const close = () => onChange(null);
 
   return (
-    <Dialog
+    <DialogCard
       open={draft !== null}
       onClose={close}
-      labelledBy="timeline-filters-title"
-      className="max-h-[min(80vh,44rem)] w-[min(40rem,calc(100%-32px))] max-w-none overflow-hidden border-0 bg-paper p-0 text-ink shadow-[0_0_0_1px_var(--line-2),0_32px_80px_-32px_rgb(0_0_0/0.5)] backdrop:bg-[rgb(12_12_16/0.45)] open:flex open:animate-[dialog-rise_0.3s_var(--settle)] open:flex-col max-sm:mx-auto max-sm:mt-auto max-sm:mb-0 max-sm:max-h-[85dvh] max-sm:w-full"
+      title={t("timeline.filters")}
+      titleId="timeline-filters-title"
+      closeLabel={t("nav.close")}
+      className="w-[min(40rem,calc(100%-32px))]"
     >
-      <header className="flex items-center justify-between gap-4 border-b border-line py-3 pr-3 pl-6">
-        <h2
-          className="subheading focus:outline-none"
-          id="timeline-filters-title"
-          tabIndex={-1}
-          autoFocus
-        >
-          {t("timeline.filters")}
-        </h2>
-        <IconButton icon="x" label={t("nav.close")} onClick={close} />
-      </header>
-
       <div className="grid min-h-0 flex-1 content-start gap-4 overflow-auto px-6 pt-2 pb-6">
         <FilterGroup>
           <div className={cn(OPTIONS, "grid-cols-1 sm:grid-cols-1")}>
@@ -138,7 +127,7 @@ export function FiltersDialog({
           {showResultsLabel(results(filters), lang)}
         </button>
       </footer>
-    </Dialog>
+    </DialogCard>
   );
 }
 

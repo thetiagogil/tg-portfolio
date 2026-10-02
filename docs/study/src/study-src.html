@@ -474,6 +474,12 @@ main.page { position: relative; z-index: 1; }
 .fmodal-head h2:focus { outline: none; }
 .fmodal-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 12px 12px 24px; border-top: 1px solid var(--line); }
 .fclear { font-size: .875rem; color: var(--ink-2); } .fclear:hover { color: var(--ink); } .fclear:disabled { opacity: .4; cursor: default; }
+.cmodal { width: min(36rem, calc(var(--app-w, 100vw) - 32px)); }
+.cmodal-body { padding: 24px 24px 32px; overflow: auto; }
+.cmodal-intro { color: var(--ink-2); max-width: 44ch; }
+.cmodal .reach-mail { margin-top: 28px; }
+.cmodal .reach-mail .lk { font-size: clamp(1.375rem, 1.1rem + 1cqi, 1.75rem); }
+.cmodal .reach-links { margin-top: 28px; }
 @container app (width < 40rem) { .fmodal { width: var(--app-w, 100vw); margin: auto auto 0; max-height: 85vh; } }
 .fgroup { display: grid; gap: 8px; border-top: 1px solid var(--line); padding-top: 16px; }
 .fgroup .an { color: var(--ink-3); }
@@ -934,7 +940,7 @@ li:first-child > .level { padding-top: 64px; }
     <div class="hdr-tools">
       ${langSwitch()}
       <button type="button" class="icon-btn" data-theme-toggle aria-label="${T(S.theme === "dark" ? "theme.toLight" : "theme.toDark")}">${icon(S.theme === "dark" ? "sun" : "moon")}</button>
-      <a class="btn sm hdr-contact" href="mailto:${esc(PF.person.email)}">${T("nav.contact")}</a>
+      <button type="button" class="btn sm hdr-contact" data-contact aria-haspopup="dialog">${T("nav.contact")}</button>
       <button type="button" class="an menu-btn" data-menu>${icon("menu")}${T("nav.menu")}</button>
     </div>
   </div></header>`;
@@ -948,6 +954,18 @@ li:first-child > .level { padding-top: 64px; }
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:32px">${langSwitch().replace('class="lang an"', 'class="lang an" style="display:flex"')}<button type="button" class="icon-btn" data-theme-toggle>${icon(S.theme === "dark" ? "sun" : "moon")}</button></div>
     <p class="an faint" style="margin-top:40px">${T("footer.contact")}</p>${contactLinks(true)}
   </div></div>`;
+
+  /* Contact (proposal, 2026-10-02): the header's Contact button opens the Home contact block in a dialog, on every
+     page, instead of a mailto: link (which opens a mail app many visitors don't use) */
+  const contactDialog = () => `
+  <dialog class="fmodal cmodal" id="contactDlg" aria-labelledby="contactTitle">
+    <header class="fmodal-head"><h2 class="subheading" id="contactTitle" tabindex="-1" autofocus>${T("contact.title")}</h2><button type="button" class="icon-btn" data-cclose aria-label="${T("nav.close")}">${icon("x")}</button></header>
+    <div class="cmodal-body">
+      <p class="cmodal-intro">${T("contact.body")}</p>
+      <div class="reach-mail"><a class="lk" href="mailto:${esc(PF.person.email)}">${esc(PF.person.email)}</a><button type="button" class="copy-btn">${icon("copy")}${T("contact.copy")}</button></div>
+      <ul class="reach-links">${PF.person.socials.map((s) => `<li><a class="tl-link" href="${esc(s.href)}" target="_blank" rel="noreferrer"><span class="lk">${esc(s.label)}</span>${icon("out")}</a></li>`).join("")}<li><a class="tl-link" href="${esc(PF.person.resumeHref)}" target="_blank" rel="noreferrer"><span class="lk">${T("contact.cv")}</span>${icon("dl")}</a></li></ul>
+    </div>
+  </dialog>`;
 
   const footer = () => `
   <footer class="foot"><div class="wrap">
@@ -1462,7 +1480,7 @@ li:first-child > .level { padding-top: 64px; }
     frame.className = "frame" + (S.frame === "mobile" ? " is-mobile" : "");
     Object.assign(app.dataset, { theme: S.theme, marks: S.marks, motion: S.motion });
     app.lang = S.lang;
-    app.innerHTML = header() + `<main class="page">${SCREEN_FN[S.screen]()}</main>` + footer() + menu();
+    app.innerHTML = header() + `<main class="page">${SCREEN_FN[S.screen]()}</main>` + footer() + menu() + contactDialog();
     linkify(app);
     document.documentElement.style.setProperty("--app-w", app.offsetWidth + "px");
     observe();
@@ -1498,7 +1516,7 @@ li:first-child > .level { padding-top: 64px; }
   });
 
   app.addEventListener("click", (e) => {
-    const a = e.target.closest("[data-go],[data-lang],[data-theme-toggle],[data-menu],[data-ptype],[data-tcat],[data-tsort],[data-tfilters],[data-fclose],[data-fapply],[data-fclear],[data-tchip],[data-scroll],[data-top],.copy-btn,a[href]");
+    const a = e.target.closest("[data-go],[data-lang],[data-theme-toggle],[data-menu],[data-ptype],[data-tcat],[data-tsort],[data-tfilters],[data-fclose],[data-fapply],[data-fclear],[data-tchip],[data-scroll],[data-top],[data-contact],[data-cclose],.copy-btn,a[href]");
     if (!a) return;
     if (a.dataset.go) { e.preventDefault(); go(a.dataset.go); return; }
     if (a.dataset.lang) { S.lang = a.dataset.lang; render(); return; }
@@ -1507,6 +1525,8 @@ li:first-child > .level { padding-top: 64px; }
     if (a.dataset.ptype) { S.ptype = a.dataset.ptype; render(); return; }
     if (a.dataset.tcat) { S.tcat = a.dataset.tcat; render(); return; }
     if (a.hasAttribute("data-tsort")) { S.tsort = S.tsort === "oldest" ? "newest" : "oldest"; render(); return; }
+    if (a.hasAttribute("data-contact")) { document.getElementById("contactDlg").showModal(); return; }
+    if (a.hasAttribute("data-cclose")) { document.getElementById("contactDlg").close(); return; }
     if (a.hasAttribute("data-tfilters")) { F = draftFrom(S); refreshModal(); document.getElementById("tlFilters").showModal(); return; }
     if (a.hasAttribute("data-fclose")) { document.getElementById("tlFilters").close(); return; }
     if (a.hasAttribute("data-fapply")) { Object.assign(S, draftFrom(F || S)); F = null; document.getElementById("tlFilters").close(); refreshTimeline(); return; }
@@ -1523,7 +1543,7 @@ li:first-child > .level { padding-top: 64px; }
     if (a.getAttribute("href")?.startsWith("mailto:")) { e.preventDefault(); toast("On the live site this opens your email app."); return; }
     if (!a.getAttribute("href")) e.preventDefault();
   });
-  app.addEventListener("mousedown", (e) => { if (e.target.id === "tlFilters") e.target.close(); });
+  app.addEventListener("mousedown", (e) => { if (e.target.id === "tlFilters" || e.target.id === "contactDlg") e.target.close(); });
   /* ✕, Escape and the backdrop all end in "close": drop the draft (close doesn't bubble, so listen in capture) */
   app.addEventListener("close", (e) => { if (e.target.id === "tlFilters") { F = null; refreshModal(); } }, true);
   app.addEventListener("input", (e) => {
@@ -1543,6 +1563,8 @@ li:first-child > .level { padding-top: 64px; }
   render();
   /* ?filters=open opens the Timeline's filters on load (for sharing and screenshots) */
   if (q.get("filters") === "open") { F = draftFrom(S); document.getElementById("tlFilters")?.showModal(); }
+  /* ?contact=open opens the contact dialog on load */
+  if (q.get("contact") === "open") document.getElementById("contactDlg")?.showModal();
 })();
 </script>
 </body>
