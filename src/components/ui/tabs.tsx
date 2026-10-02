@@ -16,7 +16,7 @@ type TabProps = {
 export function Tabs({ label, children }: TabsProps) {
   return (
     <div
-      className="-mx-3 flex [scrollbar-width:none] gap-1 overflow-x-auto"
+      className="-mx-3 flex scrollbar-none gap-1 overflow-x-auto"
       role="group"
       aria-label={label}
     >

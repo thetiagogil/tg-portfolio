@@ -57,7 +57,7 @@ export function FiltersDialog({
       open={draft !== null}
       onClose={close}
       labelledBy="timeline-filters-title"
-      className="max-h-[min(80vh,44rem)] w-[min(40rem,calc(100%_-_32px))] max-w-none overflow-hidden border-0 bg-paper p-0 text-ink shadow-[0_0_0_1px_var(--line-2),0_32px_80px_-32px_rgb(0_0_0/0.5)] backdrop:bg-[rgb(12_12_16/0.45)] open:flex open:animate-[dialog-rise_0.3s_var(--settle)] open:flex-col max-sm:mx-auto max-sm:mt-auto max-sm:mb-0 max-sm:max-h-[85dvh] max-sm:w-full"
+      className="max-h-[min(80vh,44rem)] w-[min(40rem,calc(100%-32px))] max-w-none overflow-hidden border-0 bg-paper p-0 text-ink shadow-[0_0_0_1px_var(--line-2),0_32px_80px_-32px_rgb(0_0_0/0.5)] backdrop:bg-[rgb(12_12_16/0.45)] open:flex open:animate-[dialog-rise_0.3s_var(--settle)] open:flex-col max-sm:mx-auto max-sm:mt-auto max-sm:mb-0 max-sm:max-h-[85dvh] max-sm:w-full"
     >
       <header className="flex items-center justify-between gap-4 border-b border-line py-3 pr-3 pl-6">
         <h2

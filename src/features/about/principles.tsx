@@ -38,7 +38,7 @@ export function Principles({ lang }: PrinciplesProps) {
                 {principle.icon}
               </svg>
             </span>
-            <h3 className="text-[clamp(1.25rem,1.05rem+0.5vw,1.5rem)] leading-[1.15] font-medium tracking-[-0.025em]">
+            <h3 className="text-[clamp(1.25rem,1.05rem+0.5vw,1.5rem)] leading-[1.15] font-medium tracking-tight">
               {t(`about.method.${principle.key}.title`)}
             </h3>
             <p className="max-w-[40ch] text-ink-2">{t(`about.method.${principle.key}.body`)}</p>

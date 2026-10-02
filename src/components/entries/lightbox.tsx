@@ -96,7 +96,7 @@ export function Lightbox({ images, title, labels }: LightboxProps) {
               touchStartX.current = null;
             }}
           >
-            <div className="relative size-full max-w-[90rem]">
+            <div className="relative size-full max-w-360">
               <Image
                 key={image.src}
                 src={image.src}

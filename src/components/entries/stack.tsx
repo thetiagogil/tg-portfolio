@@ -21,7 +21,7 @@ export function StackLine({ techs, className }: StackLineProps) {
   return (
     <ul
       className={cn(
-        "flex flex-wrap gap-x-2 gap-y-0.5 text-[0.8125rem] leading-[1.5] text-ink-3",
+        "flex flex-wrap gap-x-2 gap-y-0.5 text-[0.8125rem] leading-normal text-ink-3",
         className,
       )}
     >

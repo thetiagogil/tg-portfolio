@@ -136,6 +136,9 @@ export function ProjectGrid({ projects, lang }: ProjectGridProps) {
 - Dark mode is a Tailwind variant (`dark:`) that follows the system unless the visitor picked a theme.
 - **Class order is automatic:** Prettier sorts classes on save and on `npm run format`, inside `cn()` too. Don't
   order them by hand.
+- **Classes in their standard spelling:** write what Tailwind calls canonical (`backdrop-blur-md`, not
+  `backdrop-blur-[12px]`; `calc(a+b)`, not `calc(a_+_b)`), each class once **lint**. ESLint fixes both on save and
+  with `npm run lint -- --fix`; it doesn't see class strings kept in constants, so check those by hand.
 
 ## 5. Tests
 

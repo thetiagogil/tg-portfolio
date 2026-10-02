@@ -26,7 +26,7 @@ type PagerItemProps = {
 
 // --side is the .wrap's outer margin plus its gutter, measured on the pager (a container) so a scrollbar can't skew
 // it: the links' text lines up with the page's content.
-const SIDE = "[--side:calc(max(0px,(100cqi_-_90rem)/2)_+_var(--gutter))]";
+const SIDE = "[--side:calc(max(0px,(100cqi-90rem)/2)+var(--gutter))]";
 
 /** Previous / Next: a band of its own; each link fills its half. Only "Next" when there's one other entry. */
 export function Pager({ prev, next, lang }: PagerProps) {
@@ -54,10 +54,10 @@ function PagerItem({ link, direction, label, alone = false }: PagerItemProps) {
       rel={direction}
       className={cn(
         SIDE,
-        "group flex flex-col gap-3 px-[calc(var(--side)_+_var(--row-pad))] py-10 md:py-14",
+        "group flex flex-col gap-3 px-[calc(var(--side)+var(--row-pad))] py-10 md:py-14",
         isNext
-          ? "border-t border-line md:items-end md:border-t-0 md:border-l md:pr-[calc(var(--side)_+_var(--row-pad))] md:pl-8 md:text-right"
-          : "md:pr-8 md:pl-[calc(var(--side)_+_var(--row-pad))]",
+          ? "border-t border-line md:items-end md:border-t-0 md:border-l md:pr-[calc(var(--side)+var(--row-pad))] md:pl-8 md:text-right"
+          : "md:pr-8 md:pl-[calc(var(--side)+var(--row-pad))]",
         alone && "col-span-full border-t-0 md:border-l-0",
       )}
     >

@@ -49,7 +49,7 @@ export function TimelineYear({ year, items, first, lang }: TimelineYearProps) {
 function DatumMark() {
   return (
     <svg
-      className="absolute bottom-0 left-[calc(10px_+_var(--row-pad))] h-2.5 w-3.5 -translate-x-1/2 overflow-visible text-ink lg:left-[calc((100%_-_9*var(--grid-gap))/20)]"
+      className="absolute bottom-0 left-[calc(10px+var(--row-pad))] h-2.5 w-3.5 -translate-x-1/2 overflow-visible text-ink lg:left-[calc((100%-9*var(--grid-gap))/20)]"
       viewBox="0 0 14 10"
       aria-hidden="true"
     >

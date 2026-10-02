@@ -37,7 +37,7 @@ export function Dim({ label, open = false, className, labelClassName }: DimProps
       {label && (
         <span
           className={cn(
-            "absolute bottom-[calc(50%_+_5px)] left-1/2 -translate-x-1/2 font-mono text-[11px] tracking-[0.08em] whitespace-nowrap uppercase",
+            "absolute bottom-[calc(50%+5px)] left-1/2 -translate-x-1/2 font-mono text-[11px] tracking-[0.08em] whitespace-nowrap uppercase",
             labelClassName,
           )}
         >

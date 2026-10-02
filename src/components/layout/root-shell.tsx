@@ -37,7 +37,7 @@ export function RootShell({ lang, children }: RootShellProps) {
       </head>
       <body>
         <a
-          className="fixed top-2 left-2 z-60 -translate-y-[200%] bg-ink px-3.5 py-2.5 text-paper focus:translate-none"
+          className="fixed top-2 left-2 z-60 translate-y-[-200%] bg-ink px-3.5 py-2.5 text-paper focus:translate-none"
           href="#main"
         >
           {t("a11y.skip")}

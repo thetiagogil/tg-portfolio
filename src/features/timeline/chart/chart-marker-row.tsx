@@ -52,7 +52,7 @@ export function ChartMarkerRow({
             aria-hidden="true"
           >
             {marker.glyph}
-            <span className="an pointer-events-none absolute bottom-[calc(100%_+_10px)] left-1/2 -translate-x-1/2 translate-y-1 bg-ink px-2 py-1 whitespace-nowrap text-paper opacity-0 [transition:opacity_0.2s,translate_0.3s_var(--settle)] group-hover/mk:translate-y-0 group-hover/mk:opacity-100">
+            <span className="an pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 translate-y-1 bg-ink px-2 py-1 whitespace-nowrap text-paper opacity-0 [transition:opacity_0.2s,translate_0.3s_var(--settle)] group-hover/mk:translate-y-0 group-hover/mk:opacity-100">
               {`${marker.title} · ${marker.date}`}
             </span>
           </Link>

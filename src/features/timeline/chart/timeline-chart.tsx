@@ -62,9 +62,9 @@ export function TimelineChart({ lang }: TimelineChartProps) {
   return (
     <>
       <figure className="mt-16 md:mt-20">
-        <div className="-mx-(--gutter) [scrollbar-width:thin] overflow-x-auto px-(--gutter) pt-2">
+        <div className="-mx-(--gutter) scrollbar-thin overflow-x-auto px-(--gutter) pt-2">
           <div
-            className="min-w-[42rem] [--label-w:8.5rem] md:[--label-w:13rem] lg:[--label-w:16rem]"
+            className="min-w-2xl [--label-w:8.5rem] md:[--label-w:13rem] lg:[--label-w:16rem]"
             data-reveal
           >
             <div className={ROW}>

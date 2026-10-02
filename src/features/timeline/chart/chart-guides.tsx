@@ -12,7 +12,7 @@ const GUIDE = "absolute inset-y-0 w-px";
 export function ChartGuides({ scale, switchPos, todayPos }: ChartGuidesProps) {
   return (
     <div
-      className="pointer-events-none absolute inset-y-0 right-(--row-pad) left-[calc(var(--label-w)_+_var(--row-pad))]"
+      className="pointer-events-none absolute inset-y-0 right-(--row-pad) left-[calc(var(--label-w)+var(--row-pad))]"
       aria-hidden="true"
     >
       {scale.ticks.map((tick) => (

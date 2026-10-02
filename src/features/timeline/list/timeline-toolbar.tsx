@@ -45,7 +45,7 @@ export function TimelineToolbar({
 
   return (
     <div
-      className="sticky top-(--header-h) z-15 -mx-(--gutter) border-b border-line bg-bg/90 px-(--gutter) backdrop-blur-[12px]"
+      className="sticky top-(--header-h) z-15 -mx-(--gutter) border-b border-line bg-bg/90 px-(--gutter) backdrop-blur-md"
       data-timeline-toolbar
     >
       <div className="flex flex-col gap-3 py-3 lg:flex-row lg:items-center lg:justify-between">

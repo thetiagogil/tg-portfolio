@@ -27,7 +27,7 @@ export function SiteHeader({ lang }: SiteHeaderProps) {
   return (
     <header
       id="top"
-      className="sticky top-0 z-20 border-b border-line bg-paper/82 backdrop-blur-[12px] backdrop-saturate-150"
+      className="sticky top-0 z-20 border-b border-line bg-paper/82 backdrop-blur-md backdrop-saturate-150"
     >
       <div className="wrap flex h-(--header-h) items-center gap-6">
         <Link

@@ -27,7 +27,7 @@ export function Toolbox({ lang }: ToolboxProps) {
             >
               <span className="grid size-10 flex-none place-items-center inset-ring inset-ring-line-2 transition-shadow duration-300 group-hover:inset-ring-ink">
                 <svg
-                  className="size-5 fill-current text-ink transition-colors duration-300 group-hover:text-[color:var(--brand,var(--ink))]"
+                  className="size-5 fill-current text-ink transition-colors duration-300 group-hover:text-(--brand,var(--ink))"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                 >
