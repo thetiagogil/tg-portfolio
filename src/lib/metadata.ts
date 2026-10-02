@@ -20,6 +20,8 @@ export const SITE_VIEWPORT: Viewport = {
   ],
 };
 
+export const NOT_FOUND_METADATA: Metadata = { title: "404", robots: { index: false } };
+
 export function rootMetadata(lang: Lang): Metadata {
   return {
     metadataBase: new URL(SITE_URL),

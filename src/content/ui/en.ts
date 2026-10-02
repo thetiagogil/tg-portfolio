@@ -77,8 +77,7 @@ export const en = {
   "nav.menu": "Menu",
   "nav.projects": "Projects",
   "nav.timeline": "Timeline",
-  "notFound.body":
-    "It may have moved, or the address may be wrong. The home page is a good place to start again.",
+  "notFound.body": "It may have moved, or the address may be wrong.",
   "notFound.home": "Back to home",
   "notFound.label": "Not found",
   "notFound.title": "This page doesn't exist.",

@@ -130,7 +130,7 @@ not `ch`: in Geist `ch` is the wide "0", so 58ch is ~80 characters.
 | **Timeline** | Title, intro and the chart · Sticky toolbar (category tabs with counts, search with `/`, Filters, sort) and the list · |
 | **About** | Intro: title "Hi, I'm Tiago.", intro line, portrait, bio (`read`), four facts (Based in, Currently, Degree, Frontend since) · How I got into frontend (four chapters as rows, Full timeline link) · How I work (four columns with thin vertical lines between them, no horizontal rules; 2 × 2 on tablets, stacked on phones) · What I work with (12 tools, 3 rows of 4, monochrome icon + name; brand colour on hover) |
 | **Role / degree** | Breadcrumb (Timeline / Experience or Education), title, organisation as a link with ↗ (plus documents with ↓), duration line on the right · Overview (`read`) with the stack row, Scope (four titled points, two columns), Products or Highlights (one column), Projects from this period (cards) · Pager |
-| **404** | To design in the same language: title, one line, a link home. |
+| **404** | One language per page: the page head (Not found, title, one line) and a button home. English for any missing address, Portuguese for one under `/pt/`. |
 
 **The Timeline in detail:**
 - **Chart:** two eras on top (Architecture 2014–2023, Software 2023–today) as dimension lines; a break line removes

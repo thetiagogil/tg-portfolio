@@ -33,8 +33,8 @@ The folder map and the house style are in `docs/CODE.md`. In short:
 ```
 src/
   app/          routes only; English at /, Portuguese mirrored under /pt with the same paths
-  features/     one folder per page (home, projects, records, about, timeline, link-previews): the page and its
-                sections, one file each
+  features/     one folder per page (home, projects, records, about, timeline, not-found, link-previews): the
+                page and its sections, one file each
   components/   ui/ (generic), layout/ (the site shell), entries/ (cards, status, pager, image viewer…)
   content/      the data, one file per entry with en and pt side by side; ui/en.ts and ui/pt.ts
   lib/          constants, dates (UTC), i18n, entry paths, metadata, link previews, the chart scale

@@ -47,12 +47,27 @@ test("outline buttons keep their thin border and a full focus ring", async ({ pa
   await expect(cv).toHaveCSS("outline-width", "2px");
 });
 
-test("an unknown address shows the 404 page in both languages", async ({ page }) => {
+test("an unknown address shows the 404 page in English only", async ({ page }) => {
   const response = await page.goto("/no-such-page");
 
   expect(response?.status()).toBe(404);
-  await expect(page.getByRole("link", { name: "Back to home" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Voltar ao início" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("This page doesn't exist.");
+  await expect(page.getByRole("main").getByRole("link", { name: "Back to home" })).toHaveAttribute(
+    "href",
+    "/",
+  );
+  await expect(page.getByText("Esta página não existe.")).toHaveCount(0);
+});
+
+test("the Portuguese 404 is in Portuguese only", async ({ page }) => {
+  await page.goto("/pt/404");
+
+  await expect(page.locator("html")).toHaveAttribute("lang", "pt-PT");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Esta página não existe.");
+  await expect(
+    page.getByRole("main").getByRole("link", { name: "Voltar ao início" }),
+  ).toHaveAttribute("href", "/pt");
+  await expect(page.getByText("This page doesn't exist.")).toHaveCount(0);
 });
 
 test("every internal link on every page points to something that exists", async ({

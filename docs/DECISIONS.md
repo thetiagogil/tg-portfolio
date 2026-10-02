@@ -376,3 +376,8 @@ is in `docs/DESIGN.md`; this file is the history behind it.
 - **2026-10-02**: Workflow: visual changes now go straight into the code; the owner no longer wants a study mockup
   first. The study stays as the original reference and isn't updated any more (`DESIGN.md`, this log and the site are
   newer).
+- **2026-10-02**: Owner: the 404 looked broken with both languages on one page. Now one page per language, the same
+  page head as the other pages and a button home. English is Next's `global-not-found` (`out/404.html`), Portuguese a
+  `/pt/404` route (`out/pt/404.html`); Cloudflare's `not_found_handling: "404-page"` serves the nearest `404.html`,
+  so a missing `/pt/…` address gets the Portuguese one. Locally (`next dev`, `npm run preview`) every missing address
+  shows the English page.

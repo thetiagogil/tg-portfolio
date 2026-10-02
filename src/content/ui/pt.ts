@@ -78,8 +78,7 @@ export const pt: Record<UiKey, string> = {
   "nav.menu": "Menu",
   "nav.projects": "Projetos",
   "nav.timeline": "Percurso",
-  "notFound.body":
-    "Pode ter mudado de sítio, ou o endereço pode estar errado. O início é um bom ponto de partida.",
+  "notFound.body": "Pode ter mudado de sítio, ou o endereço pode estar errado.",
   "notFound.home": "Voltar ao início",
   "notFound.label": "Não encontrado",
   "notFound.title": "Esta página não existe.",

@@ -40,7 +40,8 @@ Nothing is pushed, merged or deployed without the owner's go-ahead.
 2. **Content evaluation with the owner**, in both languages, including:
    - real alt text for the project screenshots (at least the first of each project);
    - the open questions in `docs/DECISIONS.md` (em dashes, the PT Aquasis "ecrã" → "ecrãs").
-3. **Cloudflare:** Workers static-assets config, a preview deploy for the owner to review; the analytics token.
+3. **Cloudflare:** Workers static-assets config (`assets.directory: "./out"`, `not_found_handling: "404-page"`, so
+   a missing `/pt/…` address gets the Portuguese 404), a preview deploy for the owner to review; the analytics token.
 4. **With the owner's go-ahead:** merge to `main`, deploy to thetiagogil.com, tidy old branches.
 
 ## How work is checked

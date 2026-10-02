@@ -14,6 +14,7 @@ const PAGES = [
   "/experience/talent-protocol",
   "/education/faul",
   "/education/ironhack",
+  "/404",
 ];
 
 for (const path of PAGES) {

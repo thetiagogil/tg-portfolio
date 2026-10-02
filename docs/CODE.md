@@ -15,7 +15,7 @@ src/
     (pt)/pt/…             Portuguese at /pt, the same paths
     og/[image]/           the link-preview images
   features/<page>/        one folder per page: the page, its sections (one file each), its helpers
-    home/ projects/ records/ about/ link-previews/
+    home/ projects/ records/ about/ not-found/ link-previews/
     timeline/             timeline-page, timeline-items, timeline-filters, chart/, list/
   components/
     ui/                   generic pieces that know nothing about the content: Button, Icon, Dialog, Tabs, Facts…
