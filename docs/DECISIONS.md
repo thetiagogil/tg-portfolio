@@ -369,3 +369,10 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   LinkedIn and the CV, so the visitor picks there and stays on the page. Mocked in the study first (`?contact=open`).
   It shares one card with the filters dialog. Building it showed both dialogs sat in the top-left corner since the
   move to Tailwind (its reset removes the browser's centring); both are centred again, and a test checks it.
+- **2026-10-02**: Behind the dialogs (contact and filters), the near-black 45% layer is replaced by an 80% paper veil
+  with a 4px blur: the owner found the page behind too visible, especially in dark mode, where dark over dark barely
+  dimmed it. shadcn's current dialog uses black at 50% (the same problem); its earlier `bg-background/80
+  backdrop-blur-sm` is the model here, in the site's paper, so it works the same in both themes.
+- **2026-10-02**: Workflow: visual changes now go straight into the code; the owner no longer wants a study mockup
+  first. The study stays as the original reference and isn't updated any more (`DESIGN.md`, this log and the site are
+  newer).

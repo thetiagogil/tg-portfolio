@@ -32,7 +32,7 @@ export function DialogCard({
       onClose={onClose}
       labelledBy={titleId}
       className={cn(
-        "m-auto max-h-[min(80vh,44rem)] max-w-none overflow-hidden border-0 bg-paper p-0 text-ink shadow-[0_0_0_1px_var(--line-2),0_32px_80px_-32px_rgb(0_0_0/0.5)] backdrop:bg-[rgb(12_12_16/0.45)] open:flex open:animate-[dialog-rise_0.3s_var(--settle)] open:flex-col max-sm:mx-auto max-sm:mt-auto max-sm:mb-0 max-sm:max-h-[85dvh] max-sm:w-full",
+        "m-auto max-h-[min(80vh,44rem)] max-w-none overflow-hidden border-0 bg-paper p-0 text-ink shadow-[0_0_0_1px_var(--line-2),0_32px_80px_-32px_rgb(0_0_0/0.5)] backdrop:bg-paper/80 backdrop:backdrop-blur-xs open:flex open:animate-[dialog-rise_0.3s_var(--settle)] open:flex-col max-sm:mx-auto max-sm:mt-auto max-sm:mb-0 max-sm:max-h-[85dvh] max-sm:w-full",
         className,
       )}
     >

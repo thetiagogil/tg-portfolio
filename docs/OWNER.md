@@ -78,8 +78,8 @@ what isn't written anywhere else.
 - **Candid verdicts.** Give an honest opinion ("it's good enough" when it is) and one recommendation, not a menu.
   Offer two or three options only when the direction is genuinely open.
 - **One version.** Avoid switches, presets and matrices of choices.
-- **Mockups first** for visual changes: try them in the study (`docs/study/`), log the decision in
-  `docs/DECISIONS.md`, then build.
+- **Straight to the code** for visual changes (since 2026-10-02; the study was for finding the direction): build the
+  change, share screenshots of the result, log the decision in `docs/DECISIONS.md`.
 - **Show, don't describe:** after a visible change, share a screenshot.
 - **Commits:** title line only (conventional style). No body, no co-author or attribution lines. Never push, merge
   or deploy without asking.

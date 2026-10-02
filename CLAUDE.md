@@ -18,7 +18,7 @@ before writing Next.js code (static export, fonts, metadata, routing). `AGENTS.m
 | `docs/CONTENT.md` | Before touching content. The model and the writing rules for both languages. |
 | `docs/PLAN.md` | Before starting work. The phases, their status, what needs Tiago's approval. |
 | `docs/DECISIONS.md` | When asking "why is it like this?" Add an entry for every decision Tiago makes. |
-| `docs/study/` | The visual spec. `index.html` shows every page; its editable source is `docs/study/src/`. |
+| `docs/study/` | The original visual spec, kept as a reference but no longer updated: `DESIGN.md`, `DECISIONS.md` and the site itself are newer. |
 
 ## Stack
 
@@ -66,7 +66,8 @@ Screenshots with real phone emulation: `node scripts/screenshot.mjs <url> <out.p
 - **Answer Tiago's questions before acting.** Give one recommendation and an honest verdict; no menus of options.
 - **Code follows `docs/CODE.md`:** one job per file, small files, a page split into section files, Tailwind in the
   markup, few comments, text only from `src/content`. `npm run lint` checks part of it.
-- **Visual changes follow the study.** If something isn't in the study, try it there first and log the decision.
+- **Visual changes go straight into the code** (no study mockup first, since 2026-10-02). Follow `docs/DESIGN.md`, share
+  screenshots of the result, and log the decision in `docs/DECISIONS.md`.
 - **Role names are never translated:** Frontend Developer, Full-Stack Developer. Spelling: *Frontend* (one word),
   *Full-Stack* (hyphen).
 - **Portuguese is pt-PT.** Dates as "jan 2025" (format the month alone, then the year), never "01/2025".
@@ -78,8 +79,8 @@ Screenshots with real phone emulation: `node scripts/screenshot.mjs <url> <out.p
 
 ## Verifying work
 
-- Run `npm run verify`. For anything visible, open the page in the preview and compare it with the same screen in
-  the study (desktop 1280 and phone 390, light and dark, English and Portuguese). Share a screenshot.
+- Run `npm run verify`. For anything visible, check the page in the preview at desktop 1280 and phone 390, light and
+  dark, English and Portuguese, against `docs/DESIGN.md`. Share a screenshot.
 - Agents in `.claude/agents/`: **qa-runner** (all checks), **code-reviewer** (changed code vs `docs/CODE.md`),
   **design-reviewer** (page vs study and DESIGN.md), **a11y-auditor** (keyboard, contrast, semantics),
   **content-editor** (writes content in both languages).

@@ -1,6 +1,6 @@
 ---
 name: design-reviewer
-description: Compares a page of the app with its screen in the Direction Study and docs/DESIGN.md, and reports every visual difference (spacing, alignment, bands, type, lines, hover, both themes, phone and desktop). Use after building or changing anything visible. Read-only; it reports, it doesn't fix.
+description: Checks a page of the app against docs/DESIGN.md (and the original Direction Study where the design doc is silent), and reports every visual difference (spacing, alignment, bands, type, lines, hover, both themes, phone and desktop). Use after building or changing anything visible. Read-only; it reports, it doesn't fix.
 ---
 
 You review the portfolio's pages against its design spec. You never edit files.
@@ -8,7 +8,8 @@ You review the portfolio's pages against its design spec. You never edit files.
 ## Read first
 - `docs/DESIGN.md` (the rules, tokens, type, layout, components, pages).
 - `docs/OWNER.md` §4 (what Tiago notices: spacing, alignment, hover plates touching text, padding too big).
-- The study: `docs/study/index.html`. Open it with the `study` preview (`.claude/launch.json`, port 4410). Its
+- The original study, `docs/study/index.html`, frozen since 2026-10-02: newer decisions in `DESIGN.md` and
+  `docs/DECISIONS.md` win over it. Open it with the `study` preview (`.claude/launch.json`, port 4410). Its
   links are `#screen.frame` (e.g. `#timeline.desktop`, `#about.mobile`) with one-shot overrides such as
   `?theme=dark&lang=pt&project=voydex&record=exp-aquasis&filters=open`.
 

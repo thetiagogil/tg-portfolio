@@ -132,7 +132,8 @@ export function ProjectGrid({ projects, lang }: ProjectGridProps) {
   also change the line height.
 - **Class names are literal strings.** Tailwind finds classes by reading the source, so never build one from a
   template (`` `px-[${x}]` ``). Conditional or overridable classes go through `cn()`, which also resolves clashes
-  (`cn("text-ink-2", ongoing && "text-accent")`: the later one wins).
+  (`cn("text-ink-2", ongoing && "text-accent")`: the later one wins). A text size passed after a `leading-*` class
+  removes it, so give the size first: `cn("text-[15px]", "leading-[1.3]")`.
 - **Inline `style` only for values computed in code:** chart positions (`left: pct(pos)`) and CSS variables
   (`delay(220)`, `--brand`, `--bar-delay`).
 - Dark mode is a Tailwind variant (`dark:`) that follows the system unless the visitor picked a theme.
@@ -157,5 +158,5 @@ export function ProjectGrid({ projects, lang }: ProjectGridProps) {
 
 ## 6. Before calling something done
 
-`npm run verify`: typecheck, lint, format check, unit tests, build, end-to-end. For anything visible, compare the
-page with the study (`/compare-study`) and share a screenshot.
+`npm run verify`: typecheck, lint, format check, unit tests, build, end-to-end. For anything visible, check the
+page against `docs/DESIGN.md` at desktop and phone, light and dark, and share a screenshot.
