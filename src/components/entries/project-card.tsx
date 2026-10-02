@@ -16,23 +16,31 @@ type ProjectCardProps = {
   heading?: "h2" | "h3";
 };
 
-/** Image, "2025 · Personal · In progress", the title (the whole card is the link) and the subtitle. */
 export function ProjectCard({ project, lang, sizes, heading: Heading = "h3" }: ProjectCardProps) {
   const t = getT(lang);
+
   return (
-    <article className="card group">
+    <article className="group relative">
       <Sheet>
         <ProjectMedia project={project} lang={lang} sizes={sizes} decorative />
       </Sheet>
-      <p className="an meta card-meta">
+
+      <p className="an text-ink-3 mt-5 flex flex-wrap items-center gap-x-3 gap-y-1">
         <span>{year(project.dateStart)}</span>
         <span>{t(`project.type.${project.type}`)}</span>
         <StatusMark status={project.status} lang={lang} hideCompleted />
       </p>
-      <Heading className="subheading">
-        <Link href={projectHref(lang, project)}>{project.title}</Link>
+
+      <Heading className="subheading mt-3">
+        <Link
+          href={projectHref(lang, project)}
+          className="group-hover:text-accent-ink transition-colors duration-300 after:absolute after:inset-0"
+        >
+          {project.title}
+        </Link>
       </Heading>
-      <p className="sub">{project.subtitle[lang]}</p>
+
+      <p className="text-ink-2 mt-1.5">{project.subtitle[lang]}</p>
     </article>
   );
 }

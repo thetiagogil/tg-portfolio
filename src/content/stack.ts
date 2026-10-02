@@ -13,7 +13,6 @@ export type Tool = {
 };
 
 const TOOL_LIST = {
-  // Frontend
   react: {
     name: "React",
     group: "frontend",
@@ -47,7 +46,6 @@ const TOOL_LIST = {
   },
   reactNative: { name: "React Native", group: "frontend" },
   wagmi: { name: "Wagmi", group: "frontend" },
-  // Backend and data
   nodejs: { name: "Node.js", group: "backend" },
   express: { name: "Express", group: "backend" },
   dotnet: { name: ".NET", group: "backend" },
@@ -62,13 +60,11 @@ const TOOL_LIST = {
   mongodb: { name: "MongoDB", group: "backend" },
   solidity: { name: "Solidity", group: "backend" },
   outsystems: { name: "OutSystems", group: "backend" },
-  // Tools and process
   vercel: { name: "Vercel", group: "tools" },
   jira: { name: "Jira", group: "tools" },
   kanban: { name: "Kanban", group: "tools" },
   agile: { name: "Agile Methodologies", group: "tools" },
   lean: { name: "Lean Principles", group: "tools" },
-  // Architecture
   autocad: { name: "AutoCAD", group: "architecture" },
   revit: { name: "Revit", group: "architecture" },
   photoshop: { name: "Adobe Photoshop", group: "architecture" },
@@ -96,6 +92,7 @@ export const MAIN_STACK: readonly ToolId[] = [
 /** Tools an entry lists that another listed tool already includes (should be empty). */
 export function overlaps(techs: readonly ToolId[]): ToolId[] {
   const includes = (id: ToolId) => TOOLS[id].includes ?? [];
+
   return techs.filter((tech) =>
     techs.some((other) => other !== tech && includes(other).includes(tech)),
   );

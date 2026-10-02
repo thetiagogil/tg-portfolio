@@ -17,6 +17,7 @@ export const NAV: NavItem[] = [
 
 export function isCurrent(item: NavItem, sharedPath: string): boolean {
   if (item.path === "/") return sharedPath === "/";
+
   return item.sections.some(
     (section) => sharedPath === section || sharedPath.startsWith(`${section}/`),
   );

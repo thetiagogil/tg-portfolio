@@ -4,18 +4,18 @@ import { mkdir, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
+import { IMAGE_WIDTHS } from "../src/lib/constants.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceRoot = path.join(root, "assets");
 const outputRoot = path.join(root, "public/images");
 
-// Keep in sync with the image loader (Phase 3).
-const WIDTHS = [640, 960, 1280, 1920];
 const QUALITY = 80;
 
 const isNewer = async (source, target) => {
   try {
     const [s, t] = await Promise.all([stat(source), stat(target)]);
+
     return s.mtimeMs > t.mtimeMs;
   } catch {
     return true;
@@ -27,10 +27,13 @@ const listImages = async (dir) => {
   const files = await Promise.all(
     entries.map((entry) => {
       const full = path.join(dir, entry.name);
+
       if (entry.isDirectory()) return listImages(full);
+
       return /\.(png|jpe?g|webp)$/i.test(entry.name) ? [full] : [];
     }),
   );
+
   return files.flat();
 };
 
@@ -42,8 +45,9 @@ const processImage = async (source) => {
   let written = 0;
 
   await mkdir(outputDir, { recursive: true });
-  for (const width of WIDTHS) {
+  for (const width of IMAGE_WIDTHS) {
     const target = path.join(outputDir, `${name}-${width}.webp`);
+
     if (!(await isNewer(source, target))) continue;
     await sharp(source)
       .resize({ width: Math.min(width, sourceWidth), withoutEnlargement: true })
@@ -51,12 +55,15 @@ const processImage = async (source) => {
       .toFile(target);
     written += 1;
   }
+
   return written;
 };
 
 const startedAt = performance.now();
 const sources = await listImages(sourceRoot);
 let written = 0;
+
 for (const source of sources) written += await processImage(source);
 const seconds = ((performance.now() - startedAt) / 1000).toFixed(1);
+
 console.log(`images: ${sources.length} sources, ${written} files written (${seconds}s)`);

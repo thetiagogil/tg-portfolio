@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { ProjectCard } from "@/components/entries/project-card";
+import { ProjectCards } from "@/components/entries/project-cards";
+import { Tab, Tabs } from "@/components/ui/tabs";
 import { type Lang, type Project, PROJECT_TYPES, type ProjectType } from "@/content/types";
-import { cn } from "@/lib/cn";
 import { getT } from "@/lib/i18n";
 
 type ProjectGridProps = {
@@ -11,37 +12,40 @@ type ProjectGridProps = {
   lang: Lang;
 };
 
-type Tab = ProjectType | "all";
+type Filter = ProjectType | "all";
 
-/** Tabs All / Client / Personal / Learning (with counts and a one-line hint), then the cards, newest first. */
 export function ProjectGrid({ projects, lang }: ProjectGridProps) {
+  const [filter, setFilter] = useState<Filter>("all");
+
   const t = getT(lang);
-  const [tab, setTab] = useState<Tab>("all");
-  const ofType = (type: Tab) =>
+  const ofType = (type: Filter) =>
     type === "all" ? projects : projects.filter((project) => project.type === type);
-  const tabs = (["all", ...PROJECT_TYPES] as const).filter((type) => ofType(type).length > 0);
+  const filters = (["all", ...PROJECT_TYPES] as const).filter((type) => ofType(type).length > 0);
 
   return (
     <>
-      <div className="ptabs-row">
-        <div className="tabs" role="group" aria-label={t("projects.filterLabel")}>
-          {tabs.map((type) => (
-            <button
+      <div className="border-line flex flex-col gap-4 border-b pb-2 md:flex-row md:items-end md:justify-between">
+        <Tabs label={t("projects.filterLabel")}>
+          {filters.map((type) => (
+            <Tab
               key={type}
-              type="button"
-              className={cn(tab === type && "on")}
-              aria-pressed={tab === type}
-              onClick={() => setTab(type)}
-            >
-              {type === "all" ? t("common.all") : t(`project.type.${type}`)}
-              <span className="an num">{ofType(type).length}</span>
-            </button>
+              label={type === "all" ? t("common.all") : t(`project.type.${type}`)}
+              count={ofType(type).length}
+              active={filter === type}
+              onSelect={() => setFilter(type)}
+            />
           ))}
-        </div>
-        {tab !== "all" && <p className="an ptype-hint">{t(`projects.typeHint.${tab}`)}</p>}
+        </Tabs>
+
+        {filter !== "all" && (
+          <p className="an text-ink-3 pb-3 md:max-w-[38ch] md:text-right">
+            {t(`projects.typeHint.${filter}`)}
+          </p>
+        )}
       </div>
-      <ul className="cards">
-        {ofType(tab).map((project) => (
+
+      <ProjectCards className="mt-12 md:mt-16">
+        {ofType(filter).map((project) => (
           <li key={project.slug}>
             <ProjectCard
               project={project}
@@ -51,7 +55,7 @@ export function ProjectGrid({ projects, lang }: ProjectGridProps) {
             />
           </li>
         ))}
-      </ul>
+      </ProjectCards>
     </>
   );
 }

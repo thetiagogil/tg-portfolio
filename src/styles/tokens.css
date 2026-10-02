@@ -1,5 +1,5 @@
-/* Design tokens (docs/DESIGN.md §2). Light by default; dark follows the system unless the visitor picked a theme
-   (data-theme on <html>, set before paint by the inline script in RootShell). */
+/* Design tokens (docs/DESIGN.md §2). Dark follows the system unless the visitor picked a theme (data-theme on
+   <html>, set before the first paint by the script in RootShell). */
 :root {
   --paper: oklch(0.974 0.004 85);
   --paper-2: oklch(0.952 0.005 85);
@@ -13,15 +13,14 @@
   --accent: oklch(0.56 0.19 33);
   --accent-ink: oklch(0.52 0.18 33);
   --on-accent: oklch(0.985 0.003 85);
-  /* The colour of the band an element sits on: anything that knocks out a line behind it paints --bg. */
+  /* The band an element sits on: anything that knocks out a line behind it paints --bg. */
   --bg: var(--paper);
-  /* Hover washes: 4% ink over transparent, so they work on every band. */
   --hover: color-mix(in oklab, var(--ink) 4%, transparent);
 
   --header-h: 4rem;
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --grid-gap: 1.5rem;
-  /* List rows pad their content, like table cells (lines and hover plates stay flush with the column). */
+  /* List rows pad their content like table cells; their lines and hover plates stay flush with the column. */
   --row-pad: 12px;
   --settle: cubic-bezier(0.22, 1, 0.36, 1);
   --drawing: cubic-bezier(0.65, 0, 0.35, 1);
@@ -68,7 +67,7 @@
   }
 }
 
-/* The footer is graphite in both themes: it scopes the dark tokens. In dark mode its paper is deeper than the page. */
+/* The footer is graphite in both themes; in dark mode its paper is deeper than the page's. */
 .site-footer {
   --paper: oklch(0.2 0.012 262);
   --paper-2: oklch(0.235 0.012 262);

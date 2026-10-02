@@ -18,8 +18,10 @@ export function RevealObserver() {
       },
       { rootMargin: "0px 0px -6% 0px" },
     );
+
     for (const element of document.querySelectorAll("[data-reveal]:not([data-revealed])"))
       observer.observe(element);
+
     return () => observer.disconnect();
   }, [pathname]);
 

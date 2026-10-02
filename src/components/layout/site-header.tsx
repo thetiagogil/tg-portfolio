@@ -3,54 +3,63 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Dialog } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { profile } from "@/content";
 import type { Lang } from "@/content/types";
 import { getT, localize, sharedPath } from "@/lib/i18n";
-import { ContactLinks } from "./contact-links";
+import { Brand } from "./brand";
 import { LangSwitch } from "./lang-switch";
-import { MonoMark } from "./mono-mark";
-import { HOME, isCurrent, NAV } from "./nav";
+import { isCurrent, NAV } from "./nav";
+import { SiteMenu } from "./site-menu";
 import { ThemeToggle } from "./theme-toggle";
 
 type SiteHeaderProps = {
   lang: Lang;
 };
 
-/** The header: brand, main navigation, language, theme and contact; on phones the navigation moves to a menu. */
 export function SiteHeader({ lang }: SiteHeaderProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const t = getT(lang);
   const shared = sharedPath(usePathname());
-  const [menuOpen, setMenuOpen] = useState(false);
-  const themeLabels = { toDark: t("theme.toDark"), toLight: t("theme.toLight") };
 
   return (
-    <header className="site-header" id="top">
-      <div className="wrap site-header-in">
-        <Link className="brand" href={localize(lang, "/")} aria-label={t("nav.homeLabel")}>
+    <header
+      id="top"
+      className="border-line bg-paper/82 sticky top-0 z-20 border-b backdrop-blur-[12px] backdrop-saturate-150"
+    >
+      <div className="wrap flex h-(--header-h) items-center gap-6">
+        <Link
+          className="group/brand flex items-center gap-3"
+          href={localize(lang, "/")}
+          aria-label={t("nav.homeLabel")}
+        >
           <Brand />
         </Link>
-        <nav className="nav" aria-label={t("nav.label")}>
+
+        <nav className="ml-auto hidden gap-8 md:flex" aria-label={t("nav.label")}>
           {NAV.map((item) => (
             <Link
               key={item.path}
               href={localize(lang, item.path)}
               aria-current={isCurrent(item, shared) ? "page" : undefined}
+              className="text-ink-2 after:bg-ink after:ease-settle hover:text-ink aria-[current=page]:text-ink relative flex h-(--header-h) items-center text-[15px] transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-px after:h-px after:origin-left after:scale-x-0 after:transition-transform after:duration-500 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
             >
               {t(item.key)}
             </Link>
           ))}
         </nav>
-        <div className="header-tools">
-          <LangSwitch label={t("language.label")} />
-          <ThemeToggle labels={themeLabels} />
-          <a className="btn sm header-contact" href={`mailto:${profile.email}`}>
+
+        <div className="ml-auto flex items-center gap-1 md:ml-2">
+          <LangSwitch label={t("language.label")} className="hidden sm:flex" />
+          <ThemeToggle labels={{ toDark: t("theme.toDark"), toLight: t("theme.toLight") }} />
+          <Button href={`mailto:${profile.email}`} size="sm" className="ml-3 hidden lg:inline-flex">
             {t("nav.contact")}
-          </a>
+          </Button>
           <button
             type="button"
-            className="an menu-btn"
+            className="an ml-1 flex h-9 items-center gap-2 px-2 md:hidden"
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(true)}
@@ -61,57 +70,7 @@ export function SiteHeader({ lang }: SiteHeaderProps) {
         </div>
       </div>
 
-      <Dialog
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        className="menu"
-        label={t("nav.menu")}
-      >
-        <div className="wrap">
-          <div className="menu-top">
-            <span className="brand">
-              <Brand />
-            </span>
-            <button
-              type="button"
-              className="an menu-btn menu-close"
-              onClick={() => setMenuOpen(false)}
-            >
-              <Icon name="x" />
-              {t("nav.close")}
-            </button>
-          </div>
-          <ul className="menu-list">
-            {[HOME, ...NAV].map((item) => (
-              <li key={item.path}>
-                <Link
-                  className="heading"
-                  href={localize(lang, item.path)}
-                  aria-current={isCurrent(item, shared) ? "page" : undefined}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {t(item.key)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8 flex items-center justify-between">
-            <LangSwitch label={t("language.label")} />
-            <ThemeToggle labels={themeLabels} />
-          </div>
-          <p className="an text-ink-3 mt-10">{t("footer.contact")}</p>
-          <ContactLinks lang={lang} className="footer-links pb-12" withEmail />
-        </div>
-      </Dialog>
+      <SiteMenu open={menuOpen} onClose={() => setMenuOpen(false)} shared={shared} lang={lang} />
     </header>
-  );
-}
-
-function Brand() {
-  return (
-    <>
-      <MonoMark />
-      <span className="brand-name">{profile.name}</span>
-    </>
   );
 }

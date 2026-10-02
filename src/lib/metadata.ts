@@ -1,12 +1,10 @@
 // Page metadata: title, description, canonical URL, the other language's URL and the link preview.
 import type { Metadata, Viewport } from "next";
 import type { Lang, Project, RecordEntry } from "@/content/types";
+import { OG_IMAGE_SIZE, PAPER, SITE_NAME, SITE_URL } from "./constants";
 import { projectPath, recordPath } from "./entries";
 import { getT, HTML_LANG, localize, type UiKey } from "./i18n";
 import { ogImagePath } from "./og";
-
-export const SITE_URL = "https://thetiagogil.com";
-const SITE_NAME = "Tiago Gil";
 
 type PageMetadata = {
   lang: Lang;
@@ -15,15 +13,15 @@ type PageMetadata = {
   /** Omitted on Home, which uses the site name alone. */
   title?: string;
   description: string;
-  /** The link-preview image (see lib/og.tsx). */
+  /** The link-preview image (see lib/og.ts). */
   image: string;
 };
 
 /** The browser bar matches the paper in each theme. */
 export const SITE_VIEWPORT: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8f6f3" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f1114" },
+    { media: "(prefers-color-scheme: light)", color: PAPER.light },
+    { media: "(prefers-color-scheme: dark)", color: PAPER.dark },
   ],
 };
 
@@ -50,6 +48,7 @@ export function sectionMetadata(
   description: UiKey,
 ): Metadata {
   const t = getT(lang);
+
   return pageMetadata({
     lang,
     path: `/${section}`,
@@ -81,6 +80,7 @@ export function recordMetadata(lang: Lang, record: RecordEntry): Metadata {
 
 function pageMetadata({ lang, path, title, description, image }: PageMetadata): Metadata {
   const url = localize(lang, path);
+
   // Home has no title of its own: leaving the key out keeps the site name from the layout.
   return {
     ...(title && { title }),
@@ -100,7 +100,7 @@ function pageMetadata({ lang, path, title, description, image }: PageMetadata): 
       url,
       ...(title && { title }),
       description,
-      images: [{ url: image, width: 1200, height: 630, alt: title ?? SITE_NAME }],
+      images: [{ url: image, ...OG_IMAGE_SIZE, alt: title ?? SITE_NAME }],
     },
     twitter: { card: "summary_large_image", images: [image] },
   };

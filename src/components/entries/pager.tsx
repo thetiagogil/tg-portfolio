@@ -16,31 +16,60 @@ type PagerProps = {
   lang: Lang;
 };
 
+type PagerItemProps = {
+  link: PagerLink;
+  direction: "prev" | "next";
+  label: string;
+  /** "Next" with no "Previous": it takes the whole width. */
+  alone?: boolean;
+};
+
+// --side is the .wrap's outer margin plus its gutter, measured on the pager (a container) so a scrollbar can't skew
+// it: the links' text lines up with the page's content.
+const SIDE = "[--side:calc(max(0px,(100cqi_-_90rem)/2)_+_var(--gutter))]";
+
 /** Previous / Next: a band of its own; each link fills its half. Only "Next" when there's one other entry. */
 export function Pager({ prev, next, lang }: PagerProps) {
   const t = getT(lang);
+
   return (
-    <section className="band pager-band">
-      <nav className="pager" aria-label={`${t("common.previous")} / ${t("common.next")}`}>
-        {prev && (
-          <Link href={prev.href} rel="prev">
-            <span className="an">
-              <Icon name="left" />
-              {t("common.previous")}
-            </span>
-            <span className="heading">{prev.title}</span>
-            <span className="sub">{prev.sub}</span>
-          </Link>
-        )}
-        <Link href={next.href} rel="next" className={cn("end", !prev && "alone")}>
-          <span className="an">
-            {t("common.next")}
-            <Icon name="right" />
-          </span>
-          <span className="heading">{next.title}</span>
-          <span className="sub">{next.sub}</span>
-        </Link>
+    <section className="band py-0">
+      <nav
+        className="@container grid md:grid-cols-2"
+        aria-label={`${t("common.previous")} / ${t("common.next")}`}
+      >
+        {prev && <PagerItem link={prev} direction="prev" label={t("common.previous")} />}
+        <PagerItem link={next} direction="next" label={t("common.next")} alone={!prev} />
       </nav>
     </section>
+  );
+}
+
+function PagerItem({ link, direction, label, alone = false }: PagerItemProps) {
+  const isNext = direction === "next";
+
+  return (
+    <Link
+      href={link.href}
+      rel={direction}
+      className={cn(
+        SIDE,
+        "group flex flex-col gap-3 px-[calc(var(--side)_+_var(--row-pad))] py-10 md:py-14",
+        isNext
+          ? "border-line border-t md:items-end md:border-t-0 md:border-l md:pr-[calc(var(--side)_+_var(--row-pad))] md:pl-8 md:text-right"
+          : "md:pr-8 md:pl-[calc(var(--side)_+_var(--row-pad))]",
+        alone && "col-span-full border-t-0 md:border-l-0",
+      )}
+    >
+      <span className="an text-ink-3 flex items-center gap-2">
+        {!isNext && <Icon name="left" />}
+        {label}
+        {isNext && <Icon name="right" />}
+      </span>
+      <span className="heading group-hover:text-accent-ink transition-colors duration-300">
+        {link.title}
+      </span>
+      <span className="text-ink-2">{link.sub}</span>
+    </Link>
   );
 }

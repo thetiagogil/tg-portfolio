@@ -9,7 +9,6 @@ type RiseProps = {
   className?: string;
 };
 
-/** A line of a headline that rises into place once, on load. */
 export function Rise({ children, delay, className }: RiseProps) {
   return (
     <span className="rise-mask">

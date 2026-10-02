@@ -1,28 +1,31 @@
-import { Dim } from "@/components/entries/dim";
+import { notFound } from "next/navigation";
 import { Pager, type PagerLink } from "@/components/entries/pager";
 import { Part } from "@/components/entries/part";
 import { ProjectCard } from "@/components/entries/project-card";
+import { ProjectCards } from "@/components/entries/project-cards";
 import { RichText } from "@/components/entries/rich-text";
-import { StackLine, StackRow } from "@/components/entries/stack";
+import { StackRow } from "@/components/entries/stack";
 import { Band } from "@/components/ui/band";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
-import { Icon } from "@/components/ui/icon";
-import { Rise } from "@/components/ui/rise";
-import { SmartLink } from "@/components/ui/smart-link";
 import { projectBySlug } from "@/content";
-import type { Lang, Product, RecordEntry } from "@/content/types";
-import { duration, endLabel, monthYear } from "@/lib/dates";
+import type { Lang, RecordEntry } from "@/content/types";
 import { recordHref, recordNeighbours } from "@/lib/entries";
-import { getT, localize } from "@/lib/i18n";
-import { delay } from "@/lib/motion";
+import { getT } from "@/lib/i18n";
+import { ProductList } from "./product-list";
+import { RecordHeader } from "./record-header";
+import { recordBySlug } from "./record-route";
+import { ScopeList } from "./scope-list";
 
 type RecordPageProps = {
-  record: RecordEntry;
+  kind: RecordEntry["kind"];
+  slug: string;
   lang: Lang;
 };
 
-/** A role (experience) or degree (education) page. */
-export function RecordPage({ record, lang }: RecordPageProps) {
+export function RecordPage({ kind, slug, lang }: RecordPageProps) {
+  const record = recordBySlug(kind, slug);
+
+  if (!record) notFound();
+
   const t = getT(lang);
   const { prev, next } = recordNeighbours(record);
   const projects = (record.projects ?? []).map(projectBySlug).filter((project) => !!project);
@@ -39,37 +42,24 @@ export function RecordPage({ record, lang }: RecordPageProps) {
       </Band>
 
       <Band>
-        <Part label={t("record.overview")} className="p-brief record-part">
+        <Part label={t("record.overview")} first>
           <RichText paragraphs={record.overview[lang]} lang={lang} className="read" />
           <StackRow techs={record.techs} lang={lang} />
         </Part>
-        <Part label={t("record.scope")} className="record-part">
-          <ul className="scope">
-            {record.scope.map((point) => (
-              <li key={point.title.en}>
-                <h3 className="subheading">{point.title[lang]}</h3>
-                <p>{point.text[lang]}</p>
-              </li>
-            ))}
-          </ul>
+
+        <Part label={t("record.scope")}>
+          <ScopeList points={record.scope} lang={lang} />
         </Part>
+
         {record.products && (
-          <Part
-            label={t(record.kind === "experience" ? "record.products" : "record.highlights")}
-            className="record-part"
-          >
-            <ul className="prods">
-              {record.products.map((product) => (
-                <li key={product.label.en}>
-                  <ProductItem product={product} lang={lang} />
-                </li>
-              ))}
-            </ul>
+          <Part label={t(record.kind === "experience" ? "record.products" : "record.highlights")}>
+            <ProductList products={record.products} lang={lang} />
           </Part>
         )}
+
         {projects.length > 0 && (
           <Part label={t("record.projects")} width="grid">
-            <ul className="cards three">
+            <ProjectCards three className="mt-12 md:mt-16">
               {projects.map((project) => (
                 <li key={project.slug}>
                   <ProjectCard
@@ -79,7 +69,7 @@ export function RecordPage({ record, lang }: RecordPageProps) {
                   />
                 </li>
               ))}
-            </ul>
+            </ProjectCards>
           </Part>
         )}
       </Band>
@@ -87,79 +77,4 @@ export function RecordPage({ record, lang }: RecordPageProps) {
       <Pager prev={prev && pagerLink(prev)} next={pagerLink(next)} lang={lang} />
     </article>
   );
-}
-
-function RecordHeader({ record, lang }: RecordPageProps) {
-  const t = getT(lang);
-  const ongoing = record.dateEnd === null;
-
-  return (
-    <header className="wrap">
-      <Breadcrumb
-        lang={lang}
-        parent={{ href: localize(lang, "/timeline"), label: t("nav.timeline") }}
-        current={t(`section.${record.kind}`)}
-      />
-      <div className="page-grid r-title">
-        <div className="col-span-full md:col-span-5 lg:col-span-8">
-          <h1 className="title">
-            <Rise delay={60}>{record.title[lang]}</Rise>
-          </h1>
-          <p className="lead sub fade r-org" style={delay(220)}>
-            {record.link ? (
-              <a className="tl-link" href={record.link} target="_blank" rel="noreferrer">
-                {record.org[lang]}
-                <Icon name="out" />
-              </a>
-            ) : (
-              record.org[lang]
-            )}
-            {record.documents?.map((document) => (
-              <a
-                key={document.href}
-                className="tl-link r-doc"
-                href={document.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {document.label[lang]}
-                <Icon name="dl" />
-              </a>
-            ))}
-          </p>
-        </div>
-        <div
-          className="dur fade col-span-full self-end md:col-span-3 lg:col-span-4"
-          style={delay(320)}
-        >
-          <p className="an">{t("record.duration")}</p>
-          <Dim
-            label={duration(record.dateStart, record.dateEnd, lang)}
-            open={ongoing}
-            className={ongoing ? "text-accent-ink" : "text-ink-2"}
-            labelClassName={ongoing ? "text-accent-ink" : "text-ink"}
-          />
-          <p className="an ends">
-            <span>{monthYear(record.dateStart, lang)}</span>
-            <span>{endLabel(record.dateEnd, lang)}</span>
-          </p>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-/** A product or highlight: a link when it has one (a site opens out, a PDF downloads). */
-function ProductItem({ product, lang }: { product: Product; lang: Lang }) {
-  const body = (
-    <>
-      <h3 className="subheading">
-        {product.label[lang]}
-        {product.href && <Icon name={/^https?:/.test(product.href) ? "out" : "dl"} />}
-      </h3>
-      <p>{product.description[lang]}</p>
-      <StackLine techs={product.techs} />
-    </>
-  );
-  return product.href ? <SmartLink href={product.href}>{body}</SmartLink> : body;
 }

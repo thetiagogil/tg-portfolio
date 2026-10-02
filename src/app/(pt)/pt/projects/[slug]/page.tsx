@@ -1,23 +1,11 @@
-import { notFound } from "next/navigation";
-import { projectBySlug, projects } from "@/content";
 import { ProjectPage } from "@/features/projects/project-page";
-import { projectMetadata } from "@/lib/metadata";
-
-type Props = { params: Promise<{ slug: string }> };
+import { projectRouteMetadata, projectStaticParams } from "@/features/projects/project-route";
+import type { EntryRouteProps } from "@/lib/entries";
 
 export const dynamicParams = false;
+export const generateStaticParams = projectStaticParams;
+export const generateMetadata = projectRouteMetadata("pt");
 
-export function generateStaticParams() {
-  return projects.map(({ slug }) => ({ slug }));
-}
-
-export async function generateMetadata({ params }: Props) {
-  const project = projectBySlug((await params).slug);
-  return project ? projectMetadata("pt", project) : {};
-}
-
-export default async function Page({ params }: Props) {
-  const project = projectBySlug((await params).slug);
-  if (!project) notFound();
-  return <ProjectPage project={project} lang="pt" />;
+export default async function Page({ params }: EntryRouteProps) {
+  return <ProjectPage slug={(await params).slug} lang="pt" />;
 }

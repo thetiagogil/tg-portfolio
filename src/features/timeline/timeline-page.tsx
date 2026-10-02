@@ -2,9 +2,9 @@ import { Band } from "@/components/ui/band";
 import { PageHead } from "@/components/ui/page-head";
 import type { Lang } from "@/content/types";
 import { getT } from "@/lib/i18n";
-import { stackGroups, timelineItems } from "./items";
-import { TimelineChart } from "./timeline-chart";
-import { TimelineExplorer } from "./timeline-explorer";
+import { TimelineChart } from "./chart/timeline-chart";
+import { TimelineExplorer } from "./list/timeline-explorer";
+import { stackGroups, timelineItems } from "./timeline-items";
 
 type TimelinePageProps = {
   lang: Lang;
@@ -13,6 +13,7 @@ type TimelinePageProps = {
 export function TimelinePage({ lang }: TimelinePageProps) {
   const t = getT(lang);
   const items = timelineItems(lang);
+
   return (
     <>
       <Band>
@@ -26,6 +27,7 @@ export function TimelinePage({ lang }: TimelinePageProps) {
           <TimelineChart lang={lang} />
         </div>
       </Band>
+
       <Band>
         <div className="wrap">
           <TimelineExplorer items={items} stack={stackGroups(items)} lang={lang} />

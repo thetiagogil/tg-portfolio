@@ -10,7 +10,6 @@ type CopyEmailProps = {
 
 const CONFIRM_MS = 1800;
 
-/** Copies the address and says so for a moment. */
 export function CopyEmail({ email, labels }: CopyEmailProps) {
   const [copied, setCopied] = useState(false);
 
@@ -25,7 +24,11 @@ export function CopyEmail({ email, labels }: CopyEmailProps) {
   }
 
   return (
-    <button type="button" className="copy-btn" onClick={copy}>
+    <button
+      type="button"
+      className="text-ink-2 inset-ring-line-2 hover:text-ink hover:inset-ring-ink inline-flex h-9 items-center gap-2 px-3 text-[0.8125rem] inset-ring"
+      onClick={copy}
+    >
       <Icon name={copied ? "check" : "copy"} />
       <span aria-live="polite">{copied ? labels.copied : labels.copy}</span>
     </button>

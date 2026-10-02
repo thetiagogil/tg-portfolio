@@ -7,9 +7,12 @@ type ChipsProps = {
 
 export function Chips({ techs }: ChipsProps) {
   return (
-    <ul className="chips">
+    <ul className="flex flex-wrap gap-1.5">
       {techs.map((id) => (
-        <li key={id} className="chip">
+        <li
+          key={id}
+          className="text-ink-2 inset-ring-line-2 inline-flex h-7 items-center px-2.5 text-[0.8125rem] inset-ring"
+        >
           {TOOLS[id].name}
         </li>
       ))}

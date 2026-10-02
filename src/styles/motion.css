@@ -1,0 +1,69 @@
+/* Motion, once: headlines rise on load, intros fade, sections fade in when first seen. Only when JavaScript runs
+   (the .js class), and never for people who ask for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .rise {
+    animation: rise 1.1s var(--settle) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .js .fade {
+    animation: fade 0.8s ease both;
+    animation-delay: var(--d, 0ms);
+  }
+  .js [data-reveal] {
+    transition: opacity 0.7s ease;
+  }
+  .js [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0s !important;
+  }
+}
+.rise-mask {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.rise {
+  display: block;
+}
+@keyframes rise {
+  from {
+    translate: 0 110%;
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@layer components {
+  /* The chart's bars draw once, one after another, the first time the chart is seen. */
+  .chart-bar {
+    transition:
+      color 0.3s,
+      scale 1.2s var(--drawing);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal]:not([data-revealed]) .chart-bar {
+      scale: 0 1;
+    }
+    .chart-bar {
+      transition-delay: var(--bar-delay, 0ms);
+    }
+  }
+}
+
+@keyframes dialog-rise {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}

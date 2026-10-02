@@ -1,0 +1,76 @@
+import { expect, type Page, test } from "@playwright/test";
+
+const entries = (page: Page) => page.getByRole("main").locator("h3");
+
+test("the timeline shows the chart and every entry", async ({ page }) => {
+  await page.goto("/timeline");
+  const chart = page.locator("figure");
+
+  await expect(chart.locator('a[href^="/experience/"], a[href^="/education/"]')).toHaveCount(6);
+  await expect(chart.locator('a[tabindex="-1"]')).toHaveCount(17);
+  await expect(entries(page)).toHaveCount(23);
+});
+
+test("tabs, search and sort narrow and reorder the list, and the URL keeps them", async ({
+  page,
+}) => {
+  await page.goto("/timeline");
+  await page.getByRole("button", { name: /^Projects/ }).click();
+  await expect(entries(page)).toHaveCount(14);
+  await page.getByRole("searchbox").fill("pokémon");
+  await expect(entries(page)).toHaveCount(1);
+  await expect(page.getByRole("status")).toHaveText("1 result");
+  await expect(page).toHaveURL(/cat=projects/);
+  await expect(page).toHaveURL(/q=pok/);
+  await page.getByRole("searchbox").fill("");
+  await page.getByRole("button", { name: "Newest, show oldest first" }).click();
+  await expect(entries(page).first()).toContainText("Giraffes vs Sea");
+  await page.reload();
+  await expect(entries(page)).toHaveCount(14);
+  await expect(entries(page).first()).toContainText("Giraffes vs Sea");
+});
+
+test("a shared link opens the same filtered view", async ({ page }) => {
+  await page.goto("/pt/timeline?now=1");
+  await expect(entries(page)).toHaveCount(2);
+  await expect(page.getByRole("button", { name: /^Filtros/ })).toContainText("1");
+});
+
+test("'/' jumps to the search", async ({ page, isMobile }) => {
+  test.skip(isMobile, "no keyboard on phones");
+  await page.goto("/timeline");
+  await page.locator("body").press("/");
+  await expect(page.getByRole("searchbox")).toBeFocused();
+});
+
+test("the filters dialog edits a draft, applies it only on Show, and discards it on close", async ({
+  page,
+}) => {
+  await page.goto("/timeline");
+  const dialog = page.getByRole("dialog", { name: "Filters" });
+
+  await page.getByRole("button", { name: "Filters" }).click();
+  await dialog.getByRole("button", { name: /Supabase/ }).click();
+  await expect(dialog.getByRole("button", { name: /Show \d+ results/ })).toBeVisible();
+  await expect(entries(page)).toHaveCount(23);
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(entries(page)).toHaveCount(23);
+
+  await page.getByRole("button", { name: "Filters" }).click();
+  await expect(dialog.getByRole("button", { name: /Supabase/ })).toHaveAttribute(
+    "aria-pressed",
+    "false",
+  );
+  await dialog.getByRole("button", { name: /Current only/ }).click();
+  await expect(dialog.getByRole("button", { name: /AutoCAD/ })).toBeDisabled();
+  await dialog.getByRole("button", { name: "Show 2 results" }).click();
+  await expect(dialog).toBeHidden();
+  await expect(entries(page)).toHaveCount(2);
+  await expect(page).toHaveURL(/now=1/);
+
+  await page.getByRole("button", { name: /Filters/ }).click();
+  await dialog.getByRole("button", { name: "Clear filters" }).click();
+  await dialog.getByRole("button", { name: "Show 23 results" }).click();
+  await expect(entries(page)).toHaveCount(23);
+});

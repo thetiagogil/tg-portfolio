@@ -2,7 +2,7 @@
 
 How the code is organised and written. Follow it for every new file and every edit, so the codebase keeps reading
 as one hand. `npm run lint` and `npm run format` enforce what a tool can check (marked **lint**); the rest is on
-whoever writes the code.
+whoever writes the code. Tiago's general defaults live in `~/.claude/CLAUDE.md`; this file is how they apply here.
 
 ---
 
@@ -10,119 +10,143 @@ whoever writes the code.
 
 ```
 src/
-  app/                    routes only: thin files that pick the language, load the entry and set the metadata
+  app/                    routes only: each file picks the language and hands over to a feature
     (en)/…                English at /
     (pt)/pt/…             Portuguese at /pt, the same paths
-  features/<page>/        one folder per page: the page component, its private parts, its CSS, its logic
-    home/ projects/ records/ about/ timeline/
+    og/[image]/           the link-preview images
+  features/<page>/        one folder per page: the page, its sections (one file each), its helpers
+    home/ projects/ records/ about/ link-previews/
+    timeline/             timeline-page, timeline-items, timeline-filters, chart/, list/
   components/
-    ui/                   generic pieces with no knowledge of the content: Button, Icon, Dialog, Band, heads, links
+    ui/                   generic pieces that know nothing about the content: Button, Icon, Dialog, Tabs, Facts…
     layout/               the site shell: RootShell, header and menu, footer, theme and language switches
-    entries/              pieces that show content entries: ProjectCard, ProjectMedia, StatusMark, Pager, Part,
-                          Lightbox, Dim, Glyph, Stack
+    entries/              pieces that show content entries: ProjectCard, ProjectMedia, StatusMark, Pager, Part…
   content/                the data: one file per entry (English and Portuguese side by side), ui/en.ts and ui/pt.ts
-  lib/                    plain functions shared by several places: dates, i18n, entries (paths), metadata, og,
-                          scale, motion, image-loader, cn
-  styles/                 tokens.css and base.css only (type, grid, bands, motion)
-e2e/                      Playwright tests, one file per area, with helpers.ts and playwright.config.ts
+  lib/                    plain functions shared by several places: constants, dates, i18n, entries (paths),
+                          metadata, og, scale, motion, cn, image-loader
+  styles/                 the little CSS left: tokens, base, links and icons, crop marks, motion
+tests/
+  unit/                   Vitest: dates, i18n, paths, the scale, the Timeline's filters, the content rules
+  e2e/                    Playwright by area (a11y, site, pages, timeline), helpers.ts and playwright.config.ts
 scripts/                  build scripts (images, icons) and the screenshot tool
 ```
 
 - **Every file and folder name is kebab-case**, the way Next names its own files (`page.tsx`, `layout.tsx`):
-  `site-header.tsx`, `use-timeline-view.ts`, `image-loader.ts`, `timeline.css`. What a file exports keeps its own
-  case: `site-header.tsx` exports `SiteHeader`, `use-timeline-view.ts` exports `useTimelineView`. One rule for
-  everything, and no imports that work on a Mac (case-insensitive) but break on the Linux build.
-- **A component used by one page lives in that page's folder.** It moves to `components/` only when a second page
-  needs it: `ui/` if it knows nothing about the content, `entries/` if it does, `layout/` if it's part of the shell.
-- **Logic used by one page** lives in that page's folder too (`features/timeline/filters.ts`). It moves to `lib/`
-  when shared.
-- **CSS sits next to what it styles:** `components/ui/ui.css`, `features/timeline/timeline.css`, and so on, all
-  imported once in `app/globals.css` in this order: tokens, base, ui, layout, entries, then the pages.
-- **Tests sit next to the code** they test (`dates.test.ts` beside `dates.ts`); end-to-end tests in `e2e/`.
+  `site-header.tsx`, `use-timeline-view.ts`. What a file exports keeps its own case: `site-header.tsx` exports
+  `SiteHeader`. One rule for everything, and no import that works on a Mac but breaks on the Linux build.
+- **One job per file.** A file holds one component, one hook, or one subject's plain functions (`dates.ts`).
+- **Files stay small:** about 150 lines for a component, 200 at most. Split before that.
+- **A page is one main function** that lists its sections (`HomePage` renders `<Hero />`, `<SelectedWork />`,
+  `<WorkHistory />`, `<Contact />`); each section is its own file beside it. Plain helper functions go in a
+  `<feature>-utils.ts`. A big feature groups its files in sub-folders (`timeline/chart/`, `timeline/list/`).
+- **A component used by one page lives in that page's folder.** It moves to `components/` when a second page needs
+  it: `ui/` if it knows nothing about the content, `entries/` if it does, `layout/` if it's part of the shell.
+- **Shared values** (site URL and name, image widths, the paper colour, preview size) live in
+  `lib/constants.ts`, which the app, `next.config.ts` and the scripts all read. A value used by one file stays in
+  that file.
+- **Route files only route.** They wire `generateStaticParams`, `generateMetadata` and the page from the feature
+  (`features/projects/project-route.ts`); the page finds its entry and calls `notFound()` itself.
 - **Caches stay out of the root:** TypeScript's build info and Playwright's failure reports go to
   `node_modules/.cache/`. The root only shows what's edited, plus `out/` and `.next/` after a build (git-ignored).
 
-## 2. A file, top to bottom
+## 2. A component, top to bottom
 
 ```tsx
-"use client"; // only when the component needs the browser (state, effects, events)
+"use client"; // only when it needs the browser (state, effects, events)
 
-import Link from "next/link"; // 1. packages
-import { Band } from "@/components/ui/Band"; // 2. the app, through "@/"
-import type { Lang } from "@/content/types";
+import { useEffect, useState } from "react"; // 1. packages
+import { Tab, Tabs } from "@/components/ui/tabs"; // 2. the app, through "@/"
+import type { Lang, Project } from "@/content/types";
 import { getT } from "@/lib/i18n";
-import { ProjectGrid } from "./project-grid"; // 3. the same folder
+import { ProjectCards } from "./project-cards"; // 3. the same folder
 
-// The props type, named after the component.
-type ProjectsPageProps = {
+type ProjectGridProps = {
+  projects: Project[];
   lang: Lang;
 };
 
-const SIZES = "(min-width: 48rem) 45vw, 100vw"; // module constants in UPPER_CASE
+const SIZES = "(min-width: 48rem) 45vw, 100vw"; // constants in UPPER_CASE, after the props type
 
-/** One line on what it is, only when the name doesn't already say it. */
-export function ProjectsPage({ lang }: ProjectsPageProps) {
-  const t = getT(lang); // 1. text, 2. derived data, 3. handlers, then the markup
-  return <Band>…</Band>;
+export function ProjectGrid({ projects, lang }: ProjectGridProps) {
+  const [filter, setFilter] = useState("all"); // 1. state and hooks
+
+  const t = getT(lang); // 2. values worked out from them
+  const shown = projects.filter(…);
+
+  function select(type: string) {} // 3. handlers
+
+  useEffect(() => {}, []); // 4. effects
+
+  return (
+    <>
+      <Tabs label={t("projects.filterLabel")}>…</Tabs>
+
+      <ProjectCards>…</ProjectCards>
+    </>
+  );
 }
-
-// Private parts below the export, in the order they appear on the page.
-function Section() {}
 ```
 
-- **Imports** are grouped (packages, `@/…`, `./…`) and sorted, with no blank lines between groups. **lint**
-- **One exported component per file**, named like the file (`project-card.tsx` → `ProjectCard`). Small variants
-  of the same thing may share a file (`StackLine` and `StackRow` in `stack.tsx`; `Lightbox` and
-  `LightboxTrigger`).
-- **Pages are composed of named sections:** `HomePage` renders `<Hero />`, `<SelectedWork />`,
-  `<WorkHistory />`, `<Contact />`, each a function below it. A section longer than about 80 lines, or used by
-  another page, gets its own file.
+- **Imports** grouped (packages, `@/…`, `./…`) and sorted, no blank lines between groups. **lint**
+- **Spacing:** each group above (state, derived values, handlers, effects, markup) separated by a blank line; a
+  blank line before every `return` and after a group of declarations **lint**. In the markup, a blank line between
+  major blocks.
+- **Named exports**; a default export only where Next requires one (`page.tsx`, `layout.tsx`, the image loader).
+- **Props** as `type <Component>Props`, above the component.
+- **One exported component per file.** Small variants of the same thing may share it (`StackLine` and `StackRow`;
+  `Tabs` and `Tab`; `Facts` and `Fact`). A private piece under 15 lines may sit below the main component.
 
 ## 3. Writing it
 
-- **Functions are declarations:** `export function monthYear()`, `function Hero()`. Arrow functions are for
+- **Functions are declarations:** `export function monthYear()`, `function close()`. Arrow functions are for
   callbacks and one-line helpers inside a function. **lint** for components.
-- **No render helpers inside components.** A piece of markup used twice becomes a small component below
-  (`<Spec label>`, `<Option>`), not a `const part = (…) => <div>` inside the parent.
-- **Types:** `type`, never `interface` **lint**; props as `type <Component>Props`; type-only imports use
-  `type` **lint**. Shared content types come from `@/content/types`; tool types from `@/content/stack`.
-- **Names say what things are:** `project`, `record`, `scale`, `filters`, `today`; not `p`, `r`, `sc`, `f`, `now`
-  for a build date. Short names only for indexes (`i`), the translator (`t`) and tiny callbacks (`(a, b) =>`).
-- **No nested ternaries** **lint**: use early returns or a small helper (`showLabel()`, `endLabel()`).
-- **Text** always comes from `src/content`: entries for content, `t("key")` for interface text. Placeholders are
-  filled by `t`: `t("lightbox.counter", { n: 2, total: 4 })`. Never hard-code copy in a component.
-- **Dates** only through `lib/dates.ts` (`monthYear`, `endLabel`, `duration`); everything in UTC.
-- **Links:** `SmartLink` (or `Button` / `ArrowLink`) decides between `next/link` and a plain link that opens in a
-  new tab. Paths come from `lib/entries.ts` (`projectHref`, `recordHref`) and `localize()`.
-- **Comments** explain why, not what: a decision, a browser quirk, a rule from the design. No comments that repeat
-  the code, and no history ("ported from…", "was…").
+- **No render helpers inside components** (`const row = () => <div>`): make a small component instead.
+- **No nested ternaries** **lint**: early returns or a small helper (`showResultsLabel()`, `endLabel()`).
+- **Types:** `type`, never `interface` **lint**; type-only imports use `type` **lint**. Content types come from
+  `@/content/types`, tool types from `@/content/stack`.
+- **Names say what things are:** `project`, `record`, `scale`, `filters`, `today`; not `p`, `r`, `sc`, `f`. Short
+  names only for indexes (`i`), the translator (`t`) and tiny callbacks.
+- **Text** always comes from `src/content`: entries for content, `t("key")` for interface text, with placeholders
+  filled by `t("lightbox.counter", { n: 2, total: 4 })`.
+- **Dates** only through `lib/dates.ts` (`monthYear`, `endLabel`, `duration`), in UTC. **Paths** through
+  `lib/entries.ts` and `localize()`. **Links** through `SmartLink`, `Button` or `ArrowLink`, which pick between
+  `next/link` and a plain link that opens a new tab.
+- **Comments are rare.** Only what the code can't say: a reason, a rule from the design, a browser quirk. No
+  comment that describes the markup below it or repeats a name.
 - **Client code is the exception.** Pages render at build time; only the leaves that need the browser are client
-  components (the menu, the theme switch, the Timeline list, the project tabs, the image viewer).
+  components (the header and menu, the theme switch, the project tabs, the Timeline list, the image viewer).
 
 ## 4. Styling
 
-- **Classes from the CSS files** for anything with real detail (the study's components); **Tailwind utilities**
-  for one-off layout: grid spans (`col-span-full md:col-span-5`), spacing (`mt-8`), and colour tokens
-  (`text-ink-3`).
+- **Tailwind in the markup** for everything: layout, spacing, colour, borders, states (`hover:`, `group-hover:`,
+  `aria-pressed:`, `dark:`). The design tokens are Tailwind colours (`bg-paper`, `text-ink-2`, `border-line`,
+  `bg-hover`), and CSS variables are used directly where needed (`px-(--row-pad)`, `h-(--header-h)`).
+- **The design system's basics stay as a few classes** in `src/styles/base.css`: the type scale (`title`,
+  `heading`, `subheading`, `lead`, `read`, `an`), the grid (`wrap`, `page-grid`) and the bands (`band`). They sit in
+  the components layer, so a utility on the same element always wins (`subheading mt-3`).
+- **CSS files only for what utilities express badly:** link underlines and the icons' hover nudge
+  (`links-icons.css`), crop marks (`crop-marks.css`), the load-in motion and the chart's draw-in (`motion.css`).
+- **Font sizes as arbitrary values** (`text-[15px]`, `text-[0.875rem]`), not `text-sm`: Tailwind's named sizes
+  also change the line height.
+- **Class names are literal strings.** Tailwind finds classes by reading the source, so never build one from a
+  template (`` `px-[${x}]` ``). Conditional or overridable classes go through `cn()`, which also resolves clashes
+  (`cn("text-ink-2", ongoing && "text-accent")`: the later one wins).
 - **Inline `style` only for values computed in code:** chart positions (`left: pct(pos)`) and CSS variables
-  (`delay(220)`, `--brand`). A fixed value is a class.
-- Conditional classes with `cn()`: `cn("tool-btn", applied > 0 && "on")`.
-- New classes: kebab-case, prefixed by their block (`.pager`, `.pager-band`), in the CSS file of the folder that
-  owns the component, inside `@layer components`.
-- Never reuse a Tailwind utility's name as a component class (`block`, `outline` once broke the layout).
+  (`delay(220)`, `--brand`, `--bar-delay`).
+- Dark mode is a Tailwind variant (`dark:`) that follows the system unless the visitor picked a theme.
 
 ## 5. Tests
 
-- **Unit tests** (Vitest) for logic: dates, i18n, paths, the scale, the Timeline's filters, and
+- **Unit tests** (Vitest, `tests/unit/`) for logic: dates, i18n, paths, the scale, the Timeline's filters, and
   `content.test.ts`, which checks every entry against `docs/CONTENT.md`. Name tests by behaviour ("lists newest
   first, or oldest first").
-- **End-to-end** (Playwright, against the built site, desktop and phone):
+- **End-to-end** (Playwright, `tests/e2e/`, against the built site, desktop and phone):
   - `a11y.spec.ts`: axe on every page type in both languages, and with each dialog open;
   - `site.spec.ts`: the shell (language, theme, menu, 404, focus rings, links that resolve);
   - `pages.spec.ts`: Home, Projects, a project, a role;
   - `timeline.spec.ts`: the chart, tabs, search, sort, filters and the URL.
-- Select by role and name (`getByRole("button", { name: "Filters" })`); fall back to a class only for things
-  with no role (`.entry`, `.card`).
+- Find elements the way a visitor would: by role and name (`getByRole("button", { name: "Filters" })`), by
+  heading, or by link target. Never by a styling class.
 
 ## 6. Before calling something done
 

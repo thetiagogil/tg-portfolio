@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { cn } from "@/lib/cn";
 import { Icon, type IconName } from "./icon";
 import { SmartLink } from "./smart-link";
 
@@ -6,14 +7,25 @@ type ArrowLinkProps = {
   href: string;
   children: ReactNode;
   icon?: IconName;
+  /** Without the underline (links that are already clearly links, such as "Back to top"). */
+  plain?: boolean;
+  className?: string;
 };
 
-/** A text link with an underline and an arrow after it ("Full timeline →", "GitHub ↗", "Download CV ↓"). */
-export function ArrowLink({ href, children, icon = "right" }: ArrowLinkProps) {
+export function ArrowLink({
+  href,
+  children,
+  icon = "right",
+  plain = false,
+  className,
+}: ArrowLinkProps) {
   return (
-    <SmartLink href={href} className="tl-link">
-      <span className="lk">{children}</span>
-      <Icon name={icon} />
+    <SmartLink
+      href={href}
+      className={cn("inline-flex items-center gap-1.5 font-medium", className)}
+    >
+      {plain ? children : <span className="lk">{children}</span>}
+      <Icon name={icon} className="size-3.5" />
     </SmartLink>
   );
 }

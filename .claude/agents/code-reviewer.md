@@ -15,16 +15,18 @@ The files changed on the branch or in the working tree (`git status`, `git diff`
 changed file in full, not only the diff, so you see it the way the next reader will.
 
 ## Checks
-1. **Place:** is each file in the right folder (a page's own parts in `features/<page>/`, shared pieces in
-   `components/ui|layout|entries`, shared logic in `lib/`, CSS next to what it styles)?
-2. **Anatomy:** imports grouped and sorted; a named `<Component>Props` type; one exported component per file;
-   private parts below it in page order; constants in UPPER_CASE.
+1. **Place:** is each file in the right folder (a page's sections in `features/<page>/`, shared pieces in
+   `components/ui|layout|entries`, shared logic in `lib/`, shared values in `lib/constants.ts`, tests in `tests/`)?
+   Kebab-case names? One job per file, under about 150 lines (200 at most)? Route files only routing?
+2. **Anatomy:** imports grouped and sorted; a named `<Component>Props` type; named exports; one main function per
+   file; the inside spaced in groups (state, derived values, handlers, effects, markup) with blank lines.
 3. **Writing:** function declarations; no render helpers inside components; no nested ternaries; names that say
-   what things are; comments that explain why (none that repeat the code).
+   what things are; comments only for reasons (none that describe the markup or repeat a name).
 4. **Text and data:** no hard-coded copy (interface text through `t()`, content from `src/content`); dates only
    through `lib/dates.ts` (UTC); paths through `lib/entries.ts` and `localize()`.
-5. **Styling:** fixed values as classes, inline `style` only for computed values; no class named like a Tailwind
-   utility.
+5. **Styling:** Tailwind in the markup; class names as literal strings (never built from templates); `cn()` for
+   conditional or overridable classes; font sizes as arbitrary values, not `text-sm`; inline `style` only for
+   computed values; new CSS only for what utilities express badly.
 6. **Bugs:** wrong logic, missing cases (empty lists, a single entry, Portuguese), client code that could run on the
    server, accessibility regressions (labels, roles, focus).
 7. Run `npm run lint` and `npm run typecheck` and include any failure.

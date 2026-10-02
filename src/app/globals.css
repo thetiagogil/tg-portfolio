@@ -1,17 +1,22 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
 @import "../styles/base.css";
-@import "../components/ui/ui.css";
-@import "../components/layout/layout.css";
-@import "../components/entries/entries.css";
-@import "../features/home/home.css";
-@import "../features/projects/projects.css";
-@import "../features/records/records.css";
-@import "../features/about/about.css";
-@import "../features/timeline/timeline.css";
+@import "../styles/links-icons.css";
+@import "../styles/crop-marks.css";
+@import "../styles/motion.css";
 
-/* Tokens exposed to Tailwind utilities (bg-paper, text-ink-2, border-line, font-mono…). Breakpoints are Tailwind's
-   defaults, which match the design: sm 40rem, md 48rem, lg 64rem. */
+/* Dark mode follows the system unless the visitor picked a theme (data-theme on <html>). */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
 @theme inline {
   --font-sans:
     var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -31,4 +36,5 @@
   --color-on-accent: var(--on-accent);
   --color-hover: var(--hover);
   --ease-settle: var(--settle);
+  --ease-drawing: var(--drawing);
 }

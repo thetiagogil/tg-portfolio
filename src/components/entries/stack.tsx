@@ -2,24 +2,44 @@ import { Chips } from "@/components/ui/chips";
 import { TOOLS } from "@/content";
 import type { ToolId } from "@/content/stack";
 import type { Lang } from "@/content/types";
+import { cn } from "@/lib/cn";
 import { getT } from "@/lib/i18n";
 
-/** Tools separated by small dots (Timeline entries, products, collections). */
-export function StackLine({ techs }: { techs?: readonly ToolId[] }) {
+type StackLineProps = {
+  techs?: readonly ToolId[];
+  className?: string;
+};
+
+type StackRowProps = {
+  techs: readonly ToolId[];
+  lang: Lang;
+};
+
+export function StackLine({ techs, className }: StackLineProps) {
   if (!techs?.length) return null;
+
   return (
-    <ul className="stack">
+    <ul
+      className={cn(
+        "text-ink-3 flex flex-wrap gap-x-2 gap-y-0.5 text-[0.8125rem] leading-[1.5]",
+        className,
+      )}
+    >
       {techs.map((id) => (
-        <li key={id}>{TOOLS[id].name}</li>
+        <li
+          key={id}
+          className="not-first:before:bg-line-2 flex items-center gap-2 not-first:before:size-[3px]"
+        >
+          {TOOLS[id].name}
+        </li>
       ))}
     </ul>
   );
 }
 
-/** Entry pages: "STACK", then the tools as chips, in one row under the brief or overview. */
-export function StackRow({ techs, lang }: { techs: readonly ToolId[]; lang: Lang }) {
+export function StackRow({ techs, lang }: StackRowProps) {
   return (
-    <div className="b-stack">
+    <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3">
       <p className="an text-ink-3">{getT(lang)("project.stack")}</p>
       <Chips techs={techs} />
     </div>

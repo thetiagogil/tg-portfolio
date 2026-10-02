@@ -11,6 +11,7 @@ type ProjectsPageProps = {
 
 export function ProjectsPage({ lang }: ProjectsPageProps) {
   const t = getT(lang);
+
   return (
     <>
       <Band>
@@ -20,6 +21,7 @@ export function ProjectsPage({ lang }: ProjectsPageProps) {
           intro={t("projects.intro")}
         />
       </Band>
+
       <Band>
         <div className="wrap">
           <ProjectGrid projects={projects} lang={lang} />

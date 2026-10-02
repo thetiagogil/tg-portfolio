@@ -4,6 +4,7 @@ import { chromium } from "@playwright/test";
 
 const [url, out, w = "1280", h = "900", scheme = "light", full = "", click = ""] =
   process.argv.slice(2);
+
 if (!url || !out) {
   console.error(
     "Usage: node scripts/screenshot.mjs <url> <out.png> [width] [height] [light|dark] [full] [click]",
@@ -20,6 +21,7 @@ const page = await browser.newPage({
   hasTouch: phone,
   reducedMotion: "reduce",
 });
+
 await page.goto(url, { waitUntil: "networkidle" });
 // Wait for the web fonts: the fallback font is wider and can cut labels that fit.
 await page.evaluate(() => document.fonts.ready);
@@ -29,6 +31,7 @@ if (click) {
 }
 await page.screenshot({ path: out, fullPage: full === "full" });
 const { scrollWidth, clientWidth } = await page.evaluate(() => document.documentElement);
+
 console.log(
   `${out}${scrollWidth > clientWidth ? `  (overflows sideways: ${scrollWidth}px > ${clientWidth}px)` : ""}`,
 );

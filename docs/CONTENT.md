@@ -4,7 +4,7 @@ How the site's content is organised, and the rules for writing it in English and
 voice, positioning and approved or rejected copy, read `docs/OWNER.md` first.
 
 > The approved copy from the study (hero, overrides, titled Scope, chart labels) is already in the content. The
-> study's `data/content.js` is a frozen export of the old content; don't edit it. `src/content/content.test.ts` checks
+> study's `data/content.js` is a frozen export of the old content; don't edit it. `tests/unit/content.test.ts` checks
 > everything below; run `npm run test` after any edit.
 
 ---

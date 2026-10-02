@@ -14,7 +14,6 @@ type ProjectMediaProps = {
   decorative?: boolean;
 };
 
-/** A project's image, or hatching when it has none yet. */
 export function ProjectMedia({
   project,
   lang,
@@ -28,9 +27,11 @@ export function ProjectMedia({
 
   if (!src) {
     return (
-      <div className="placeholder hatch">
-        <span className="n">{project.title}</span>
-        <span className="an">
+      <div className="hatch text-ink-3 flex size-full flex-col items-center justify-center gap-3 p-6 text-center">
+        <span className="bg-paper-2 text-ink-2 px-3 py-1 text-[clamp(1.25rem,3vw,2rem)] font-medium tracking-[-0.03em]">
+          {project.title}
+        </span>
+        <span className="an bg-paper-2 px-2 py-0.5">
           {t(
             project.status === "planned"
               ? "project.placeholder.planned"
@@ -48,6 +49,7 @@ export function ProjectMedia({
       fill
       sizes={sizes}
       priority={priority}
+      className="ease-settle object-cover object-top transition-[scale] duration-1000 group-hover:scale-[1.015]"
     />
   );
 }

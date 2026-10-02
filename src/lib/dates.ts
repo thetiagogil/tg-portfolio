@@ -19,16 +19,19 @@ export function year(iso: ISODate): number {
 /** "Jan" / "jan". Formatted on its own: pt-PT turns a short month plus a year into "01/2025". */
 export function shortMonth(date: Date, lang: Lang): string {
   let format = monthFormats.get(lang);
+
   if (!format) {
     format = new Intl.DateTimeFormat(LOCALES[lang], { month: "short", timeZone: "UTC" });
     monthFormats.set(lang, format);
   }
+
   return format.format(date).replace(".", "");
 }
 
 /** "Jan 2025" / "jan 2025". */
 export function monthYear(iso: ISODate, lang: Lang): string {
   const date = toDate(iso);
+
   return `${shortMonth(date, lang)} ${date.getUTCFullYear()}`;
 }
 
@@ -50,10 +53,12 @@ export function monthsBetween(
 ): number {
   const from = toDate(start);
   let to = from;
+
   if (end === null) to = now;
   else if (end) to = toDate(end);
   const months =
     (to.getUTCFullYear() - from.getUTCFullYear()) * 12 + (to.getUTCMonth() - from.getUTCMonth());
+
   return Math.max(1, months + 1);
 }
 
@@ -63,9 +68,11 @@ export function formatDuration(months: number, lang: Lang): string {
   const years = Math.floor(months / 12);
   const rest = months % 12;
   const parts: string[] = [];
+
   if (years > 0) parts.push(`${years} ${t(years === 1 ? "duration.year" : "duration.years")}`);
   if (rest > 0 || years === 0)
     parts.push(`${rest} ${t(rest === 1 ? "duration.month" : "duration.months")}`);
+
   return parts.join(" ");
 }
 

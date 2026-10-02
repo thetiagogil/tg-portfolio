@@ -1,23 +1,11 @@
-import { notFound } from "next/navigation";
-import { degreeBySlug, degrees } from "@/content";
 import { RecordPage } from "@/features/records/record-page";
-import { recordMetadata } from "@/lib/metadata";
-
-type Props = { params: Promise<{ slug: string }> };
+import { recordRouteMetadata, recordStaticParams } from "@/features/records/record-route";
+import type { EntryRouteProps } from "@/lib/entries";
 
 export const dynamicParams = false;
+export const generateStaticParams = recordStaticParams("education");
+export const generateMetadata = recordRouteMetadata("education", "en");
 
-export function generateStaticParams() {
-  return degrees.map(({ slug }) => ({ slug }));
-}
-
-export async function generateMetadata({ params }: Props) {
-  const record = degreeBySlug((await params).slug);
-  return record ? recordMetadata("en", record) : {};
-}
-
-export default async function Page({ params }: Props) {
-  const record = degreeBySlug((await params).slug);
-  if (!record) notFound();
-  return <RecordPage record={record} lang="en" />;
+export default async function Page({ params }: EntryRouteProps) {
+  return <RecordPage kind="education" slug={(await params).slug} lang="en" />;
 }

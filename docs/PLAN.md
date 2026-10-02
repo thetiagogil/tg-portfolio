@@ -16,6 +16,7 @@ Nothing is pushed, merged or deployed without the owner's go-ahead.
 | 5. Timeline | Done (2026-10-01): chart, list, tabs, search (`/`), sort, filters dialog; the view lives in the URL |
 | 6. Polish | Done (2026-10-01): sitemap, robots, favicon, link previews, analytics (needs the token), accessibility audit fixed, Lighthouse 94–98 / 100 / 100 / 100 |
 | Cleanup | Done (2026-10-01): folders by role, CSS next to its components, the house style in `docs/CODE.md` (lint enforces part of it), dead code, CSS and interface text removed, tests reorganised by area |
+| Restructure | Done (2026-10-02): Tailwind in the markup, one job per file, pages split into sections, tests in `tests/`, shared constants, minimal routes, kebab-case names |
 | 7. Review and launch | Not started |
 
 ## Decisions
@@ -23,7 +24,7 @@ Nothing is pushed, merged or deployed without the owner's go-ahead.
 | Topic | Decision |
 | --- | --- |
 | Framework | Next.js (App Router), **static export**: real HTML for every page, no server |
-| Styling | Tailwind 4 with the study's tokens; the study's component CSS kept as classes, next to each component |
+| Styling | Tailwind 4 in the markup, with the study's tokens as theme colours; a little CSS for the type scale, grid, bands, links, crop marks and motion |
 | UI library | **None.** Small components of our own; the native `<dialog>` for the menu, the filters and the image viewer |
 | Languages | English at `/`, Portuguese at `/pt/...`, same paths; the switch goes to the same page in the other language |
 | URLs | Role and degree pages at `/experience/<slug>` and `/education/<slug>` |

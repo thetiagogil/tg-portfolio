@@ -28,6 +28,7 @@ export function scaleOf(segments: [Date, Date][], gap = 0.04): Scale {
 
   const offsets: number[] = [];
   let cursor = 0;
+
   for (const span of spans) {
     offsets.push(cursor);
     cursor += ((span.to - span.from) / total) * drawn + gap;
@@ -35,19 +36,24 @@ export function scaleOf(segments: [Date, Date][], gap = 0.04): Scale {
 
   const pos = (date: Date) => {
     const time = date.getTime();
+
     for (const [i, span] of spans.entries()) {
       if (time < span.from) return i === 0 ? 0 : offsets[i] - gap / 2;
       if (time <= span.to) return offsets[i] + ((time - span.from) / total) * drawn;
     }
+
     return 1;
   };
 
   const ticks: Scale["ticks"] = [];
+
   for (const span of spans) {
     const first = new Date(span.from).getUTCFullYear();
     const last = new Date(span.to).getUTCFullYear();
+
     for (let year = first; year <= last; year++) {
       const time = Date.UTC(year, 0, 1);
+
       if (time >= span.from && time <= span.to) ticks.push({ year, pos: pos(new Date(time)) });
     }
   }

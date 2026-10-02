@@ -25,6 +25,13 @@ export default defineConfig([
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "@typescript-eslint/consistent-type-imports": ["error", { fixStyle: "inline-type-imports" }],
       "no-nested-ternary": "error",
+      // Breathing room: a blank line before a return and after a group of declarations.
+      "padding-line-between-statements": [
+        "error",
+        { blankLine: "always", prev: "*", next: "return" },
+        { blankLine: "always", prev: ["const", "let"], next: "*" },
+        { blankLine: "any", prev: ["const", "let"], next: ["const", "let"] },
+      ],
     },
   },
   globalIgnores([".next/**", "out/**", "next-env.d.ts", "docs/**"]),

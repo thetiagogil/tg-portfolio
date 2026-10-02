@@ -1,14 +1,20 @@
 import type { Category, ProjectStatus } from "@/content/types";
+import { cn } from "@/lib/cn";
 
 type GlyphProps = {
   category: Category;
   status?: ProjectStatus;
+  className?: string;
 };
 
 /** The Timeline's markers: ■ work, △ education, ● project (hatched in progress, dashed planned), ◇ certificate. */
-export function Glyph({ category, status }: GlyphProps) {
+export function Glyph({ category, status, className }: GlyphProps) {
   return (
-    <svg className="glyph" viewBox="0 0 12 12" aria-hidden="true">
+    <svg
+      className={cn("size-2.5 flex-none overflow-visible", className)}
+      viewBox="0 0 12 12"
+      aria-hidden="true"
+    >
       {category === "experience" && <rect x="1" y="1" width="10" height="10" fill="currentColor" />}
       {category === "projects" && <ProjectShape status={status} />}
       {category === "education" && (
@@ -23,6 +29,7 @@ export function Glyph({ category, status }: GlyphProps) {
 
 function ProjectShape({ status }: { status?: ProjectStatus }) {
   const hollow = status === "planned" || status === "in progress";
+
   return (
     <>
       <circle

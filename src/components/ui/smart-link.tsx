@@ -8,6 +8,7 @@ type SmartLinkProps = ComponentProps<"a"> & { href: string };
 export function SmartLink({ href, ...props }: SmartLinkProps) {
   if (isPage(href)) return <Link href={href} {...props} />;
   const newTab = /^https?:/.test(href) || /\.pdf$/i.test(href);
+
   return <a href={href} {...(newTab && { target: "_blank", rel: "noreferrer" })} {...props} />;
 }
 

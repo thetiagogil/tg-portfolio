@@ -8,16 +8,17 @@ type PageHeadProps = {
   intro?: ReactNode;
 };
 
-/** A page's first band: the eyebrow, the title (rises on load) and a short intro. */
 export function PageHead({ eyebrow, title, intro }: PageHeadProps) {
   return (
-    <header className="wrap page-head">
-      <p className="an eyebrow fade">{eyebrow}</p>
-      <h1 className="title">
+    <header className="wrap pt-14 md:pt-18 lg:pt-20">
+      <p className="an fade text-ink-3">{eyebrow}</p>
+
+      <h1 className="title mt-6 max-w-[18ch]">
         <Rise delay={80}>{title}</Rise>
       </h1>
+
       {intro && (
-        <p className="lead intro fade" style={delay(260)}>
+        <p className="lead fade text-ink-2 mt-7 max-w-[52ch]" style={delay(260)}>
           {intro}
         </p>
       )}

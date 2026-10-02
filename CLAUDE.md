@@ -33,26 +33,27 @@ The folder map and the house style are in `docs/CODE.md`. In short:
 ```
 src/
   app/          routes only; English at /, Portuguese mirrored under /pt with the same paths
-  features/     one folder per page (home, projects, records, about, timeline): the page, its parts, its CSS
+  features/     one folder per page (home, projects, records, about, timeline, link-previews): the page and its
+                sections, one file each
   components/   ui/ (generic), layout/ (the site shell), entries/ (cards, status, pager, image viewer…)
   content/      the data, one file per entry with en and pt side by side; ui/en.ts and ui/pt.ts
-  lib/          dates (UTC), i18n, entry paths, metadata, link previews, the chart scale
-  styles/       tokens.css and base.css
+  lib/          constants, dates (UTC), i18n, entry paths, metadata, link previews, the chart scale
+  styles/       the little CSS left: tokens, base (type, grid, bands), links and icons, crop marks, motion
+tests/          unit/ (Vitest) and e2e/ (Playwright + axe, with its config)
 assets/         source images (screenshots, portrait), kept in git, never shipped as-is
 public/         PDFs and the CV; `public/images/` is generated (git-ignored)
-e2e/            Playwright tests by area (a11y, site, pages, timeline) and their config
 docs/           project docs and the study
 ```
 
-Tokens live in `src/styles/tokens.css` and are exposed to Tailwind in `src/app/globals.css` (`bg-paper`,
-`text-ink-2`, `border-line`…). CSS sits next to what it styles, inside `@layer components`; Tailwind utilities are
-for one-off layout and spacing. Breakpoints are Tailwind's defaults, which match the design (sm 40rem, md 48rem,
-lg 64rem).
+Styling is Tailwind in the markup. The tokens (`src/styles/tokens.css`) are Tailwind colours (`bg-paper`,
+`text-ink-2`, `border-line`); the type scale, grid and bands are a few classes in `src/styles/base.css` (`title`,
+`lead`, `an`, `wrap`, `page-grid`, `band`). Breakpoints are Tailwind's defaults, which match the design (sm 40rem,
+md 48rem, lg 64rem). File names are kebab-case.
 
 ## Commands
 
 `npm run dev` · `build` (static site in `out/`) · `preview` (serves `out/` on port 4000) · `lint` · `format` /
-`format:check` · `typecheck` · `test` (Vitest, `src/**/*.test.ts`) · `test:e2e` (Playwright + axe against `out/`, in
+`format:check` · `typecheck` · `test` (Vitest, `tests/unit/`) · `test:e2e` (Playwright + axe against `out/`, in
 the installed Chrome; build first) · `images` (WebP sizes from `assets/` into `public/images/`, runs before dev and
 build) · `icons` (favicons from `src/app/icon.svg`) · `verify` (all checks; run it before saying something works).
 Screenshots with real phone emulation: `node scripts/screenshot.mjs <url> <out.png> [width] [height] [light|dark] [full]`
@@ -63,8 +64,8 @@ Screenshots with real phone emulation: `node scripts/screenshot.mjs <url> <out.p
 - **Git:** commit messages are the title line only, conventional style (`feat: add timeline filters`). No body, no
   co-author or attribution lines. Never push, merge, deploy or delete branches without asking.
 - **Answer Tiago's questions before acting.** Give one recommendation and an honest verdict; no menus of options.
-- **Code follows `docs/CODE.md`:** where things go, function declarations, named props types, no render helpers or
-  nested ternaries, text only from `src/content`. `npm run lint` checks part of it.
+- **Code follows `docs/CODE.md`:** one job per file, small files, a page split into section files, Tailwind in the
+  markup, few comments, text only from `src/content`. `npm run lint` checks part of it.
 - **Visual changes follow the study.** If something isn't in the study, try it there first and log the decision.
 - **Role names are never translated:** Frontend Developer, Full-Stack Developer. Spelling: *Frontend* (one word),
   *Full-Stack* (hyphen).

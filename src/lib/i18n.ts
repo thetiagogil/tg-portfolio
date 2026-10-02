@@ -26,10 +26,10 @@ export function getT(lang: Lang) {
 /** A shared path in a language: localize("pt", "/projects") → "/pt/projects". */
 export function localize(lang: Lang, path: string): string {
   if (lang === "en") return path;
+
   return path === "/" ? "/pt" : `/pt${path}`;
 }
 
-/** The language of a URL path. */
 export function langOf(pathname: string): Lang {
   return pathname === "/pt" || pathname.startsWith("/pt/") ? "pt" : "en";
 }
@@ -37,5 +37,6 @@ export function langOf(pathname: string): Lang {
 /** The path both languages share: "/pt/projects" → "/projects". */
 export function sharedPath(pathname: string): string {
   if (pathname === "/pt") return "/";
+
   return pathname.startsWith("/pt/") ? pathname.slice(3) : pathname;
 }

@@ -1,4 +1,3 @@
-// Where each entry lives, and the order Previous / Next follows.
 import { degrees, projects, roles } from "@/content";
 import type { EntryRef, Lang, Project, RecordEntry } from "@/content/types";
 import { localize } from "./i18n";
@@ -31,6 +30,7 @@ export function neighbours<T extends { slug: string }>(list: T[], slug: string) 
   const index = list.findIndex((entry) => entry.slug === slug);
   const prev = list[(index - 1 + list.length) % list.length];
   const next = list[(index + 1) % list.length];
+
   return { prev: prev.slug === next.slug ? null : prev, next };
 }
 
@@ -41,3 +41,6 @@ export function projectNeighbours(project: Project) {
 export function recordNeighbours(record: RecordEntry) {
   return neighbours<RecordEntry>(record.kind === "experience" ? roles : degrees, record.slug);
 }
+
+/** What Next passes to an entry's route: the slug from the URL. */
+export type EntryRouteProps = { params: Promise<{ slug: string }> };

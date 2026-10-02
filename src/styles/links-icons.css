@@ -1,0 +1,71 @@
+/* Link underlines, hatching and line icons: the site's small marks. */
+@layer components {
+  /* Links: a quiet underline that an ink line draws across on hover (.lk), or only the line on hover (.ld). */
+  .lk,
+  .ld {
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition:
+      background-size 0.5s var(--settle),
+      color 0.3s;
+  }
+  .lk {
+    background-image:
+      linear-gradient(currentColor, currentColor), linear-gradient(var(--line-2), var(--line-2));
+    background-size:
+      0% 1px,
+      100% 1px;
+    padding-bottom: 0.125em;
+  }
+  .lk:hover {
+    background-size:
+      100% 1px,
+      100% 1px;
+    color: var(--accent-ink);
+  }
+  .ld {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+  }
+  .ld:hover {
+    background-size: 100% 1px;
+  }
+
+  /* Hatching marks what isn't built yet. */
+  .hatch {
+    background-image: repeating-linear-gradient(-45deg, var(--line-2) 0 1px, transparent 1px 7px);
+  }
+
+  /* Line icons. On hover of their link or button, only the arrow (.mv) moves the way it points, so the text beside
+     it never shifts. */
+  .ico {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: square;
+  }
+  .ico .mv {
+    transition: translate 0.35s var(--settle);
+  }
+  :is(a, button, .group\/entry):hover .ico.i-right .mv {
+    translate: 3px 0;
+  }
+  :is(a, button, .group\/entry):hover .ico.i-left .mv {
+    translate: -3px 0;
+  }
+  :is(a, button, .group\/entry):hover .ico.i-down .mv {
+    translate: 0 3px;
+  }
+  :is(a, button, .group\/entry):hover .ico.i-up .mv {
+    translate: 0 -3px;
+  }
+  :is(a, button, .group\/entry):hover .ico.i-out .mv {
+    translate: 2.5px -2.5px;
+  }
+  :is(a, button, .group\/entry):hover .ico.i-dl .mv {
+    translate: 0 2.5px;
+  }
+}

@@ -12,8 +12,14 @@ type StatusMarkProps = {
 /** A status with its line type: solid = completed, hatched = in progress, dashed = planned. */
 export function StatusMark({ status, lang, hideCompleted = false }: StatusMarkProps) {
   if (hideCompleted && status === "completed") return null;
+
   return (
-    <span className={cn("an status", status === "in progress" && "running")}>
+    <span
+      className={cn(
+        "an text-ink-2 inline-flex items-center gap-2",
+        status === "in progress" && "text-accent-ink",
+      )}
+    >
       <StatusGlyph status={status} />
       {getT(lang)(`status.${status}`)}
     </span>
@@ -22,7 +28,7 @@ export function StatusMark({ status, lang, hideCompleted = false }: StatusMarkPr
 
 function StatusGlyph({ status }: { status: ProjectStatus }) {
   return (
-    <svg viewBox="0 0 12 12" aria-hidden="true">
+    <svg className="size-2.5 flex-none overflow-visible" viewBox="0 0 12 12" aria-hidden="true">
       {status === "completed" && (
         <rect x="0.5" y="0.5" width="11" height="11" fill="currentColor" />
       )}

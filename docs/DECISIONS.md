@@ -353,3 +353,13 @@ is in `docs/DESIGN.md`; this file is the history behind it.
   its own files; components keep PascalCase names in code. The owner's choice: one rule for every file, and no
   case-only mismatches between macOS and the Linux build. The study's original notes (`REDESIGN.md`, `REVIEW.md`)
   were deleted; everything in them lives on in `DESIGN.md` and this log.
+- **2026-10-02**: Code restructure, from the owner's rules (now also saved as personal defaults in
+  `~/.claude/CLAUDE.md`, for every project). Tailwind in the markup replaces about 2,800 lines of component CSS; what's
+  left (about 480 lines) is the tokens, the type scale, grid and bands, link underlines and icon nudges, crop marks
+  and motion. One job per file and small files: pages are one main function with a file per section, the Timeline
+  splits into `chart/` and `list/`, link previews became a feature. Tests moved to `tests/unit` and `tests/e2e`;
+  shared values to `lib/constants.ts` (read by the app, `next.config.ts` and the scripts); route files only route.
+  Far fewer comments (only reasons), a spacing rule in the linter, named exports. Compared before and after: every
+  page at desktop and phone (105 captures) and 28 hover and focus states match. Two differences are fixes: the outline
+  button turned solid red on hover (a side effect of the earlier `btn-outline` rename; it now turns its border ink,
+  as `DESIGN.md` says), and a selector that drew a stray line under each tool name on the Portfolios page.

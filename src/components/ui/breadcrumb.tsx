@@ -8,13 +8,19 @@ type BreadcrumbProps = {
   current: string;
 };
 
-/** "Projects / Voydex" above an entry's title. */
 export function Breadcrumb({ lang, parent, current }: BreadcrumbProps) {
   return (
-    <nav className="an crumb fade" aria-label={getT(lang)("a11y.breadcrumb")}>
-      <Link href={parent.href}>{parent.label}</Link>
+    <nav
+      className="an fade text-ink-3 flex items-center gap-2 pt-14 md:pt-18 lg:pt-20"
+      aria-label={getT(lang)("a11y.breadcrumb")}
+    >
+      <Link href={parent.href} className="hover:text-ink -my-1.5 py-1.5">
+        {parent.label}
+      </Link>
       <span aria-hidden="true">/</span>
-      <span aria-current="page">{current}</span>
+      <span aria-current="page" className="text-ink">
+        {current}
+      </span>
     </nav>
   );
 }

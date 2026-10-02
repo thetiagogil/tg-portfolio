@@ -23,6 +23,7 @@ type RootShellProps = {
 /** The <html> both root layouts share (English at /, Portuguese at /pt). */
 export function RootShell({ lang, children }: RootShellProps) {
   const t = getT(lang);
+
   return (
     <html
       lang={HTML_LANG[lang]}
@@ -35,7 +36,10 @@ export function RootShell({ lang, children }: RootShellProps) {
         <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
       </head>
       <body>
-        <a className="skip" href="#main">
+        <a
+          className="bg-ink text-paper fixed top-2 left-2 z-60 -translate-y-[200%] px-3.5 py-2.5 focus:translate-none"
+          href="#main"
+        >
           {t("a11y.skip")}
         </a>
         <SiteHeader lang={lang} />
