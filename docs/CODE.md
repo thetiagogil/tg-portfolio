@@ -24,7 +24,7 @@ src/
   lib/                    plain functions shared by several places: dates, i18n, entries (paths), metadata, og,
                           scale, motion, image-loader, cn
   styles/                 tokens.css and base.css only (type, grid, bands, motion)
-e2e/                      Playwright tests, one file per area, plus helpers.ts
+e2e/                      Playwright tests, one file per area, with helpers.ts and playwright.config.ts
 scripts/                  build scripts (images, icons) and the screenshot tool
 ```
 
@@ -39,6 +39,8 @@ scripts/                  build scripts (images, icons) and the screenshot tool
 - **CSS sits next to what it styles:** `components/ui/ui.css`, `features/timeline/timeline.css`, and so on, all
   imported once in `app/globals.css` in this order: tokens, base, ui, layout, entries, then the pages.
 - **Tests sit next to the code** they test (`dates.test.ts` beside `dates.ts`); end-to-end tests in `e2e/`.
+- **Caches stay out of the root:** TypeScript's build info and Playwright's failure reports go to
+  `node_modules/.cache/`. The root only shows what's edited, plus `out/` and `.next/` after a build (git-ignored).
 
 ## 2. A file, top to bottom
 

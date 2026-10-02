@@ -5,15 +5,9 @@
 /.next/
 /out/
 next-env.d.ts
-*.tsbuildinfo
 
 # generated responsive images (npm run images)
 /public/images/
-
-# tests
-/coverage
-/test-results/
-/playwright-report/
 
 # env files
 .env*

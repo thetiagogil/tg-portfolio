@@ -40,7 +40,7 @@ src/
   styles/       tokens.css and base.css
 assets/         source images (screenshots, portrait), kept in git, never shipped as-is
 public/         PDFs and the CV; `public/images/` is generated (git-ignored)
-e2e/            Playwright tests by area: a11y, site, pages, timeline
+e2e/            Playwright tests by area (a11y, site, pages, timeline) and their config
 docs/           project docs and the study
 ```
 
