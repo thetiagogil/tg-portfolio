@@ -25,7 +25,7 @@ export function ChartRowLabel({ glyph, title, narrowTitle, meta, fullTitle }: Ch
             title
           )}
         </span>
-        <span className="an text-ink-3 mt-0.5 hidden truncate md:block">{meta}</span>
+        <span className="an mt-0.5 hidden truncate text-ink-3 md:block">{meta}</span>
       </span>
     </div>
   );

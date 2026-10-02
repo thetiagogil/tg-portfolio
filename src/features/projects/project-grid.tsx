@@ -24,7 +24,7 @@ export function ProjectGrid({ projects, lang }: ProjectGridProps) {
 
   return (
     <>
-      <div className="border-line flex flex-col gap-4 border-b pb-2 md:flex-row md:items-end md:justify-between">
+      <div className="flex flex-col gap-4 border-b border-line pb-2 md:flex-row md:items-end md:justify-between">
         <Tabs label={t("projects.filterLabel")}>
           {filters.map((type) => (
             <Tab
@@ -38,7 +38,7 @@ export function ProjectGrid({ projects, lang }: ProjectGridProps) {
         </Tabs>
 
         {filter !== "all" && (
-          <p className="an text-ink-3 pb-3 md:max-w-[38ch] md:text-right">
+          <p className="an pb-3 text-ink-3 md:max-w-[38ch] md:text-right">
             {t(`projects.typeHint.${filter}`)}
           </p>
         )}

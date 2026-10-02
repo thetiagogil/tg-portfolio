@@ -12,7 +12,7 @@ type FactProps = {
 };
 
 export function Facts({ className, children }: FactsProps) {
-  return <dl className={cn("border-line grid gap-x-6 border-t pt-2", className)}>{children}</dl>;
+  return <dl className={cn("grid gap-x-6 border-t border-line pt-2", className)}>{children}</dl>;
 }
 
 export function Fact({ label, children }: FactProps) {

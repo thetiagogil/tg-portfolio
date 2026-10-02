@@ -29,13 +29,13 @@ export function Tab({ label, count, active, disabled = false, onSelect }: TabPro
   return (
     <button
       type="button"
-      className="group/tab text-ink-3 after:bg-ink after:ease-settle hover:text-ink aria-pressed:text-ink relative flex h-10 flex-none items-center gap-2 px-3 text-[0.9375rem] transition-colors duration-300 after:absolute after:inset-x-3 after:bottom-0 after:h-px after:origin-left after:scale-x-0 after:transition-transform after:duration-500 disabled:cursor-default disabled:opacity-40 aria-pressed:after:scale-x-100"
+      className="group/tab relative flex h-10 flex-none items-center gap-2 px-3 text-[0.9375rem] text-ink-3 transition-colors duration-300 after:absolute after:inset-x-3 after:bottom-0 after:h-px after:origin-left after:scale-x-0 after:bg-ink after:transition-transform after:duration-500 after:ease-settle hover:text-ink disabled:cursor-default disabled:opacity-40 aria-pressed:text-ink aria-pressed:after:scale-x-100"
       aria-pressed={active}
       disabled={disabled}
       onClick={onSelect}
     >
       {label}
-      <span className="an text-ink-3 group-aria-pressed/tab:text-accent-ink tabular-nums">
+      <span className="an text-ink-3 tabular-nums group-aria-pressed/tab:text-accent-ink">
         {count}
       </span>
     </button>

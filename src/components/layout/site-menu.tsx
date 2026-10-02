@@ -27,10 +27,10 @@ export function SiteMenu({ open, onClose, shared, lang }: SiteMenuProps) {
       open={open}
       onClose={onClose}
       label={t("nav.menu")}
-      className="bg-paper text-ink fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-auto border-0 p-0"
+      className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-auto border-0 bg-paper p-0 text-ink"
     >
       <div className="wrap">
-        <div className="border-line flex h-(--header-h) items-center justify-between border-b">
+        <div className="flex h-(--header-h) items-center justify-between border-b border-line">
           <span className="flex items-center gap-3">
             <Brand />
           </span>
@@ -44,11 +44,11 @@ export function SiteMenu({ open, onClose, shared, lang }: SiteMenuProps) {
           </button>
         </div>
 
-        <ul className="border-line mt-8 border-t">
+        <ul className="mt-8 border-t border-line">
           {[HOME, ...NAV].map((item) => (
-            <li key={item.path} className="border-line border-b">
+            <li key={item.path} className="border-b border-line">
               <Link
-                className="heading aria-[current=page]:text-accent-ink block py-5"
+                className="heading block py-5 aria-[current=page]:text-accent-ink"
                 href={localize(lang, item.path)}
                 aria-current={isCurrent(item, shared) ? "page" : undefined}
                 onClick={onClose}
@@ -64,7 +64,7 @@ export function SiteMenu({ open, onClose, shared, lang }: SiteMenuProps) {
           <ThemeToggle labels={{ toDark: t("theme.toDark"), toLight: t("theme.toLight") }} />
         </div>
 
-        <p className="an text-ink-3 mt-10">{t("footer.contact")}</p>
+        <p className="an mt-10 text-ink-3">{t("footer.contact")}</p>
         <ContactLinks lang={lang} layout="column" className="pb-12" />
       </div>
     </Dialog>

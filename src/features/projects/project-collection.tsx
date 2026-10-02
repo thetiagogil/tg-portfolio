@@ -8,11 +8,11 @@ type ProjectCollectionProps = {
 
 export function ProjectCollection({ sites }: ProjectCollectionProps) {
   return (
-    <ul className="border-line border-t">
+    <ul className="border-t border-line">
       {sites.map((site) => (
-        <li key={site.href} className="border-line border-b">
+        <li key={site.href} className="border-b border-line">
           <a
-            className="group hover:bg-hover block px-(--row-pad) py-6 transition-colors duration-300"
+            className="group block px-(--row-pad) py-6 transition-colors duration-300 hover:bg-hover"
             href={site.href}
             target="_blank"
             rel="noreferrer"

@@ -71,7 +71,7 @@ export function TimelineChart({ lang }: TimelineChartProps) {
               <div />
               <div className="relative h-14">
                 <div
-                  className="text-ink-2 absolute top-5"
+                  className="absolute top-5 text-ink-2"
                   style={{ left: 0, width: pct(switchPos) }}
                 >
                   <Dim
@@ -79,7 +79,7 @@ export function TimelineChart({ lang }: TimelineChartProps) {
                   />
                 </div>
                 <div
-                  className="text-accent-ink absolute top-5"
+                  className="absolute top-5 text-accent-ink"
                   style={{ left: pct(switchPos), width: pct(todayPos - switchPos) }}
                 >
                   <Dim

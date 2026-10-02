@@ -11,10 +11,10 @@ type BreadcrumbProps = {
 export function Breadcrumb({ lang, parent, current }: BreadcrumbProps) {
   return (
     <nav
-      className="an fade text-ink-3 flex items-center gap-2 pt-14 md:pt-18 lg:pt-20"
+      className="an fade flex items-center gap-2 pt-14 text-ink-3 md:pt-18 lg:pt-20"
       aria-label={getT(lang)("a11y.breadcrumb")}
     >
-      <Link href={parent.href} className="hover:text-ink -my-1.5 py-1.5">
+      <Link href={parent.href} className="-my-1.5 py-1.5 hover:text-ink">
         {parent.label}
       </Link>
       <span aria-hidden="true">/</span>

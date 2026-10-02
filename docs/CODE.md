@@ -134,6 +134,8 @@ export function ProjectGrid({ projects, lang }: ProjectGridProps) {
 - **Inline `style` only for values computed in code:** chart positions (`left: pct(pos)`) and CSS variables
   (`delay(220)`, `--brand`, `--bar-delay`).
 - Dark mode is a Tailwind variant (`dark:`) that follows the system unless the visitor picked a theme.
+- **Class order is automatic:** Prettier sorts classes on save and on `npm run format`, inside `cn()` too. Don't
+  order them by hand.
 
 ## 5. Tests
 

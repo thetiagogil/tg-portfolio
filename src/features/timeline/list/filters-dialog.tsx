@@ -57,9 +57,9 @@ export function FiltersDialog({
       open={draft !== null}
       onClose={close}
       labelledBy="timeline-filters-title"
-      className="bg-paper text-ink max-h-[min(80vh,44rem)] w-[min(40rem,calc(100%_-_32px))] max-w-none overflow-hidden border-0 p-0 shadow-[0_0_0_1px_var(--line-2),0_32px_80px_-32px_rgb(0_0_0/0.5)] backdrop:bg-[rgb(12_12_16/0.45)] open:flex open:animate-[dialog-rise_0.3s_var(--settle)] open:flex-col max-sm:mx-auto max-sm:mt-auto max-sm:mb-0 max-sm:max-h-[85dvh] max-sm:w-full"
+      className="max-h-[min(80vh,44rem)] w-[min(40rem,calc(100%_-_32px))] max-w-none overflow-hidden border-0 bg-paper p-0 text-ink shadow-[0_0_0_1px_var(--line-2),0_32px_80px_-32px_rgb(0_0_0/0.5)] backdrop:bg-[rgb(12_12_16/0.45)] open:flex open:animate-[dialog-rise_0.3s_var(--settle)] open:flex-col max-sm:mx-auto max-sm:mt-auto max-sm:mb-0 max-sm:max-h-[85dvh] max-sm:w-full"
     >
-      <header className="border-line flex items-center justify-between gap-4 border-b py-3 pr-3 pl-6">
+      <header className="flex items-center justify-between gap-4 border-b border-line py-3 pr-3 pl-6">
         <h2
           className="subheading focus:outline-none"
           id="timeline-filters-title"
@@ -103,7 +103,7 @@ export function FiltersDialog({
         <FilterGroup label={t("timeline.techStack")}>
           {stack.map(({ group, tools }, i) => (
             <div key={group} className={cn("grid gap-1", i > 0 && "mt-3")}>
-              <span className="text-ink-2 text-[0.8125rem] font-medium">
+              <span className="text-[0.8125rem] font-medium text-ink-2">
                 {t(`stack.group.${group}`)}
               </span>
               <div className={OPTIONS}>
@@ -123,10 +123,10 @@ export function FiltersDialog({
         </FilterGroup>
       </div>
 
-      <footer className="border-line flex items-center justify-between gap-4 border-t py-3 pr-3 pl-6">
+      <footer className="flex items-center justify-between gap-4 border-t border-line py-3 pr-3 pl-6">
         <button
           type="button"
-          className="text-ink-2 hover:text-ink -my-1.5 py-1.5 text-[0.875rem] disabled:cursor-default disabled:opacity-40"
+          className="-my-1.5 py-1.5 text-[0.875rem] text-ink-2 hover:text-ink disabled:cursor-default disabled:opacity-40"
           disabled={filterCount(filters) === 0}
           onClick={() => onChange(NO_FILTERS)}
         >
@@ -146,7 +146,7 @@ export function FiltersDialog({
 
 function FilterGroup({ label, children }: FilterGroupProps) {
   return (
-    <div className="border-line grid gap-2 border-t pt-4 first:border-t-0">
+    <div className="grid gap-2 border-t border-line pt-4 first:border-t-0">
       {label && <span className="an text-ink-3">{label}</span>}
       {children}
     </div>

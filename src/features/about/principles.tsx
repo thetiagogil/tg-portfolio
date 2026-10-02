@@ -26,12 +26,12 @@ export function Principles({ lang }: PrinciplesProps) {
         {PRINCIPLES.map((principle, i) => (
           <li
             key={principle.key}
-            className={cn("group border-line flex flex-col gap-3 px-(--row-pad) sm:py-1", EDGES[i])}
+            className={cn("group flex flex-col gap-3 border-line px-(--row-pad) sm:py-1", EDGES[i])}
             data-reveal
           >
             <span className="mb-3 flex">
               <svg
-                className="ico text-ink group-hover:text-accent-ink size-6 transition-colors duration-300"
+                className="ico size-6 text-ink transition-colors duration-300 group-hover:text-accent-ink"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
@@ -41,7 +41,7 @@ export function Principles({ lang }: PrinciplesProps) {
             <h3 className="text-[clamp(1.25rem,1.05rem+0.5vw,1.5rem)] leading-[1.15] font-medium tracking-[-0.025em]">
               {t(`about.method.${principle.key}.title`)}
             </h3>
-            <p className="text-ink-2 max-w-[40ch]">{t(`about.method.${principle.key}.body`)}</p>
+            <p className="max-w-[40ch] text-ink-2">{t(`about.method.${principle.key}.body`)}</p>
           </li>
         ))}
       </ol>

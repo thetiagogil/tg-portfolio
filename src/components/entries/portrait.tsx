@@ -12,7 +12,7 @@ type PortraitProps = {
 
 export function Portrait({ lang, sizes, priority = false }: PortraitProps) {
   return (
-    <div className="bg-paper-2 ring-line relative aspect-[4/5] overflow-hidden ring">
+    <div className="relative aspect-[4/5] overflow-hidden bg-paper-2 ring ring-line">
       <Image
         src={`portrait/${profile.portrait}`}
         alt={getT(lang)("common.portraitAlt")}

@@ -11,7 +11,7 @@ export function ScopeList({ points, lang }: ScopeListProps) {
       {points.map((point) => (
         <li key={point.title.en}>
           <h3 className="subheading">{point.title[lang]}</h3>
-          <p className="text-ink-2 mt-2 max-w-[40em]">{point.text[lang]}</p>
+          <p className="mt-2 max-w-[40em] text-ink-2">{point.text[lang]}</p>
         </li>
       ))}
     </ul>

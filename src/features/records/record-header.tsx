@@ -35,7 +35,7 @@ export function RecordHeader({ record, lang }: RecordHeaderProps) {
           </h1>
 
           <p
-            className="lead fade text-ink-2 mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-2"
+            className="lead fade mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-2 text-ink-2"
             style={delay(220)}
           >
             {record.link ? (
@@ -70,7 +70,7 @@ export function RecordHeader({ record, lang }: RecordHeaderProps) {
             className={cn("mt-8", ongoing ? "text-accent-ink" : "text-ink-2")}
             labelClassName={ongoing ? "text-accent-ink" : "text-ink"}
           />
-          <p className="an text-ink-2 mt-3 flex justify-between gap-4">
+          <p className="an mt-3 flex justify-between gap-4 text-ink-2">
             <span>{monthYear(record.dateStart, lang)}</span>
             <span>{endLabel(record.dateEnd, lang)}</span>
           </p>

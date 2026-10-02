@@ -27,8 +27,8 @@ export function ProjectMedia({
 
   if (!src) {
     return (
-      <div className="hatch text-ink-3 flex size-full flex-col items-center justify-center gap-3 p-6 text-center">
-        <span className="bg-paper-2 text-ink-2 px-3 py-1 text-[clamp(1.25rem,3vw,2rem)] font-medium tracking-[-0.03em]">
+      <div className="hatch flex size-full flex-col items-center justify-center gap-3 p-6 text-center text-ink-3">
+        <span className="bg-paper-2 px-3 py-1 text-[clamp(1.25rem,3vw,2rem)] font-medium tracking-[-0.03em] text-ink-2">
           {project.title}
         </span>
         <span className="an bg-paper-2 px-2 py-0.5">
@@ -49,7 +49,7 @@ export function ProjectMedia({
       fill
       sizes={sizes}
       priority={priority}
-      className="ease-settle object-cover object-top transition-[scale] duration-1000 group-hover:scale-[1.015]"
+      className="object-cover object-top transition-[scale] duration-1000 ease-settle group-hover:scale-[1.015]"
     />
   );
 }

@@ -26,7 +26,7 @@ export function Hero({ lang }: HeroProps) {
           </h1>
 
           <div className="fade" style={delay(320)}>
-            <p className="lead text-ink-2 max-w-[46ch]">{t("home.hero.lead")}</p>
+            <p className="lead max-w-[46ch] text-ink-2">{t("home.hero.lead")}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="#work" icon="down">
                 {t("home.hero.ctaWork")}

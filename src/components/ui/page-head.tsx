@@ -18,7 +18,7 @@ export function PageHead({ eyebrow, title, intro }: PageHeadProps) {
       </h1>
 
       {intro && (
-        <p className="lead fade text-ink-2 mt-7 max-w-[52ch]" style={delay(260)}>
+        <p className="lead fade mt-7 max-w-[52ch] text-ink-2" style={delay(260)}>
           {intro}
         </p>
       )}

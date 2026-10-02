@@ -60,7 +60,7 @@ export function Lightbox({ images, title, labels }: LightboxProps) {
   return (
     <dialog
       ref={ref}
-      className="bg-paper text-ink backdrop:bg-paper fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 p-0"
+      className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-paper p-0 text-ink backdrop:bg-paper"
       aria-label={labels.dialog}
       onClose={close}
       onKeyDown={(event) => {
@@ -70,7 +70,7 @@ export function Lightbox({ images, title, labels }: LightboxProps) {
     >
       {image && index !== null && (
         <div className="grid h-full animate-[fade_0.3s_ease_both] grid-rows-[auto_minmax(0,1fr)_auto]">
-          <div className="wrap border-line flex h-(--header-h) items-center justify-between gap-4 border-b">
+          <div className="wrap flex h-(--header-h) items-center justify-between gap-4 border-b border-line">
             <p className="flex items-baseline gap-4 text-[15px] font-medium">
               <span>{title}</span>
               <span className="an text-ink-3" aria-live="polite">
@@ -109,7 +109,7 @@ export function Lightbox({ images, title, labels }: LightboxProps) {
           </div>
 
           {total > 1 && (
-            <div className="wrap border-line flex h-(--header-h) items-center justify-between border-t">
+            <div className="wrap flex h-(--header-h) items-center justify-between border-t border-line">
               <IconButton icon="left" label={labels.previous} onClick={() => go(-1)} />
               <IconButton icon="right" label={labels.next} onClick={() => go(1)} />
             </div>

@@ -13,7 +13,7 @@ export function Sheet({ children }: SheetProps) {
       <span className="crop bl" />
       <span className="crop br" />
 
-      <div className="bg-paper-2 ring-line relative aspect-video overflow-hidden ring">
+      <div className="relative aspect-video overflow-hidden bg-paper-2 ring ring-line">
         {children}
       </div>
     </div>

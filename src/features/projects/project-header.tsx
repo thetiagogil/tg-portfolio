@@ -34,7 +34,7 @@ export function ProjectHeader({ project, lang }: ProjectHeaderProps) {
           <h1 className="title">
             <Rise delay={60}>{project.title}</Rise>
           </h1>
-          <p className="lead fade text-ink-2 mt-5" style={delay(220)}>
+          <p className="lead fade mt-5 text-ink-2" style={delay(220)}>
             {project.subtitle[lang]}
           </p>
         </div>

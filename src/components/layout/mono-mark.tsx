@@ -18,13 +18,13 @@ export function MonoMark({ className }: MonoMarkProps) {
         cy="32"
         r="30"
         strokeWidth="2.5"
-        className="group-hover/brand:fill-accent group-hover/brand:stroke-accent fill-transparent stroke-current transition-[fill,stroke] duration-500"
+        className="fill-transparent stroke-current transition-[fill,stroke] duration-500 group-hover/brand:fill-accent group-hover/brand:stroke-accent"
       />
       <g
         fill="none"
         strokeWidth="4"
         strokeLinecap="square"
-        className="group-hover/brand:stroke-on-accent stroke-current transition-[stroke] duration-500"
+        className="stroke-current transition-[stroke] duration-500 group-hover/brand:stroke-on-accent"
       >
         <path d="M13 22.5h13M19.5 22.5v19" />
         <path d="M47.78 25.89A9.5 9.5 0 1 0 50 32h-8" />

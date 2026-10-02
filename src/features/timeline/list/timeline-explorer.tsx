@@ -54,7 +54,7 @@ export function TimelineExplorer({ items, stack, lang }: TimelineExplorerProps) 
 
       {years.length === 0 ? (
         <div className="hatch mt-12 grid min-h-60 place-items-center p-8 text-center">
-          <p className="bg-bg text-ink-2 max-w-[40ch] px-4 py-2">{t("timeline.noResults")}</p>
+          <p className="max-w-[40ch] bg-bg px-4 py-2 text-ink-2">{t("timeline.noResults")}</p>
         </div>
       ) : (
         <ol>

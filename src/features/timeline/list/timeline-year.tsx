@@ -22,7 +22,7 @@ export function TimelineYear({ year, items, first, lang }: TimelineYearProps) {
       <div className={cn(TIMELINE_GRID, "items-end pt-6", first && "pt-16")}>
         {!first && (
           <span
-            className="before:bg-line-2 relative col-start-1 row-[1/span_2] -mt-6 translate-x-(--row-pad) self-stretch before:absolute before:inset-y-0 before:left-1/2 before:w-px before:-translate-x-1/2 lg:col-[3/span_1] lg:row-start-1 lg:translate-none"
+            className="relative col-start-1 row-[1/span_2] -mt-6 translate-x-(--row-pad) self-stretch before:absolute before:inset-y-0 before:left-1/2 before:w-px before:-translate-x-1/2 before:bg-line-2 lg:col-[3/span_1] lg:row-start-1 lg:translate-none"
             aria-hidden="true"
           />
         )}
@@ -31,7 +31,7 @@ export function TimelineYear({ year, items, first, lang }: TimelineYearProps) {
           {year}
         </h2>
 
-        <div className="an border-ink text-ink-3 relative col-span-full row-start-2 mt-4 flex justify-end border-b pb-2 lg:col-[3/span_10] lg:row-start-1 lg:mt-0">
+        <div className="an relative col-span-full row-start-2 mt-4 flex justify-end border-b border-ink pb-2 text-ink-3 lg:col-[3/span_10] lg:row-start-1 lg:mt-0">
           <DatumMark />
           {items.length} {t(items.length === 1 ? "common.entry" : "common.entries")}
         </div>
@@ -49,7 +49,7 @@ export function TimelineYear({ year, items, first, lang }: TimelineYearProps) {
 function DatumMark() {
   return (
     <svg
-      className="text-ink absolute bottom-0 left-[calc(10px_+_var(--row-pad))] h-2.5 w-3.5 -translate-x-1/2 overflow-visible lg:left-[calc((100%_-_9*var(--grid-gap))/20)]"
+      className="absolute bottom-0 left-[calc(10px_+_var(--row-pad))] h-2.5 w-3.5 -translate-x-1/2 overflow-visible text-ink lg:left-[calc((100%_-_9*var(--grid-gap))/20)]"
       viewBox="0 0 14 10"
       aria-hidden="true"
     >

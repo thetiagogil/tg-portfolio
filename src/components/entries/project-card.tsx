@@ -25,7 +25,7 @@ export function ProjectCard({ project, lang, sizes, heading: Heading = "h3" }: P
         <ProjectMedia project={project} lang={lang} sizes={sizes} decorative />
       </Sheet>
 
-      <p className="an text-ink-3 mt-5 flex flex-wrap items-center gap-x-3 gap-y-1">
+      <p className="an mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-3">
         <span>{year(project.dateStart)}</span>
         <span>{t(`project.type.${project.type}`)}</span>
         <StatusMark status={project.status} lang={lang} hideCompleted />
@@ -34,13 +34,13 @@ export function ProjectCard({ project, lang, sizes, heading: Heading = "h3" }: P
       <Heading className="subheading mt-3">
         <Link
           href={projectHref(lang, project)}
-          className="group-hover:text-accent-ink transition-colors duration-300 after:absolute after:inset-0"
+          className="transition-colors duration-300 group-hover:text-accent-ink after:absolute after:inset-0"
         >
           {project.title}
         </Link>
       </Heading>
 
-      <p className="text-ink-2 mt-1.5">{project.subtitle[lang]}</p>
+      <p className="mt-1.5 text-ink-2">{project.subtitle[lang]}</p>
     </article>
   );
 }

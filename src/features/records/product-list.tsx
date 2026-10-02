@@ -32,11 +32,11 @@ function ProductBody({ product, lang }: { product: Product; lang: Lang }) {
 
   return (
     <>
-      <h3 className="subheading group-hover:text-accent-ink inline-flex items-baseline gap-2 transition-colors duration-300">
+      <h3 className="subheading inline-flex items-baseline gap-2 transition-colors duration-300 group-hover:text-accent-ink">
         {product.label[lang]}
-        {icon && <Icon name={icon} className="text-ink-3 size-3.5" />}
+        {icon && <Icon name={icon} className="size-3.5 text-ink-3" />}
       </h3>
-      <p className="text-ink-2 mt-2 max-w-[40em]">{product.description[lang]}</p>
+      <p className="mt-2 max-w-[40em] text-ink-2">{product.description[lang]}</p>
       <StackLine techs={product.techs} className="mt-3" />
     </>
   );

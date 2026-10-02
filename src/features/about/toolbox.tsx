@@ -14,20 +14,20 @@ export function Toolbox({ lang }: ToolboxProps) {
 
   return (
     <Section title={t("about.toolbox.title")}>
-      <ul className="bg-line ring-line grid grid-cols-2 gap-px ring md:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-px bg-line ring ring-line md:grid-cols-4">
         {MAIN_STACK.map((id) => {
           const { name, brand } = TOOLS[id];
 
           return (
             <li
               key={id}
-              className="group bg-bg flex min-w-0 items-center gap-4 px-(--row-pad) py-5 transition-colors duration-300 hover:bg-[color-mix(in_oklab,var(--ink)_4%,var(--bg))]"
+              className="group flex min-w-0 items-center gap-4 bg-bg px-(--row-pad) py-5 transition-colors duration-300 hover:bg-[color-mix(in_oklab,var(--ink)_4%,var(--bg))]"
               style={brand ? ({ "--brand": brand } as CSSProperties) : undefined}
               data-reveal
             >
-              <span className="inset-ring-line-2 group-hover:inset-ring-ink grid size-10 flex-none place-items-center inset-ring transition-shadow duration-300">
+              <span className="grid size-10 flex-none place-items-center inset-ring inset-ring-line-2 transition-shadow duration-300 group-hover:inset-ring-ink">
                 <svg
-                  className="text-ink size-5 fill-current transition-colors duration-300 group-hover:text-[color:var(--brand,var(--ink))]"
+                  className="size-5 fill-current text-ink transition-colors duration-300 group-hover:text-[color:var(--brand,var(--ink))]"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                 >

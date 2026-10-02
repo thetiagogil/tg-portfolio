@@ -27,7 +27,7 @@ export function SiteHeader({ lang }: SiteHeaderProps) {
   return (
     <header
       id="top"
-      className="border-line bg-paper/82 sticky top-0 z-20 border-b backdrop-blur-[12px] backdrop-saturate-150"
+      className="sticky top-0 z-20 border-b border-line bg-paper/82 backdrop-blur-[12px] backdrop-saturate-150"
     >
       <div className="wrap flex h-(--header-h) items-center gap-6">
         <Link
@@ -44,7 +44,7 @@ export function SiteHeader({ lang }: SiteHeaderProps) {
               key={item.path}
               href={localize(lang, item.path)}
               aria-current={isCurrent(item, shared) ? "page" : undefined}
-              className="text-ink-2 after:bg-ink after:ease-settle hover:text-ink aria-[current=page]:text-ink relative flex h-(--header-h) items-center text-[15px] transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-px after:h-px after:origin-left after:scale-x-0 after:transition-transform after:duration-500 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
+              className="relative flex h-(--header-h) items-center text-[15px] text-ink-2 transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-px after:h-px after:origin-left after:scale-x-0 after:bg-ink after:transition-transform after:duration-500 after:ease-settle hover:text-ink hover:after:scale-x-100 aria-[current=page]:text-ink aria-[current=page]:after:scale-x-100"
             >
               {t(item.key)}
             </Link>

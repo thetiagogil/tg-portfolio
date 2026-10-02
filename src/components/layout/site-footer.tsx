@@ -18,7 +18,7 @@ export function SiteFooter({ lang }: SiteFooterProps) {
   const builtAt = new Date();
 
   return (
-    <footer className="site-footer bg-paper text-ink relative">
+    <footer className="site-footer relative bg-paper text-ink">
       <div className="wrap">
         <div className="page-grid gap-y-12 py-16 md:py-20">
           <div className="col-span-full md:col-span-4 lg:col-span-6">
@@ -30,14 +30,14 @@ export function SiteFooter({ lang }: SiteFooterProps) {
               <MonoMark className="size-10" />
               <span className="subheading">{profile.name}</span>
             </Link>
-            <p className="text-ink-2 mt-6 max-w-[36ch]">{t("footer.note")}</p>
+            <p className="mt-6 max-w-[36ch] text-ink-2">{t("footer.note")}</p>
           </div>
 
           <nav
             className="col-span-full sm:col-span-2 md:col-span-2 lg:col-span-3"
             aria-label={t("footer.index")}
           >
-            <h2 className="an text-ink-3 font-normal">{t("footer.index")}</h2>
+            <h2 className="an font-normal text-ink-3">{t("footer.index")}</h2>
             <ul className="mt-4 grid justify-items-start gap-2">
               {[HOME, ...NAV].map((item) => (
                 <li key={item.path} className="flex min-h-7 items-center">
@@ -50,12 +50,12 @@ export function SiteFooter({ lang }: SiteFooterProps) {
           </nav>
 
           <div className="col-span-full sm:col-span-2 md:col-span-2 lg:col-span-3">
-            <h2 className="an text-ink-3 font-normal">{t("footer.contact")}</h2>
+            <h2 className="an font-normal text-ink-3">{t("footer.contact")}</h2>
             <ContactLinks lang={lang} layout="column" />
           </div>
         </div>
 
-        <div className="border-line text-ink-3 flex flex-wrap justify-between gap-4 border-t pt-7 pb-8 text-[0.875rem]">
+        <div className="flex flex-wrap justify-between gap-4 border-t border-line pt-7 pb-8 text-[0.875rem] text-ink-3">
           <span>
             © {builtAt.getUTCFullYear()} {profile.name} · {t("footer.updated")}{" "}
             {dayMonthYear(builtAt, lang)}

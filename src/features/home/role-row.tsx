@@ -21,7 +21,7 @@ export function RoleRow({ role, scale, today, lang }: RoleRowProps) {
   return (
     <Link
       href={recordHref(lang, role)}
-      className="group page-grid border-line hover:bg-hover relative items-center gap-y-4 border-b px-(--row-pad) py-6 transition-colors duration-300 md:py-0"
+      className="group page-grid relative items-center gap-y-4 border-b border-line px-(--row-pad) py-6 transition-colors duration-300 hover:bg-hover md:py-0"
     >
       <div className="an col-span-full flex items-baseline justify-between gap-4 md:col-span-2 md:block md:py-7 lg:col-span-3">
         <p className="text-ink-2">
@@ -31,10 +31,10 @@ export function RoleRow({ role, scale, today, lang }: RoleRowProps) {
       </div>
 
       <div className="col-span-full md:col-span-3 md:py-7 lg:col-span-4">
-        <h3 className="subheading group-hover:text-accent-ink transition-colors duration-300">
+        <h3 className="subheading transition-colors duration-300 group-hover:text-accent-ink">
           {role.title[lang]}
         </h3>
-        <p className="text-ink-2 mt-1">{role.org[lang]}</p>
+        <p className="mt-1 text-ink-2">{role.org[lang]}</p>
       </div>
 
       <div
@@ -44,7 +44,7 @@ export function RoleRow({ role, scale, today, lang }: RoleRowProps) {
         {scale.ticks.map((tick) => (
           <span
             key={tick.year}
-            className="bg-line absolute inset-y-0 w-px"
+            className="absolute inset-y-0 w-px bg-line"
             style={{ left: pct(tick.pos) }}
           />
         ))}

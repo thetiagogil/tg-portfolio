@@ -24,7 +24,7 @@ export function WorkHistory({ lang }: WorkHistoryProps) {
       title={t("home.experience.title")}
       action={<ArrowLink href={localize(lang, "/timeline")}>{t("common.fullTimeline")}</ArrowLink>}
     >
-      <ol className="border-line border-t">
+      <ol className="border-t border-line">
         {roles.map((role) => (
           <li key={role.slug} data-reveal>
             <RoleRow role={role} scale={scale} today={today} lang={lang} />
@@ -37,7 +37,7 @@ export function WorkHistory({ lang }: WorkHistoryProps) {
           {scale.ticks.map((tick) => (
             <span
               key={tick.year}
-              className="text-ink-3 absolute top-2 -translate-x-1/2"
+              className="absolute top-2 -translate-x-1/2 text-ink-3"
               style={{ left: pct(tick.pos) }}
             >
               {tick.year}

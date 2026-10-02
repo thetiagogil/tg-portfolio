@@ -11,7 +11,7 @@ export function Chips({ techs }: ChipsProps) {
       {techs.map((id) => (
         <li
           key={id}
-          className="text-ink-2 inset-ring-line-2 inline-flex h-7 items-center px-2.5 text-[0.8125rem] inset-ring"
+          className="inline-flex h-7 items-center px-2.5 text-[0.8125rem] text-ink-2 inset-ring inset-ring-line-2"
         >
           {TOOLS[id].name}
         </li>

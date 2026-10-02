@@ -36,14 +36,14 @@ export function Story({ lang }: StoryProps) {
       title={t("about.story.title")}
       action={<ArrowLink href={localize(lang, "/timeline")}>{t("common.fullTimeline")}</ArrowLink>}
     >
-      <ol className="border-line border-b">
+      <ol className="border-b border-line">
         {chapters.map((chapter) => (
           <li
             key={chapter.key}
-            className="page-grid border-line gap-y-4 border-t px-(--row-pad) py-10"
+            className="page-grid gap-y-4 border-t border-line px-(--row-pad) py-10"
             data-reveal
           >
-            <p className="an text-ink-3 col-span-full lg:col-span-3">
+            <p className="an col-span-full text-ink-3 lg:col-span-3">
               {yearSpan(chapter.records, lang)}
             </p>
             <h3 className="subheading col-span-full md:col-span-3 lg:col-span-4">

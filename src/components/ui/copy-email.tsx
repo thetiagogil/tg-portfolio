@@ -26,7 +26,7 @@ export function CopyEmail({ email, labels }: CopyEmailProps) {
   return (
     <button
       type="button"
-      className="text-ink-2 inset-ring-line-2 hover:text-ink hover:inset-ring-ink inline-flex h-9 items-center gap-2 px-3 text-[0.8125rem] inset-ring"
+      className="inline-flex h-9 items-center gap-2 px-3 text-[0.8125rem] text-ink-2 inset-ring inset-ring-line-2 hover:text-ink hover:inset-ring-ink"
       onClick={copy}
     >
       <Icon name={copied ? "check" : "copy"} />

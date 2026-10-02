@@ -24,7 +24,7 @@ export function ChartRecordRow({ record, scale, today, order, lang }: ChartRecor
 
   return (
     <Link
-      className="group/row border-line hover:bg-hover relative block border-t transition-colors duration-300"
+      className="group/row relative block border-t border-line transition-colors duration-300 hover:bg-hover"
       href={recordHref(lang, record)}
     >
       <div className="grid grid-cols-[var(--label-w)_1fr] px-(--row-pad)">
@@ -39,7 +39,7 @@ export function ChartRecordRow({ record, scale, today, order, lang }: ChartRecor
         <div className="relative h-12">
           <span
             className={cn(
-              "chart-bar text-ink-2 group-hover/row:text-accent absolute top-1/2 h-2.5 origin-left -translate-y-1/2 bg-current",
+              "chart-bar absolute top-1/2 h-2.5 origin-left -translate-y-1/2 bg-current text-ink-2 group-hover/row:text-accent",
               record.kind === "education" && "bg-bg inset-ring",
               record.dateEnd === null && "text-accent",
             )}

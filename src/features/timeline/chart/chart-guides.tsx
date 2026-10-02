@@ -19,7 +19,7 @@ export function ChartGuides({ scale, switchPos, todayPos }: ChartGuidesProps) {
         <span key={tick.year} className={cn(GUIDE, "bg-line")} style={{ left: pct(tick.pos) }} />
       ))}
       <span
-        className={cn(GUIDE, "border-accent/70 border-l border-dashed")}
+        className={cn(GUIDE, "border-l border-dashed border-accent/70")}
         style={{ left: pct(switchPos) }}
       />
       <span className={cn(GUIDE, "bg-ink")} style={{ left: pct(todayPos) }} />
@@ -27,7 +27,7 @@ export function ChartGuides({ scale, switchPos, todayPos }: ChartGuidesProps) {
       {scale.breaks.map((center) => (
         <div
           key={center}
-          className="bg-bg absolute inset-y-0 z-2"
+          className="absolute inset-y-0 z-2 bg-bg"
           style={{ left: pct(center - scale.gap / 2), width: pct(scale.gap) }}
         >
           <BreakLine className="-left-1.5" />
@@ -42,7 +42,7 @@ export function ChartGuides({ scale, switchPos, todayPos }: ChartGuidesProps) {
 function BreakLine({ className }: { className: string }) {
   return (
     <svg
-      className={cn("text-ink-3 absolute inset-y-0 h-full w-3", className)}
+      className={cn("absolute inset-y-0 h-full w-3 text-ink-3", className)}
       viewBox="0 0 12 100"
       preserveAspectRatio="none"
     >

@@ -20,16 +20,16 @@ export default function GlobalNotFound() {
         <header className="wrap pt-14 md:pt-18 lg:pt-20">
           <p className="an text-ink-3">{en("notFound.label")}</p>
           <h1 className="title mt-6 max-w-[18ch]">{en("notFound.title")}</h1>
-          <p className="lead text-ink-2 mt-7 max-w-[52ch]">{en("notFound.body")}</p>
+          <p className="lead mt-7 max-w-[52ch] text-ink-2">{en("notFound.body")}</p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Button href="/" icon="right">
               {en("notFound.home")}
             </Button>
           </div>
 
-          <div lang="pt-PT" className="border-line mt-16 border-t pt-8">
+          <div lang="pt-PT" className="mt-16 border-t border-line pt-8">
             <p className="subheading">{pt("notFound.title")}</p>
-            <p className="text-ink-2 mt-3 max-w-[52ch]">{pt("notFound.body")}</p>
+            <p className="mt-3 max-w-[52ch] text-ink-2">{pt("notFound.body")}</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button href="/pt" variant="outline" size="sm" icon="right">
                 {pt("notFound.home")}

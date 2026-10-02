@@ -21,14 +21,14 @@ export function StackLine({ techs, className }: StackLineProps) {
   return (
     <ul
       className={cn(
-        "text-ink-3 flex flex-wrap gap-x-2 gap-y-0.5 text-[0.8125rem] leading-[1.5]",
+        "flex flex-wrap gap-x-2 gap-y-0.5 text-[0.8125rem] leading-[1.5] text-ink-3",
         className,
       )}
     >
       {techs.map((id) => (
         <li
           key={id}
-          className="not-first:before:bg-line-2 flex items-center gap-2 not-first:before:size-[3px]"
+          className="flex items-center gap-2 not-first:before:size-[3px] not-first:before:bg-line-2"
         >
           {TOOLS[id].name}
         </li>

@@ -13,7 +13,7 @@ export function ChartLegend({ lang }: ChartLegendProps) {
   const t = getT(lang);
 
   return (
-    <div className="an text-ink-3 mt-8 flex flex-wrap items-center gap-x-8 gap-y-3" data-reveal>
+    <div className="an mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-ink-3" data-reveal>
       <ul className="flex flex-wrap gap-x-5 gap-y-2">
         <li className="flex items-center gap-2">
           <span className={cn(SWATCH, "bg-current")} />

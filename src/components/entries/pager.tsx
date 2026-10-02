@@ -56,17 +56,17 @@ function PagerItem({ link, direction, label, alone = false }: PagerItemProps) {
         SIDE,
         "group flex flex-col gap-3 px-[calc(var(--side)_+_var(--row-pad))] py-10 md:py-14",
         isNext
-          ? "border-line border-t md:items-end md:border-t-0 md:border-l md:pr-[calc(var(--side)_+_var(--row-pad))] md:pl-8 md:text-right"
+          ? "border-t border-line md:items-end md:border-t-0 md:border-l md:pr-[calc(var(--side)_+_var(--row-pad))] md:pl-8 md:text-right"
           : "md:pr-8 md:pl-[calc(var(--side)_+_var(--row-pad))]",
         alone && "col-span-full border-t-0 md:border-l-0",
       )}
     >
-      <span className="an text-ink-3 flex items-center gap-2">
+      <span className="an flex items-center gap-2 text-ink-3">
         {!isNext && <Icon name="left" />}
         {label}
         {isNext && <Icon name="right" />}
       </span>
-      <span className="heading group-hover:text-accent-ink transition-colors duration-300">
+      <span className="heading transition-colors duration-300 group-hover:text-accent-ink">
         {link.title}
       </span>
       <span className="text-ink-2">{link.sub}</span>

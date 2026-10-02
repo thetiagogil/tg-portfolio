@@ -15,7 +15,7 @@ export function SectionHead({ title, intro, action }: SectionHeadProps) {
     >
       <div>
         <h2 className="heading max-w-[22ch]">{title}</h2>
-        {intro && <p className="lead text-ink-2 mt-5 max-w-[50ch]">{intro}</p>}
+        {intro && <p className="lead mt-5 max-w-[50ch] text-ink-2">{intro}</p>}
       </div>
 
       {action && <div className="justify-self-start md:justify-self-end md:pb-2">{action}</div>}

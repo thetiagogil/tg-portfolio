@@ -16,7 +16,7 @@ export function StatusMark({ status, lang, hideCompleted = false }: StatusMarkPr
   return (
     <span
       className={cn(
-        "an text-ink-2 inline-flex items-center gap-2",
+        "an inline-flex items-center gap-2 text-ink-2",
         status === "in progress" && "text-accent-ink",
       )}
     >

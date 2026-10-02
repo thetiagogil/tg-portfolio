@@ -33,7 +33,7 @@ export function LangSwitch({ label, className }: LangSwitchProps) {
             hrefLang={HTML_LANG[lang]}
             lang={HTML_LANG[lang]}
             aria-current={lang === current ? "true" : undefined}
-            className="text-ink-3 hover:text-ink aria-[current=true]:text-ink grid h-9 min-w-8 place-items-center px-1 normal-case transition-colors duration-300"
+            className="grid h-9 min-w-8 place-items-center px-1 text-ink-3 normal-case transition-colors duration-300 hover:text-ink aria-[current=true]:text-ink"
           >
             {lang}
             <span className="sr-only"> {LANG_NAMES[lang]}</span>
