@@ -33,7 +33,9 @@ export function RootShell({ lang, children }: RootShellProps) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
       </head>
-      <body>
+      {/* Browser extensions (ColorZilla, Grammarly…) add attributes to <body> before React loads; that isn't a mismatch
+          worth reporting. It only covers <body>'s own attributes, not its children. */}
+      <body suppressHydrationWarning>
         <a
           className="fixed top-2 left-2 z-60 translate-y-[-200%] bg-ink px-3.5 py-2.5 text-paper focus:translate-none"
           href="#main"
