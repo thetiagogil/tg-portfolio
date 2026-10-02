@@ -2,7 +2,6 @@ import type { Lang, RecordEntry } from "@/content/types";
 import { year } from "@/lib/dates";
 import { getT } from "@/lib/i18n";
 
-/** "2014 – 2020", "2023", or "2023 – Present" while one of them is still running. */
 export function yearSpan(records: RecordEntry[], lang: Lang): string {
   const start = Math.min(...records.map((record) => year(record.dateStart)));
 

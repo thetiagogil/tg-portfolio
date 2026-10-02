@@ -12,7 +12,6 @@ import { SiteHeader } from "./site-header";
 // reveal-on-scroll only hides content when it can show it again.
 const BOOT_SCRIPT = `(function(){var d=document.documentElement;d.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")d.dataset.theme=t}catch(e){}})()`;
 
-// Cloudflare Web Analytics (cookieless) is included only when the token is set at build time.
 const ANALYTICS_TOKEN = process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN;
 
 type RootShellProps = {
@@ -20,7 +19,6 @@ type RootShellProps = {
   children: ReactNode;
 };
 
-/** The <html> both root layouts share (English at /, Portuguese at /pt). */
 export function RootShell({ lang, children }: RootShellProps) {
   const t = getT(lang);
 

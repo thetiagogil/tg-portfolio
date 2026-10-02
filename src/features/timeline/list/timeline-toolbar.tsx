@@ -12,7 +12,6 @@ import { useSearchShortcut } from "./use-search-shortcut";
 type TimelineToolbarProps = {
   view: View;
   counts: Record<Category | "all", number>;
-  /** How many filters are applied (shown on the Filters button). */
   applied: number;
   onChange: (patch: Partial<View>) => void;
   onOpenFilters: () => void;
@@ -21,7 +20,6 @@ type TimelineToolbarProps = {
 
 type ToolButtonProps = {
   active?: boolean;
-  /** A spoken name, when it says more than the visible text. */
   label?: string;
   opensDialog?: boolean;
   onClick: () => void;

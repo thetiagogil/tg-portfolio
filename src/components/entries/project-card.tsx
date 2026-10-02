@@ -10,7 +10,6 @@ import { StatusMark } from "./status-mark";
 type ProjectCardProps = {
   project: Project;
   lang: Lang;
-  /** How wide the image shows, to pick the right file. */
   sizes: string;
   /** h2 where the cards are the page's top level (Projects), h3 under a section heading. */
   heading?: "h2" | "h3";

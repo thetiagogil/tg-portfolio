@@ -1,5 +1,5 @@
-// Tool logos for the About panel: Simple Icons (CC0, simpleicons.org), single-path, 24-unit box.
-// TanStack's comes from Simple Icons 16+ (older releases draw React Query's atom, which reads as a second React).
+// Simple Icons (CC0, simpleicons.org). TanStack's comes from Simple Icons 16+: older releases draw React Query's
+// atom, which reads as a second React.
 import type { ToolId } from "@/content/stack";
 
 export const TOOL_ICONS: Partial<Record<ToolId, string>> = {

@@ -11,12 +11,11 @@ type ChartMarkerRowProps = {
   label: string;
   count: string;
   markers: Marker[];
-  /** The last row closes the chart with a rule. */
   last?: boolean;
 };
 
-/** Projects or certificates as markers with a hover tip. They're a mouse shortcut: every one is also in the list
-    below with a full-size link, so they stay out of the keyboard order. */
+// The markers are a mouse shortcut: every one is also in the list below with a full-size link, so they stay out
+// of the keyboard order.
 export function ChartMarkerRow({
   category,
   label,

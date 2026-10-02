@@ -20,8 +20,6 @@ type TimelineChartProps = {
 const ROW = "grid grid-cols-[var(--label-w)_1fr] px-(--row-pad)";
 const TICK = "an absolute top-3 -translate-x-1/2 whitespace-nowrap text-ink-3";
 
-/** The career chart: two eras, a break (2015–2021 left out), a bar per role or degree, then project and
-    certificate markers. Built with the site, so "today" is the build date. */
 export function TimelineChart({ lang }: TimelineChartProps) {
   const t = getT(lang);
 

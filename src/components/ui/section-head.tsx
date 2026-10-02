@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 type SectionHeadProps = {
   title: ReactNode;
   intro?: ReactNode;
-  /** A link on the right, such as "Full timeline →". */
   action?: ReactNode;
 };
 

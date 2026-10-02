@@ -30,7 +30,6 @@ function newestFirst<T extends { dateStart: ISODate }>(entries: T[]): T[] {
   return [...entries].sort((a, b) => Date.parse(b.dateStart) - Date.parse(a.dateStart));
 }
 
-/** Newest first, strictly by start date. */
 export const projects: Project[] = newestFirst([
   easyqa,
   echoes,
@@ -53,7 +52,6 @@ export const certifications: Certification[] = newestFirst([agile, outsystems, r
 
 export const featuredProjects = projects.filter((project) => project.featured);
 
-/** The role with no end date. */
 export const currentRole = roles.find((role) => role.dateEnd === null)!;
 
 export function projectBySlug(slug: string) {
@@ -68,7 +66,6 @@ export function degreeBySlug(slug: string) {
   return degrees.find((degree) => degree.slug === slug);
 }
 
-/** The roles and degrees that list this project among their projects ("Context" on the project page). */
 export function recordsWithProject(slug: string): RecordEntry[] {
   return [...roles, ...degrees].filter((record) => record.projects?.includes(slug));
 }

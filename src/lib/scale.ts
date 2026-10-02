@@ -1,22 +1,14 @@
-// A time scale for the charts: maps dates onto 0–1 across one or more segments, with a small gap between
-// segments (the Timeline chart leaves 2015–2021 out with a break line).
-
 export type Scale = {
-  /** Position of a date, 0–1. */
   pos: (date: Date) => number;
-  /** 1 January of each year that falls inside a segment. */
   ticks: { year: number; pos: number }[];
-  /** The centre of each gap between segments. */
   breaks: number[];
   gap: number;
 };
 
-/** The first day of a month, in UTC. Months past 11 or below 0 roll into the next or previous year. */
 export function utc(year: number, month: number): Date {
   return new Date(Date.UTC(year, month, 1));
 }
 
-/** A CSS percentage for a 0–1 position. */
 export function pct(value: number): string {
   return `${(value * 100).toFixed(3)}%`;
 }

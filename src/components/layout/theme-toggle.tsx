@@ -7,8 +7,7 @@ type ThemeToggleProps = {
   labels: { toDark: string; toLight: string };
 };
 
-/** Light / dark. Both icons are rendered and the CSS shows the right one, so the server HTML always matches. The
-    choice is remembered; until then the site follows the system. */
+// Both icons are rendered and the CSS shows the right one, so the server HTML always matches the visitor's theme.
 export function ThemeToggle({ labels }: ThemeToggleProps) {
   function toggle() {
     const root = document.documentElement;

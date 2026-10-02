@@ -5,11 +5,9 @@ import { getT } from "@/lib/i18n";
 type StatusMarkProps = {
   status: ProjectStatus;
   lang: Lang;
-  /** In lists only the exceptions are labelled: finished work carries no status. */
   hideCompleted?: boolean;
 };
 
-/** A status with its line type: solid = completed, hatched = in progress, dashed = planned. */
 export function StatusMark({ status, lang, hideCompleted = false }: StatusMarkProps) {
   if (hideCompleted && status === "completed") return null;
 

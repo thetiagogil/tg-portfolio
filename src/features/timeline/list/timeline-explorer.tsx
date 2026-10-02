@@ -26,7 +26,6 @@ type TimelineExplorerProps = {
 export function TimelineExplorer({ items, stack, lang }: TimelineExplorerProps) {
   const knownTools = useMemo(() => stack.flatMap((g) => g.tools.map((tool) => tool.id)), [stack]);
   const [view, setView] = useTimelineView(knownTools);
-  // The dialog edits a draft; only "Show N results" applies it, and closing discards it.
   const [draft, setDraft] = useState<Filters | null>(null);
 
   const t = getT(lang);

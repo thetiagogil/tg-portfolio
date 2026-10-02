@@ -1,5 +1,3 @@
-// The Timeline's search, filters and sort. Pure functions, so they can be tested and run in the browser without the
-// content.
 import type { ToolId } from "@/content/stack";
 import {
   CATEGORIES,
@@ -10,7 +8,6 @@ import {
   type ProjectType,
 } from "@/content/types";
 
-/** One row of the Timeline, already in the page's language. */
 export type TimelineItem = {
   key: string;
   category: Category;
@@ -18,24 +15,21 @@ export type TimelineItem = {
   org?: string;
   summary?: string;
   dateStart: ISODate;
-  /** null = still running; absent = a single date. */
+  /** null = still running; absent = a single date (certificates). */
   dateEnd?: ISODate | null;
   year: number;
   dates: { start: string; end?: string; duration?: string };
   techs: ToolId[];
   status?: ProjectStatus;
   type?: ProjectType;
-  /** Its page, or an external link (certificates). */
   href?: string;
   external?: string;
-  /** Lower-case text the search looks through. */
   search: string;
 };
 
 export type Filters = {
   techs: ToolId[];
   types: ProjectType[];
-  /** "Current only": the role with no end date and the projects in progress. */
   current: boolean;
 };
 
@@ -49,13 +43,12 @@ export const NO_FILTERS: Filters = { techs: [], types: [], current: false };
 
 export const DEFAULT_VIEW: View = { ...NO_FILTERS, category: "all", query: "", sort: "newest" };
 
-// Small words the search ignores, in both languages.
 const STOP_WORDS = new Set([
   ...["a", "an", "and", "as", "the", "to", "of", "in", "for", "with"],
   ...["e", "de", "do", "da", "em", "o", "os", "para", "com"],
 ]);
 
-/** Search and filters, without the category tab. Stack filters combine as AND; project types as OR. */
+// Stack filters combine as AND; project types as OR.
 export function matches(item: TimelineItem, query: string, filters: Filters): boolean {
   const words = query
     .trim()
@@ -71,7 +64,6 @@ export function matches(item: TimelineItem, query: string, filters: Filters): bo
   return true;
 }
 
-/** What the list shows: the matching items in the current tab, sorted. */
 export function visible(items: TimelineItem[], view: View): TimelineItem[] {
   const shown = items.filter(
     (item) =>
@@ -83,7 +75,6 @@ export function visible(items: TimelineItem[], view: View): TimelineItem[] {
   return view.sort === "oldest" ? newest.reverse() : newest;
 }
 
-/** Grouped by start year, in list order. */
 export function byYear(items: TimelineItem[]) {
   const groups: { year: number; items: TimelineItem[] }[] = [];
 
@@ -97,7 +88,6 @@ export function byYear(items: TimelineItem[]) {
   return groups;
 }
 
-/** How many items each tab would show under the current search and filters. */
 export function tabCounts(items: TimelineItem[], view: View): Record<Category | "all", number> {
   const shown = items.filter((item) => matches(item, view.query, view));
   const counts = { all: shown.length } as Record<Category | "all", number>;
@@ -111,9 +101,6 @@ export function tabCounts(items: TimelineItem[], view: View): Record<Category | 
 export function filterCount(filters: Filters): number {
   return filters.techs.length + filters.types.length + (filters.current ? 1 : 0);
 }
-
-// The URL holds the view, so a filtered Timeline can be shared and Back works:
-// ?cat=projects&q=react&stack=nextjs,supabase&type=client&now=1&sort=oldest
 
 export function viewFromSearch(search: string, knownTools: readonly string[]): View {
   const params = new URLSearchParams(search);

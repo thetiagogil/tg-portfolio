@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 
-/** "/" focuses the returned input, unless the visitor is already typing somewhere or a dialog is open. */
 export function useSearchShortcut() {
   const ref = useRef<HTMLInputElement>(null);
 

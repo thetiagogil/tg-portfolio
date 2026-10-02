@@ -4,7 +4,6 @@ import { Icon, type IconName } from "./icon";
 
 type IconButtonProps = Omit<ComponentProps<"button">, "children"> & {
   icon: IconName;
-  /** The button's name for screen readers (the icon has no text). */
   label: string;
 };
 

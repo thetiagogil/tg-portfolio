@@ -4,7 +4,6 @@ import { SITE_URL } from "@/lib/constants";
 import { projectPath, recordPath } from "@/lib/entries";
 import { HTML_LANG, localize } from "@/lib/i18n";
 
-// Built with the site: every page in both languages, each pointing to the other.
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {

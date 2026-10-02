@@ -2,7 +2,6 @@ import { cn } from "@/lib/cn";
 
 type DimProps = {
   label?: string;
-  /** Still running: an arrow instead of the closing tick. */
   open?: boolean;
   className?: string;
   labelClassName?: string;
@@ -12,7 +11,6 @@ const LINE = "absolute top-1/2 w-px bg-current";
 const EXTENSION = cn(LINE, "h-[17px] -translate-1/2 opacity-45");
 const TICK = cn(LINE, "h-[11px] -translate-1/2 rotate-45");
 
-/** A dimension line measuring a span of time: a hairline with oblique ticks at each end. */
 export function Dim({ label, open = false, className, labelClassName }: DimProps) {
   return (
     <div className={cn("relative h-5", className)} aria-hidden="true">

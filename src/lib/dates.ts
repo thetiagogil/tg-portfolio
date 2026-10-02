@@ -28,19 +28,16 @@ export function shortMonth(date: Date, lang: Lang): string {
   return format.format(date).replace(".", "");
 }
 
-/** "Jan 2025" / "jan 2025". */
 export function monthYear(iso: ISODate, lang: Lang): string {
   const date = toDate(iso);
 
   return `${shortMonth(date, lang)} ${date.getUTCFullYear()}`;
 }
 
-/** "Aug 2023", or "Present" while still running (null). */
 export function endLabel(end: ISODate | null, lang: Lang): string {
   return end === null ? getT(lang)("common.present") : monthYear(end, lang);
 }
 
-/** "1 Oct 2026" / "1 out 2026" (the footer's last-updated date). */
 export function dayMonthYear(date: Date, lang: Lang): string {
   return `${date.getUTCDate()} ${shortMonth(date, lang)} ${date.getUTCFullYear()}`;
 }
@@ -62,7 +59,6 @@ export function monthsBetween(
   return Math.max(1, months + 1);
 }
 
-/** "1 yr 9 mos" / "1 ano 9 meses". */
 export function formatDuration(months: number, lang: Lang): string {
   const t = getT(lang);
   const years = Math.floor(months / 12);
@@ -76,7 +72,6 @@ export function formatDuration(months: number, lang: Lang): string {
   return parts.join(" ");
 }
 
-/** How long an entry ran: "1 yr 9 mos", up to today while it's still running. */
 export function duration(start: ISODate, end: ISODate | null | undefined, lang: Lang): string {
   return formatDuration(monthsBetween(start, end), lang);
 }

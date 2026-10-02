@@ -1,7 +1,6 @@
 import type { Lang } from "@/content/types";
 import { getT } from "@/lib/i18n";
 
-/** "Show 12 results", "Show 1 result", or "No results". */
 export function showResultsLabel(total: number, lang: Lang): string {
   const t = getT(lang);
 

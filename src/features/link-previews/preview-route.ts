@@ -10,7 +10,6 @@ export function previewStaticParams() {
   return ogImages().map((image) => ({ image }));
 }
 
-/** Draws the file named in the URL: "en.png" for the site, "voydex-pt.png" for a project. */
 export async function previewImage(_request: Request, { params }: PreviewParams) {
   const [, slug, lang] = (await params).image.match(/^(?:(.+)-)?(en|pt)\.png$/) ?? [];
 

@@ -1,5 +1,3 @@
-// Every tool, once. Entries reference tools by id; the About panel, the filter groups and every chip read from here.
-
 export const TOOL_GROUPS = ["frontend", "backend", "tools", "architecture"] as const;
 export type ToolGroup = (typeof TOOL_GROUPS)[number];
 
@@ -8,7 +6,6 @@ export type Tool = {
   group: ToolGroup;
   /** Tool ids this one already brings with it (checked by a test). An entry lists only the top one (no overlap). */
   includes?: readonly string[];
-  /** Brand colour for the logo on hover (About panel); absent for near-black brands, which keep the ink colour. */
   brand?: string;
 };
 
@@ -73,7 +70,6 @@ const TOOL_LIST = {
 export type ToolId = keyof typeof TOOL_LIST;
 export const TOOLS: Record<ToolId, Tool> = TOOL_LIST;
 
-/** The About panel: the owner's twelve, in the owner's order (three rows of four). */
 export const MAIN_STACK: readonly ToolId[] = [
   "react",
   "nextjs",
@@ -89,7 +85,6 @@ export const MAIN_STACK: readonly ToolId[] = [
   "postgresql",
 ];
 
-/** Tools an entry lists that another listed tool already includes (should be empty). */
 export function overlaps(techs: readonly ToolId[]): ToolId[] {
   const includes = (id: ToolId) => TOOLS[id].includes ?? [];
 

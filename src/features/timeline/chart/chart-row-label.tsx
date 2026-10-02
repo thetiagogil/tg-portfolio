@@ -3,10 +3,8 @@ import type { ReactNode } from "react";
 type ChartRowLabelProps = {
   glyph: ReactNode;
   title: string;
-  /** A shorter title for phones. */
   narrowTitle?: string;
   meta: string;
-  /** Shown on hover when the title is cut. */
   fullTitle: string;
 };
 

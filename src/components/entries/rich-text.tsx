@@ -5,7 +5,6 @@ import { refHref } from "@/lib/entries";
 type RichTextProps = {
   paragraphs: Paragraph[];
   lang: Lang;
-  /** The paragraphs' style: "lead" for a short brief, "read" for longer text. */
   className: string;
 };
 

@@ -8,7 +8,6 @@ type ProductListProps = {
   lang: Lang;
 };
 
-/** Products or highlights, one under another; a linked one opens out (↗) or downloads (↓). */
 export function ProductList({ products, lang }: ProductListProps) {
   return (
     <ul className="grid max-w-[34em] gap-8">

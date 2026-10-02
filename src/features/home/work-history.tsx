@@ -11,7 +11,6 @@ type WorkHistoryProps = {
   lang: Lang;
 };
 
-/** "Where I've worked": each role as a bar on a track from two months before the first role to today. */
 export function WorkHistory({ lang }: WorkHistoryProps) {
   const t = getT(lang);
 

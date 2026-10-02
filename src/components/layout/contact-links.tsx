@@ -6,7 +6,6 @@ import { getT } from "@/lib/i18n";
 
 type ContactLinksProps = {
   lang: Lang;
-  /** "column": a list with the address first (footer, menu). "row": one line (Home, where the address is large). */
   layout: "column" | "row";
   className?: string;
 };

@@ -1,4 +1,3 @@
-// Builds the Timeline's rows from the content, in one language, at build time (the browser gets plain data).
 import { certifications, degrees, projects, roles, TOOL_GROUPS, TOOLS } from "@/content";
 import type { ToolGroup, ToolId } from "@/content/stack";
 import type { Certification, ISODate, Lang, Project, RecordEntry } from "@/content/types";
@@ -20,7 +19,6 @@ export function timelineItems(lang: Lang): TimelineItem[] {
   ];
 }
 
-/** The stack options for the filters: every tool the Timeline uses, in its group, alphabetical. */
 export function stackGroups(items: TimelineItem[]): StackGroup[] {
   const used = new Set(items.flatMap((item) => item.techs));
 
@@ -116,7 +114,6 @@ function certificationItem(certification: Certification, lang: Lang): TimelineIt
   };
 }
 
-/** "Mar 2024", "Feb 2025" and "1 yr"; a single date (certificates) has only the start. */
 function dates(start: ISODate, end: ISODate | null | undefined, lang: Lang): TimelineItem["dates"] {
   if (end === undefined) return { start: monthYear(start, lang) };
 

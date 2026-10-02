@@ -20,7 +20,6 @@ type PagerItemProps = {
   link: PagerLink;
   direction: "prev" | "next";
   label: string;
-  /** "Next" with no "Previous": it takes the whole width. */
   alone?: boolean;
 };
 
@@ -28,7 +27,6 @@ type PagerItemProps = {
 // it: the links' text lines up with the page's content.
 const SIDE = "[--side:calc(max(0px,(100cqi-90rem)/2)+var(--gutter))]";
 
-/** Previous / Next: a band of its own; each link fills its half. Only "Next" when there's one other entry. */
 export function Pager({ prev, next, lang }: PagerProps) {
   const t = getT(lang);
 

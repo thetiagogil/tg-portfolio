@@ -4,7 +4,6 @@ type MonoMarkProps = {
   className?: string;
 };
 
-/** The TG monogram. Inside a `group/brand` link, it fills with the accent on hover. */
 export function MonoMark({ className }: MonoMarkProps) {
   return (
     <svg

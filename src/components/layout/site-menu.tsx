@@ -14,7 +14,6 @@ import { ThemeToggle } from "./theme-toggle";
 type SiteMenuProps = {
   open: boolean;
   onClose: () => void;
-  /** The current page's path without the language prefix. */
   shared: string;
   lang: Lang;
 };

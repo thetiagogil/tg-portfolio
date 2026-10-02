@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 type ProjectCardsProps = {
-  /** Three columns on wide screens (two otherwise). */
   three?: boolean;
   className?: string;
   children: ReactNode;

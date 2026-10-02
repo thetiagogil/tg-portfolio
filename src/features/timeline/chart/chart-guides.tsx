@@ -38,7 +38,6 @@ export function ChartGuides({ scale, switchPos, todayPos }: ChartGuidesProps) {
   );
 }
 
-/** A drawing's break line: straight, with a zigzag in the middle. */
 function BreakLine({ className }: { className: string }) {
   return (
     <svg

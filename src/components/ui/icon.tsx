@@ -1,7 +1,7 @@
 import { cn } from "@/lib/cn";
 
-// Line icons: 24-unit box, 1.5 stroke, square caps. Arrows sit in <g class="mv"> so a hover can nudge them the way
-// they point (the download icon's tray stays still; only its arrow drops).
+// Arrows sit in <g class="mv"> so a hover can nudge them the way they point (links-icons.css); the download icon's
+// tray stays outside it, so only its arrow drops.
 const PATHS = {
   right: <path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" />,
   left: <path d="M20 12H5M10.5 6.5 5 12l5.5 5.5" />,

@@ -5,7 +5,6 @@ import { getT } from "@/lib/i18n";
 
 type PortraitProps = {
   lang: Lang;
-  /** How wide the portrait shows, to pick the right file. */
   sizes: string;
   priority?: boolean;
 };

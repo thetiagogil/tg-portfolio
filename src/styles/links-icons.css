@@ -1,6 +1,4 @@
-/* Link underlines, hatching and line icons: the site's small marks. */
 @layer components {
-  /* Links: a quiet underline that an ink line draws across on hover (.lk), or only the line on hover (.ld). */
   .lk,
   .ld {
     background-position: 0 100%;
@@ -31,7 +29,6 @@
     background-size: 100% 1px;
   }
 
-  /* Hatching marks what isn't built yet. */
   .hatch {
     background-image: repeating-linear-gradient(-45deg, var(--line-2) 0 1px, transparent 1px 7px);
   }

@@ -12,8 +12,6 @@ type TimelineYearProps = {
   lang: Lang;
 };
 
-/** A year: the number on a level line with its entry count, then its entries. The spine runs on from the previous
-    year down to this one's marker, so the timeline reads as one continuous line. */
 export function TimelineYear({ year, items, first, lang }: TimelineYearProps) {
   const t = getT(lang);
 

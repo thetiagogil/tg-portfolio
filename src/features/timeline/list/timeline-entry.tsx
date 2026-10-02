@@ -37,7 +37,6 @@ export function TimelineEntry({ item, lang }: TimelineEntryProps) {
         </span>
       </div>
 
-      {/* A range stays on one line when it fits ("Mar 2024 – Feb 2025"); otherwise it breaks after the dash. */}
       <p className="an col-start-2 row-start-1 pt-7 text-ink-2 lg:col-[1/span_2] lg:pt-8 lg:pl-(--row-pad)">
         <span className="whitespace-nowrap">{start}</span>
         {end && end !== start && (
@@ -73,7 +72,6 @@ export function TimelineEntry({ item, lang }: TimelineEntryProps) {
   );
 }
 
-/** The title links to the entry's page, or out to the certificate; the link covers the whole row. */
 function EntryTitle({ item }: { item: TimelineItem }) {
   const link =
     "transition-colors duration-300 after:absolute after:inset-0 group-hover/entry:text-accent-ink";

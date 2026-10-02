@@ -5,13 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import { IconButton } from "@/components/ui/icon-button";
 import { fill } from "@/lib/i18n";
 
-/** One viewer per page; a trigger opens it with this event, carrying the image's index. */
 export const LIGHTBOX_OPEN_EVENT = "lightbox:open";
 
 const SWIPE_PX = 48;
 
 type LightboxProps = {
-  /** Image paths inside assets/, with their alt text. */
   images: { src: string; alt: string }[];
   title: string;
   labels: {
@@ -19,7 +17,6 @@ type LightboxProps = {
     close: string;
     previous: string;
     next: string;
-    /** A template: "{n} of {total}". */
     counter: string;
   };
 };

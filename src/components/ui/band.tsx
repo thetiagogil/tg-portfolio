@@ -7,7 +7,6 @@ type BandProps = {
   children: ReactNode;
 };
 
-/** A top-level section: a full-width band. Tones alternate by position inside <main>. */
 export function Band({ id, className, children }: BandProps) {
   return (
     <section id={id} className={cn("band", className)}>

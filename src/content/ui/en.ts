@@ -1,4 +1,3 @@
-// Interface text in English. Every key must also exist in pt.ts (TypeScript checks it).
 export const en = {
   "a11y.breadcrumb": "Breadcrumb",
   "a11y.skip": "Skip to content",

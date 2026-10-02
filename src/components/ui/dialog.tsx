@@ -6,14 +6,11 @@ type DialogProps = {
   open: boolean;
   onClose: () => void;
   className?: string;
-  /** The id of the dialog's heading, or a `label` when it has none. */
   labelledBy?: string;
   label?: string;
   children: ReactNode;
 };
 
-/** A native <dialog> shown as a modal: focus stays inside, Escape and a click on the backdrop close it, and the
-    page behind is inert. */
 export function Dialog({ open, onClose, className, labelledBy, label, children }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
 

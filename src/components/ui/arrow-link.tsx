@@ -7,7 +7,6 @@ type ArrowLinkProps = {
   href: string;
   children: ReactNode;
   icon?: IconName;
-  /** Without the underline (links that are already clearly links, such as "Back to top"). */
   plain?: boolean;
   className?: string;
 };

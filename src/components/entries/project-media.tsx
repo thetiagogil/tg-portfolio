@@ -5,9 +5,7 @@ import { getT } from "@/lib/i18n";
 type ProjectMediaProps = {
   project: Project;
   lang: Lang;
-  /** Which image; 0 is the cover. */
   index?: number;
-  /** How wide the image shows, to pick the right file. */
   sizes: string;
   priority?: boolean;
   /** On cards the title link beside the image names the project, so the image needs no alt text. */
@@ -54,7 +52,6 @@ export function ProjectMedia({
   );
 }
 
-/** "Screenshot 2 of 4 of Voydex". */
 export function imageAlt(project: Project, index: number, lang: Lang): string {
   return getT(lang)("project.imageNumbered", {
     n: index + 1,

@@ -4,7 +4,6 @@ import { delay as startAfter } from "@/lib/motion";
 
 type RiseProps = {
   children: ReactNode;
-  /** When it starts, in ms after the page loads. */
   delay: number;
   className?: string;
 };

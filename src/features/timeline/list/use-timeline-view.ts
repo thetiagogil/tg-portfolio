@@ -3,8 +3,6 @@
 import { useMemo, useSyncExternalStore } from "react";
 import { searchFromView, type View, viewFromSearch } from "../timeline-filters";
 
-// The view lives in the URL (?cat=…&q=…&stack=…), so a filtered Timeline can be shared and Back works. Changes
-// replace the history entry and announce themselves with this event.
 const URL_EVENT = "timeline:url";
 
 export function useTimelineView(knownTools: readonly string[]) {

@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-/** Fades sections in the first time they're seen ([data-reveal]); the CSS skips it for reduced motion. */
 export function RevealObserver() {
   const pathname = usePathname();
 

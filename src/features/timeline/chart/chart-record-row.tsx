@@ -12,12 +12,10 @@ type ChartRecordRowProps = {
   record: RecordEntry;
   scale: Scale;
   today: Date;
-  /** Bars draw one after another, in this order. */
   order: number;
   lang: Lang;
 };
 
-/** A role or degree as a bar: solid for work, outlined for studies, accent while still running. */
 export function ChartRecordRow({ record, scale, today, order, lang }: ChartRecordRowProps) {
   const start = scale.pos(toDate(record.dateStart));
   const end = scale.pos(record.dateEnd === null ? today : toDate(record.dateEnd));

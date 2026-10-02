@@ -4,9 +4,7 @@ import { cn } from "@/lib/cn";
 
 type FilterOptionProps = {
   on: boolean;
-  /** Ticking it would leave nothing to show, so it's faded and disabled (a ticked option never is). */
   empty: boolean;
-  /** Text under the label, which aligns the box with the first line. */
   hint?: string;
   onToggle: () => void;
   children: ReactNode;

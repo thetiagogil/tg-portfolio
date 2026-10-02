@@ -1,4 +1,3 @@
-// Interface text in European Portuguese (pt-PT). Same keys as en.ts.
 import type { UiKey } from "./en";
 
 export const pt: Record<UiKey, string> = {

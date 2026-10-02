@@ -2,7 +2,6 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import sharp from "sharp";
 
-/** Geist and Geist Mono as the renderer needs them (TTF files from the geist package). */
 export async function loadFonts() {
   const dir = join(process.cwd(), "node_modules/geist/dist/fonts");
   const [sans, mono] = await Promise.all([
@@ -16,7 +15,6 @@ export async function loadFonts() {
   ];
 }
 
-/** A project screenshot from assets/, resized and inlined (the renderer can't read local files). */
 export async function coverDataUrl(image: string): Promise<string> {
   const file = join(process.cwd(), "assets/projects", image);
   const png = await sharp(file).resize(1040).png().toBuffer();

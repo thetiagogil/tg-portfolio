@@ -45,7 +45,6 @@
 }
 
 @layer components {
-  /* The chart's bars draw once, one after another, the first time the chart is seen. */
   .chart-bar {
     transition:
       color 0.3s,

@@ -67,7 +67,6 @@
     line-height: 1.5;
     letter-spacing: -0.012em;
   }
-  /* Long paragraphs: about 70 characters a line. */
   .read {
     font-size: 1.0625rem;
     line-height: 1.65;
@@ -82,7 +81,6 @@
       font-size: 1.125rem;
     }
   }
-  /* Mono small capitals, for data only: dates, years, durations, counts, statuses, short labels. */
   .an {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -91,7 +89,6 @@
     text-transform: uppercase;
   }
 
-  /* The content container and the 4 / 8 / 12-column grid. */
   .wrap {
     width: 100%;
     max-width: 90rem;
@@ -114,7 +111,6 @@
     }
   }
 
-  /* Every top-level section is a full-width band, alternating tones. The page head brings its own top space. */
   .band {
     position: relative;
     background: var(--bg);

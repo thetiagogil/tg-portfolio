@@ -1,4 +1,3 @@
-// Page metadata: title, description, canonical URL, the other language's URL and the link preview.
 import type { Metadata, Viewport } from "next";
 import type { Lang, Project, RecordEntry } from "@/content/types";
 import { OG_IMAGE_SIZE, PAPER, SITE_NAME, SITE_URL } from "./constants";
@@ -8,16 +7,12 @@ import { ogImagePath } from "./og";
 
 type PageMetadata = {
   lang: Lang;
-  /** The shared path, e.g. "/projects". */
   path: string;
-  /** Omitted on Home, which uses the site name alone. */
   title?: string;
   description: string;
-  /** The link-preview image (see lib/og.ts). */
   image: string;
 };
 
-/** The browser bar matches the paper in each theme. */
 export const SITE_VIEWPORT: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: PAPER.light },

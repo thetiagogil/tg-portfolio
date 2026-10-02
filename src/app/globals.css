@@ -5,7 +5,6 @@
 @import "../styles/crop-marks.css";
 @import "../styles/motion.css";
 
-/* Dark mode follows the system unless the visitor picked a theme (data-theme on <html>). */
 @custom-variant dark {
   &:where([data-theme="dark"], [data-theme="dark"] *) {
     @slot;

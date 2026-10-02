@@ -8,7 +8,6 @@ type ButtonProps = {
   children: ReactNode;
   variant?: "solid" | "outline";
   size?: "md" | "sm";
-  /** Shown after the label. */
   icon?: IconName;
   className?: string;
 };

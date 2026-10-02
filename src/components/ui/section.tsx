@@ -8,7 +8,6 @@ type SectionProps = {
   intro?: ReactNode;
   action?: ReactNode;
   id?: string;
-  /** Classes for the body under the heading. */
   className?: string;
   children: ReactNode;
 };

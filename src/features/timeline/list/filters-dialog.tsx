@@ -20,7 +20,6 @@ import { FilterOption } from "./filter-option";
 import { showResultsLabel, toggle } from "./filters-utils";
 
 type FiltersDialogProps = {
-  /** The filters being edited; null while the dialog is closed. */
   draft: Filters | null;
   onChange: (draft: Filters | null) => void;
   onApply: (filters: Filters) => void;
@@ -37,7 +36,6 @@ type FilterGroupProps = {
 
 const OPTIONS = "-mx-2 grid grid-cols-2 gap-x-2 sm:grid-cols-3";
 
-/** Current only, project type and stack. The dialog edits a draft: only "Show N results" applies it. */
 export function FiltersDialog({
   draft,
   onChange,

@@ -21,7 +21,6 @@ export function oldestFirst<T extends { dateStart: ISODate }>(entries: T[]): T[]
   return [...entries].sort((a, b) => Date.parse(a.dateStart) - Date.parse(b.dateStart));
 }
 
-/** Puts each marker on the first lane where it doesn't crowd the one before. */
 export function lanes(markers: Omit<Marker, "lane">[]): Marker[] {
   const lastPos: number[] = [];
 

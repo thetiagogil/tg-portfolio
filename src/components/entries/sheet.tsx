@@ -4,7 +4,6 @@ type SheetProps = {
   children: ReactNode;
 };
 
-/** A framed image. Inside a `.group` that opens something, printer's crop marks show on hover and focus. */
 export function Sheet({ children }: SheetProps) {
   return (
     <div className="relative">

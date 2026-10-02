@@ -4,11 +4,8 @@ import { cn } from "@/lib/cn";
 type PartProps = {
   label: string;
   children: ReactNode;
-  /** The first part in its band has no rule above it. */
   first?: boolean;
-  /** "text" keeps a reading width on tablets; "grid" (cards, images) uses the full width there. */
   width?: "text" | "grid";
-  /** Fade the part in as a whole (off when its items fade in one by one). */
   reveal?: boolean;
 };
 

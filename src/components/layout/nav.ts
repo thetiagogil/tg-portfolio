@@ -3,7 +3,6 @@ import type { UiKey } from "@/lib/i18n";
 type NavItem = {
   path: string;
   key: UiKey;
-  /** The shared paths that make this link the current section. */
   sections: string[];
 };
 

@@ -25,7 +25,6 @@ export function refHref(lang: Lang, ref: EntryRef): string {
   return localize(lang, `/${ref}`);
 }
 
-/** The entries before and after this one in its list, wrapping round; no previous when there's only one other. */
 export function neighbours<T extends { slug: string }>(list: T[], slug: string) {
   const index = list.findIndex((entry) => entry.slug === slug);
   const prev = list[(index - 1 + list.length) % list.length];
@@ -42,5 +41,4 @@ export function recordNeighbours(record: RecordEntry) {
   return neighbours<RecordEntry>(record.kind === "experience" ? roles : degrees, record.slug);
 }
 
-/** What Next passes to an entry's route: the slug from the URL. */
 export type EntryRouteProps = { params: Promise<{ slug: string }> };

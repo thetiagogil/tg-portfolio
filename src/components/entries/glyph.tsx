@@ -7,7 +7,6 @@ type GlyphProps = {
   className?: string;
 };
 
-/** The Timeline's markers: ■ work, △ education, ● project (hatched in progress, dashed planned), ◇ certificate. */
 export function Glyph({ category, status, className }: GlyphProps) {
   return (
     <svg
