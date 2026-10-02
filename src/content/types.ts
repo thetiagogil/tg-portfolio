@@ -55,7 +55,6 @@ type RecordBase = {
   link?: string;
   documents?: { label: L; href: string }[];
   dateStart: ISODate;
-  /** null = current. */
   dateEnd: ISODate | null;
   techs: ToolId[];
   summary: L;

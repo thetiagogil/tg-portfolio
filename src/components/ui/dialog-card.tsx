@@ -9,10 +9,8 @@ type DialogCardProps = {
   open: boolean;
   onClose: () => void;
   title: string;
-  /** Unique on the page: the dialog is named after its heading. */
   titleId: string;
   closeLabel: string;
-  /** The card's width, e.g. "w-[min(40rem,calc(100%-32px))]". */
   className: string;
   children: ReactNode;
 };

@@ -112,8 +112,9 @@ export function ProjectGrid({ projects, lang }: ProjectGridProps) {
   `lib/entries.ts` and `localize()`. **Links** through `SmartLink`, `Button` or `ArrowLink`, which pick between
   `next/link` and a plain link that opens a new tab.
 - **Comments are rare: only reasons.** Good names and small files say what code does; a comment says what they
-  can't: why a choice was made, a browser quirk, a value whose meaning isn't in its type (`dateEnd: null` means
-  still running). No comment above a component or page, and none that repeats a name or describes the markup. A
+  can't: why a choice was made, a browser quirk, a value whose meaning isn't obvious (`dateEnd: null` means
+  still running, documented in `docs/CONTENT.md`). No comment above a component or page, none inside a type's
+  definition, and none that repeats a name or describes the markup; a reason goes next to the line it explains. A
   comment that only restates the code goes stale the first time the code changes.
 - **Client code is the exception.** Pages render at build time; only the leaves that need the browser are client
   components (the header and menu, the theme switch, the project tabs, the Timeline list, the image viewer).

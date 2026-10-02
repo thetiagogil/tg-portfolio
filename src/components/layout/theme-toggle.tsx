@@ -7,7 +7,6 @@ type ThemeToggleProps = {
   labels: { toDark: string; toLight: string };
 };
 
-// Both icons are rendered and the CSS shows the right one, so the server HTML always matches the visitor's theme.
 export function ThemeToggle({ labels }: ThemeToggleProps) {
   function toggle() {
     const root = document.documentElement;
@@ -24,6 +23,7 @@ export function ThemeToggle({ labels }: ThemeToggleProps) {
 
   return (
     <button type="button" className={ICON_BUTTON} onClick={toggle} data-theme-toggle>
+      {/* Both icons are rendered and the CSS shows the right one, so the server HTML matches any theme. */}
       <span className="grid dark:hidden">
         <Icon name="moon" className="size-[18px]" />
         <span className="sr-only">{labels.toDark}</span>

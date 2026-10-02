@@ -4,7 +4,6 @@ export type ToolGroup = (typeof TOOL_GROUPS)[number];
 export type Tool = {
   name: string;
   group: ToolGroup;
-  /** Tool ids this one already brings with it (checked by a test). An entry lists only the top one (no overlap). */
   includes?: readonly string[];
   brand?: string;
 };

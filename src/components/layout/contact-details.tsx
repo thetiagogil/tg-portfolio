@@ -7,7 +7,6 @@ import { ContactLinks } from "./contact-links";
 
 type ContactDetailsProps = {
   lang: Lang;
-  /** "large" on Home; "compact" in the contact dialog. */
   size: "large" | "compact";
 };
 

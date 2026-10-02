@@ -12,9 +12,9 @@ type SiteFooterProps = {
   lang: Lang;
 };
 
-/** Built with the site, so "Last updated" is the build date. */
 export function SiteFooter({ lang }: SiteFooterProps) {
   const t = getT(lang);
+  // The page is built ahead of time, so "Last updated" is the build date.
   const builtAt = new Date();
 
   return (

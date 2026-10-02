@@ -13,11 +13,11 @@ type TimelineEntryProps = {
   lang: Lang;
 };
 
-// On desktop only the date and the last column are padded, which keeps the spine on each year's marker.
 export function TimelineEntry({ item, lang }: TimelineEntryProps) {
   const { start, end, duration } = item.dates;
 
   return (
+    // On desktop only the date and the last column are padded, which keeps the spine on each year's marker.
     <li
       className={cn(
         TIMELINE_GRID,

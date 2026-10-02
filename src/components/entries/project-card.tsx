@@ -11,7 +11,6 @@ type ProjectCardProps = {
   project: Project;
   lang: Lang;
   sizes: string;
-  /** h2 where the cards are the page's top level (Projects), h3 under a section heading. */
   heading?: "h2" | "h3";
 };
 

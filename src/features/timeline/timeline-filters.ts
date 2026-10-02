@@ -15,7 +15,6 @@ export type TimelineItem = {
   org?: string;
   summary?: string;
   dateStart: ISODate;
-  /** null = still running; absent = a single date (certificates). */
   dateEnd?: ISODate | null;
   year: number;
   dates: { start: string; end?: string; duration?: string };

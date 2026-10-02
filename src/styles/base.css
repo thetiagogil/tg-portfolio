@@ -1,5 +1,5 @@
-/* The design system's basics (docs/DESIGN.md §3–4): elements, type, layout and bands. Everything else is
-   Tailwind in the markup. These sit in the components layer, so a utility on the same element always wins. */
+/* The design system's basics (docs/DESIGN.md §3–4): elements, type, layout and bands. Everything else is Tailwind in
+   the markup. The type, grid and band classes sit in the components layer, so a utility on the same element wins. */
 @layer base {
   html {
     background: var(--paper);

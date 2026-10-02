@@ -8,7 +8,6 @@ type ProjectMediaProps = {
   index?: number;
   sizes: string;
   priority?: boolean;
-  /** On cards the title link beside the image names the project, so the image needs no alt text. */
   decorative?: boolean;
 };
 
